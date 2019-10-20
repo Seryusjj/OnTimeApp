@@ -4,7 +4,6 @@ import 'package:on_time_app/home/home_widget.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
@@ -15,6 +14,4 @@ class MyApp extends StatelessWidget {
       home: HomeWidget(),
     );
   }
-
 }
-

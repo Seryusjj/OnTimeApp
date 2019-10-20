@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:on_time_app/tabs/default_app_tab.dart';
+import 'package:on_time_app/home/default_app_tab.dart';
+import 'package:on_time_app/tabs/check_in_tab.dart';
+import 'package:on_time_app/tabs/holiday_tab.dart';
 
 @protected
 class AndroidHomeMenu extends StatelessWidget {
@@ -32,21 +34,25 @@ class AndroidHomeMenu extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: DefaultAppTab.androidIcon,
-                    title: Text(DefaultAppTab.title),
+                    leading: CheckInTab.androidIcon,
+                    title: Text(CheckInTab.title),
                     onTap: () {
-                      /*Navigator.pop(context);
-                  Navigator.push<void>(
-                      context, MaterialPageRoute(builder: (context) => NewsTab()));*/
+                      Navigator.pop(context);
+                      Navigator.push<void>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CheckInTab()));
                     },
                   ),
                   ListTile(
-                    leading: DefaultAppTab.androidIcon,
-                    title: Text(DefaultAppTab.title),
+                    leading: HolidayTab.androidIcon,
+                    title: Text(HolidayTab.title),
                     onTap: () {
-                      /*Navigator.pop(context);
-                  Navigator.push<void>(context,
-                      MaterialPageRoute(builder: (context) => ProfileTab()));*/
+                      Navigator.pop(context);
+                      Navigator.push<void>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HolidayTab()));
                     },
                   ),
                   // Long drawer contents are often segmented.
@@ -58,9 +64,6 @@ class AndroidHomeMenu extends StatelessWidget {
                     leading: DefaultAppTab.androidIcon,
                     title: Text(DefaultAppTab.title),
                     onTap: () {
-                      /*Navigator.pop(context);
-                  Navigator.push<void>(context,
-                      MaterialPageRoute(builder: (context) => SettingsTab()));*/
                     },
                   ),
                 ],

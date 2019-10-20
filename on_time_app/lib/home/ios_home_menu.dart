@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:on_time_app/tabs/default_app_tab.dart';
+import 'package:on_time_app/home/default_app_tab.dart';
+import 'package:on_time_app/tabs/check_in_tab.dart';
+import 'package:on_time_app/tabs/holiday_tab.dart';
 
 @protected
 class IosHomeMenu extends StatelessWidget {
@@ -13,9 +15,9 @@ class IosHomeMenu extends StatelessWidget {
           BottomNavigationBarItem(
               title: Text(DefaultAppTab.title), icon: DefaultAppTab.iosIcon),
           BottomNavigationBarItem(
-              title: Text(DefaultAppTab.title), icon: DefaultAppTab.iosIcon),
+              title: Text(CheckInTab.title), icon: CheckInTab.iosIcon),
           BottomNavigationBarItem(
-              title: Text(DefaultAppTab.title), icon: DefaultAppTab.iosIcon),
+              title: Text(HolidayTab.title), icon: HolidayTab.iosIcon),
         ],
       ),
       tabBuilder: (context, index) {
@@ -27,13 +29,13 @@ class IosHomeMenu extends StatelessWidget {
             );
           case 1:
             return CupertinoTabView(
-              defaultTitle: DefaultAppTab.title,
-              builder: (context) => DefaultAppTab(),
+              defaultTitle: CheckInTab.title,
+              builder: (context) => CheckInTab(),
             );
           case 2:
             return CupertinoTabView(
-              defaultTitle: DefaultAppTab.title,
-              builder: (context) => DefaultAppTab(),
+              defaultTitle: HolidayTab.title,
+              builder: (context) => HolidayTab(),
             );
           default:
             assert(false, DefaultAppTab.title);
