@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class PlatformWidget extends StatelessWidget {
   const PlatformWidget({
@@ -31,35 +33,125 @@ class PlatformWidget extends StatelessWidget {
   }
 }
 
-class Map extends StatefulWidget {
+class GMap extends StatefulWidget {
+  GMapState _state;
+
+  double length;
+
+  GMap({double this.length});
+
   @override
-  State<Map> createState() => MapState();
+  State<GMap> createState() {
+    _state = GMapState();
+    return _state;
+  }
+
+  Future<LatLng> getCurrentLocation() async {
+    return _state.getCurrentLocation();
+  }
 }
 
-class MapState extends State<Map> {
+class GMapState extends State<GMap> {
+  var _location = new Location();
   Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  Set<Marker> _markers = {};
+  static final CameraPosition _kUOC = CameraPosition(
+    target: LatLng(41.406578, 2.194420),
     zoom: 14.4746,
   );
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  GoogleMap _gMap;
+
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        switch (defaultTargetPlatform) {
+          case TargetPlatform.iOS:
+            return CupertinoAlertDialog(
+              title: new Text("Alert Dialog title"),
+              content: new Text("Alert Dialog body"),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          case TargetPlatform.android:
+          default:
+            // return object of type Dialog
+            return AlertDialog(
+              title: new Text("Alert Dialog title"),
+              content: new Text("Alert Dialog body"),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                  child: new Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+        }
+      },
+    );
+  }
+
+  void _addMarker(LatLng loc) {
+    // creating a new MARKER
+    final Marker marker = Marker(
+      position: loc,
+      markerId: MarkerId('currentLoc'),
+      onTap: () {_showDialog();},
+    );
+
+    setState(() {
+      // adding a new marker to map
+      _markers.remove(_markers);
+      _markers.add(marker);
+    });
+  }
+
+  Future<LatLng> getCurrentLocation() async {
+    final controller = await _controller.future;
+    LatLng res = null;
+    try {
+      var currentLocation = await _location.getLocation();
+      res = LatLng(currentLocation.latitude, currentLocation.longitude);
+
+      controller.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: res, zoom: 19)));
+      _addMarker(res);
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        _showDialog();
+      }
+    }
+    return res;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: GoogleMap(
+    _gMap = GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _kGooglePlex,
-      onMapCreated: (GoogleMapController controller) {
+      padding: EdgeInsets.fromLTRB(0, 0, this.widget.length * 0.3, 0),
+      compassEnabled: false,
+      myLocationEnabled: false,
+      zoomGesturesEnabled: false,
+      myLocationButtonEnabled: false,
+      initialCameraPosition: _kUOC,
+      markers: _markers,
+      onMapCreated: (GoogleMapController controller) async {
         _controller.complete(controller);
-        controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+        await getCurrentLocation();
       },
-    ));
+    );
+    return new Scaffold(body: _gMap);
   }
 }

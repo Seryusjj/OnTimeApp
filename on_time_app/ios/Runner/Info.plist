@@ -14,6 +14,8 @@
 	<string>on_time_app</string>
     <key>io.flutter.embedded_views_preview</key>
     <string>YES</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <key>NSLocationAlwaysUsageDescription</key>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
