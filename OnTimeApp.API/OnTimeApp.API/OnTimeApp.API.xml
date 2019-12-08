@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OnTimeApp.API</name>
+    </assembly>
+    <members>
+        <member name="M:OnTimeApp.API.Controllers.ValuesController.Delete(System.Int32)">
+            <summary>
+            Delete one value
+            </summary>
+            <param name="id">The id of the value to remove</param>
+        </member>
+    </members>
+</doc>

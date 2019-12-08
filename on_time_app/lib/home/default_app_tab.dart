@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:on_time_app/tabs/requests_page.dart';
 import 'package:on_time_app/utils/widgets.dart';
 
 class DefaultAppTab extends StatefulWidget {
@@ -27,23 +28,6 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void _togglePlatform() {
-    TargetPlatform _getOppositePlatform() {
-      if (defaultTargetPlatform == TargetPlatform.iOS) {
-        return TargetPlatform.android;
-      } else {
-        return TargetPlatform.iOS;
-      }
-    }
-
-    debugDefaultTargetPlatformOverride = _getOppositePlatform();
-    // This rebuilds the application. This should obviously never be
-    // done in a real app but it's done here since this app
-    // unrealistically toggles the current platform for demonstration
-    // purposes.
-    WidgetsBinding.instance.reassembleApplication();
   }
 
   Widget _listBuilder(BuildContext context, int index) {
@@ -69,10 +53,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.blue,
-                  child: Text(
-                    'Check in',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Icon(Icons.edit),
                 ),
                 Padding(padding: EdgeInsets.only(left: 16)),
                 Expanded(
@@ -80,7 +61,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Check bla bla bla',
+                        'Check title',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -88,8 +69,8 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                       ),
                       Padding(padding: EdgeInsets.only(top: 8)),
                       Text(
-                        'Check title',
-                      ),
+                        'Check bla bla bla',
+                      )
                     ],
                   ),
                 ),
@@ -112,23 +93,33 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                 },
                 weekFormat: true,
                 width: cons.maxWidth,
-                height: cons.maxHeight * 0.45,
+                height: cons.maxHeight * 0.40,
                 daysHaveCircularBorder: true,
                 selectedDateTime: _currentDate,
                 weekendTextStyle: TextStyle(
                   color: Colors.red.shade900,
                 ),
                 selectedDayButtonColor: Colors.blue,
-                thisMonthDayBorderColor: Colors.blue.shade800)),
+                thisMonthDayBorderColor: Colors.blue.shade800),
+            decoration: BoxDecoration(color: Colors.white)),
         Container(
             width: cons.maxWidth,
-            height: cons.maxHeight * 0.55,
+            height: cons.maxHeight * 0.60,
             child: ListView.builder(
               itemBuilder: _listBuilder,
             ),
-            decoration: BoxDecoration(color: Colors.blue)),
+            decoration: BoxDecoration(color: Colors.lightBlue)),
       ]),
     );
+  }
+
+
+  void _navigate(BuildContext context) {
+    //Navigator.pop(context);
+    Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+            builder: (context) => RequestsPage()));
   }
 
   Widget _buildAndroid(BuildContext context) {
@@ -137,8 +128,8 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
           title: Text(DefaultAppTab.title),
           actions: [
             IconButton(
-              icon: Icon(Icons.shuffle),
-              onPressed: _togglePlatform,
+              icon: Icon(Icons.mail),
+              onPressed: ()=> _navigate(context),
             ),
           ],
         ),
@@ -151,8 +142,16 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
         navigationBar: CupertinoNavigationBar(
           trailing: CupertinoButton(
             padding: EdgeInsets.zero,
-            child: Icon(CupertinoIcons.shuffle),
-            onPressed: _togglePlatform,
+            child: Icon(Icons.mail),
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).push<void>(
+                CupertinoPageRoute(
+                  title: RequestsPage.title,
+                  fullscreenDialog: true,
+                  builder: (context) => RequestsPage(),
+                ),
+              );
+            },
           ),
         ),
         child: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder)));

@@ -1,0 +1,25 @@
+<div class="container-fluid">
+  <h2 class="h2 text-primary">Administrator overview</h2>
+  <div class="row">
+    <div class="col-md-5">
+      <app-crud-grid id="roles"
+                     [header]="rolesHeader"
+                     [objectList]="roles"
+                     [girdDisplay]="rolePrint"
+                     (delete)="deleteRole($event)"
+      >
+      </app-crud-grid>
+    </div>
+    <div class="col-md-7">
+      <app-crud-grid id="users"
+                     [header]="usersHeader"
+                     [objectList]="users"
+                     [girdDisplay]="userPrint"
+                     (delete)="deleteUser($event)"
+                     (edit)="editUser($event)"
+                     (add)="addUser()"
+      >
+      </app-crud-grid>
+    </div>
+  </div>
+</div>

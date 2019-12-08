@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:on_time_app/home/default_app_tab.dart';
 import 'package:on_time_app/tabs/check_in_tab.dart';
+import 'package:on_time_app/tabs/check_in_wifi_tab.dart';
 import 'package:on_time_app/tabs/holiday_tab.dart';
 
 @protected
@@ -30,7 +31,7 @@ class IosHomeMenu extends StatelessWidget {
           case 1:
             return CupertinoTabView(
               defaultTitle: CheckInTab.title,
-              builder: (context) => CheckInTab(),
+              builder: (context) => CheckInWifiTab(),
             );
           case 2:
             return CupertinoTabView(

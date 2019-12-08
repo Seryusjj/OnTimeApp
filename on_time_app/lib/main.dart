@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_time_app/home/home_widget.dart';
+import 'package:on_time_app/log_in_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +12,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'On Time-app',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomeWidget(),
+      home: LogInPage() /* add child content here */,
+         //HomeWidget(),
     );
   }
 }

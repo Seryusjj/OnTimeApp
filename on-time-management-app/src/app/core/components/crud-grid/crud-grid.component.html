@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">{{header}}
+        <button (click)="fireAdd()"
+                class="btn btn-outline-secondary fa fa-plus pull-right">
+        </button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let item of objectList">
+      <tr>
+        <td scope="row">
+          {{this.girdDisplay(item)}}
+          <div class="pull-right bt-container">
+            <button (click)="fireDetail(item)"
+                    class="btn btn-outline-primary fa fa-eye">
+            </button>
+            <button (click)="fireDelete(item)"
+                    class="btn btn-outline-primary fa fa-trash">
+            </button>
+            <button (click)="fireEdit(item)"
+                    class="btn btn-outline-primary fa fa-edit">
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+
+

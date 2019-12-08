@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:on_time_app/home/default_app_tab.dart';
 import 'package:on_time_app/tabs/check_in_tab.dart';
+import 'package:on_time_app/tabs/check_in_wifi_tab.dart';
 import 'package:on_time_app/tabs/holiday_tab.dart';
+import 'package:on_time_app/tabs/settings_tab.dart';
 
 @protected
 class AndroidHomeMenu extends StatelessWidget {
@@ -34,8 +36,8 @@ class AndroidHomeMenu extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: CheckInTab.androidIcon,
-                    title: Text(CheckInTab.title),
+                    leading: CheckInWifiTab.androidIcon,
+                    title: Text(CheckInWifiTab.title),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.push<void>(
@@ -61,9 +63,14 @@ class AndroidHomeMenu extends StatelessWidget {
                     child: Divider(),
                   ),
                   ListTile(
-                    leading: DefaultAppTab.androidIcon,
-                    title: Text(DefaultAppTab.title),
+                    leading: SettingsTab.androidIcon,
+                    title: Text(SettingsTab.title),
                     onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push<void>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsTab()));
                     },
                   ),
                 ],
