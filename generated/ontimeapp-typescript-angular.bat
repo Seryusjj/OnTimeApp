@@ -1,5 +1,5 @@
-set executable=.\modules\swagger-codegen-cli\target\swagger-codegen-cli.jar
-set rootDir=C:\Users\Sergio\Desktop\OnTimeApp\generated
+set executable=C:\Users\Sergio\Desktop\swagger-codegen\modules\swagger-codegen-cli\target\swagger-codegen-cli.jar
+set rootDir=.\
 
 set definition=%rootDir%\api-definition.json
 set config=%rootDir%\typescript-conf.json
@@ -10,7 +10,7 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i %definition% -c %config% -l typescript-angular -o %outDir% --additional-properties ngVersion=8.3
+set ags=generate -i %definition% -c %config% -l typescript-angular -o %outDir% --additional-properties ngVersion=4.3
 
 REM java %JAVA_OPTS% -jar %executable% %ags%
 java %JAVA_OPTS% -jar %executable% %ags%

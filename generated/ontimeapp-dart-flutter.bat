@@ -1,5 +1,6 @@
-set executable=.\modules\swagger-codegen-cli\target\swagger-codegen-cli.jar
-set rootDir=C:\Users\Sergio\Desktop\OnTimeApp\generated
+set executable=C:\Users\Sergio\Desktop\swagger-codegen\modules\swagger-codegen-cli\target\swagger-codegen-cli.jar
+set rootDir=.\
+
 
 set definition=%rootDir%\api-definition.json
 set outDir=%rootDir%\dart_on_time_app_api
