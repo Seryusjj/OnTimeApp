@@ -10,9 +10,13 @@ import 'package:swagger/auth/oauth.dart';
 import 'package:swagger/api/auth_api.dart';
 import 'package:swagger/api/values_api.dart';
 
+import 'package:swagger/model/sing_up_model.dart';
+import 'package:swagger/model/user_model.dart';
 
 
 final jsonJaguarRepo = JsonRepo()
+..add(SingUpModelSerializer())
+..add(UserModelSerializer())
 ;
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];

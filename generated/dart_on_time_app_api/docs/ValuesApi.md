@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **apiValuesGet**
-> apiValuesGet()
+> List<String> apiValuesGet()
 
 
 
@@ -28,7 +28,8 @@ import 'package:swagger/api.dart';
 var api_instance = new ValuesApi();
 
 try { 
-    api_instance.apiValuesGet();
+    var result = api_instance.apiValuesGet();
+    print(result);
 } catch (e) {
     print("Exception when calling ValuesApi->apiValuesGet: $e\n");
 }
@@ -39,7 +40,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+**List<String>**
 
 ### Authorization
 
@@ -48,7 +49,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -62,7 +63,7 @@ Delete one value
 import 'package:swagger/api.dart';
 
 var api_instance = new ValuesApi();
-var id = ; // Object | The id of the value to remove
+var id = 56; // int | The id of the value to remove
 
 try { 
     api_instance.apiValuesIdDelete(id);
@@ -75,7 +76,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | [**Object**](.md)| The id of the value to remove | 
+ **id** | **int**| The id of the value to remove | 
 
 ### Return type
 
@@ -93,7 +94,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiValuesIdGet**
-> apiValuesIdGet(id)
+> String apiValuesIdGet(id)
 
 
 
@@ -102,10 +103,11 @@ No authorization required
 import 'package:swagger/api.dart';
 
 var api_instance = new ValuesApi();
-var id = ; // Object | 
+var id = 56; // int | 
 
 try { 
-    api_instance.apiValuesIdGet(id);
+    var result = api_instance.apiValuesIdGet(id);
+    print(result);
 } catch (e) {
     print("Exception when calling ValuesApi->apiValuesIdGet: $e\n");
 }
@@ -115,11 +117,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | [**Object**](.md)|  | 
+ **id** | **int**|  | 
 
 ### Return type
 
-void (empty response body)
+**String**
 
 ### Authorization
 
@@ -128,12 +130,12 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiValuesIdPut**
-> apiValuesIdPut(id)
+> apiValuesIdPut(id, body)
 
 
 
@@ -142,10 +144,11 @@ No authorization required
 import 'package:swagger/api.dart';
 
 var api_instance = new ValuesApi();
-var id = ; // Object | 
+var id = 56; // int | 
+var body = new String(); // String | 
 
 try { 
-    api_instance.apiValuesIdPut(id);
+    api_instance.apiValuesIdPut(id, body);
 } catch (e) {
     print("Exception when calling ValuesApi->apiValuesIdPut: $e\n");
 }
@@ -155,7 +158,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | [**Object**](.md)|  | 
+ **id** | **int**|  | 
+ **body** | **String**|  | [optional] 
 
 ### Return type
 
@@ -167,13 +171,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/_*+json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiValuesPost**
-> apiValuesPost()
+> apiValuesPost(body)
 
 
 
@@ -182,16 +186,20 @@ No authorization required
 import 'package:swagger/api.dart';
 
 var api_instance = new ValuesApi();
+var body = new String(); // String | 
 
 try { 
-    api_instance.apiValuesPost();
+    api_instance.apiValuesPost(body);
 } catch (e) {
     print("Exception when calling ValuesApi->apiValuesPost: $e\n");
 }
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **String**|  | [optional] 
 
 ### Return type
 
@@ -203,7 +211,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/_*+json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

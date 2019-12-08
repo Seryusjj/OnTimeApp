@@ -4,7 +4,6 @@ import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:jaguar_serializer/src/repo/repo.dart';
 import 'dart:async';
 
-import 'package:swagger/model/object.dart';
 
 
 part 'values_api.jretro.dart';
@@ -20,7 +19,7 @@ class ValuesApi extends _$ValuesApiClient implements ApiClient {
     ///
     /// 
     @GetReq(path: "/api/Values")
-    Future<void> apiValuesGet(
+    Future<List<String>> apiValuesGet(
     );
 
     /// Delete one value
@@ -28,15 +27,15 @@ class ValuesApi extends _$ValuesApiClient implements ApiClient {
     /// 
     @DeleteReq(path: "/api/Values/:id")
     Future<void> apiValuesIdDelete(
-            @PathParam("id") Object id
+            @PathParam("id") int id
     );
 
     /// 
     ///
     /// 
     @GetReq(path: "/api/Values/:id")
-    Future<void> apiValuesIdGet(
-            @PathParam("id") Object id
+    Future<String> apiValuesIdGet(
+            @PathParam("id") int id
     );
 
     /// 
@@ -44,7 +43,9 @@ class ValuesApi extends _$ValuesApiClient implements ApiClient {
     /// 
     @PutReq(path: "/api/Values/:id")
     Future<void> apiValuesIdPut(
-            @PathParam("id") Object id
+            @PathParam("id") int id
+        ,
+        String body
     );
 
     /// 
@@ -52,6 +53,8 @@ class ValuesApi extends _$ValuesApiClient implements ApiClient {
     /// 
     @PostReq(path: "/api/Values")
     Future<void> apiValuesPost(
+        
+        String body
     );
 
 

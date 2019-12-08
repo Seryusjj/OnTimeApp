@@ -10,7 +10,7 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i %definition% -c %config% -l typescript-angular -o %outDir% --additional-properties ngVersion=4.3
+set ags=generate -i %definition% -c %config% -l typescript-angular -o %outDir% --additional-properties ngVersion=6
 
 REM java %JAVA_OPTS% -jar %executable% %ags%
 java %JAVA_OPTS% -jar %executable% %ags%

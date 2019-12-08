@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **apiAuthRegisteruserPost**
-> apiAuthRegisteruserPost()
+> bool apiAuthRegisteruserPost(body)
 
 
 
@@ -24,20 +24,25 @@ Method | HTTP request | Description
 import 'package:swagger/api.dart';
 
 var api_instance = new AuthApi();
+var body = new SingUpModel(); // SingUpModel | 
 
 try { 
-    api_instance.apiAuthRegisteruserPost();
+    var result = api_instance.apiAuthRegisteruserPost(body);
+    print(result);
 } catch (e) {
     print("Exception when calling AuthApi->apiAuthRegisteruserPost: $e\n");
 }
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**SingUpModel**](SingUpModel.md)|  | [optional] 
 
 ### Return type
 
-void (empty response body)
+**bool**
 
 ### Authorization
 
@@ -45,13 +50,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/_*+json
+ - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthSigninPost**
-> apiAuthSigninPost()
+> bool apiAuthSigninPost(body)
 
 
 
@@ -60,20 +65,25 @@ No authorization required
 import 'package:swagger/api.dart';
 
 var api_instance = new AuthApi();
+var body = new UserModel(); // UserModel | 
 
 try { 
-    api_instance.apiAuthSigninPost();
+    var result = api_instance.apiAuthSigninPost(body);
+    print(result);
 } catch (e) {
     print("Exception when calling AuthApi->apiAuthSigninPost: $e\n");
 }
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**UserModel**](UserModel.md)|  | [optional] 
 
 ### Return type
 
-void (empty response body)
+**bool**
 
 ### Authorization
 
@@ -81,8 +91,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/_*+json
+ - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

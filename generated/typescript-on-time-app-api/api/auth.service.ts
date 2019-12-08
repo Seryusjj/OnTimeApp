@@ -16,8 +16,10 @@ import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent }                           from '@angular/common/http';
 import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
-import { Observable }                                        from 'rxjs/Observable';
+import { Observable }                                        from 'rxjs';
 
+import { SingUpModel } from '../model/singUpModel';
+import { UserModel } from '../model/userModel';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -58,18 +60,23 @@ export class AuthService {
     /**
      * 
      * 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthRegisteruserPost(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiAuthRegisteruserPost(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiAuthRegisteruserPost(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiAuthRegisteruserPost(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiAuthRegisteruserPost(body?: SingUpModel, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public apiAuthRegisteruserPost(body?: SingUpModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public apiAuthRegisteruserPost(body?: SingUpModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public apiAuthRegisteruserPost(body?: SingUpModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -78,10 +85,18 @@ export class AuthService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
         ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
 
-        return this.httpClient.post<any>(`${this.basePath}/api/Auth/registeruser`,
-            null,
+        return this.httpClient.post<boolean>(`${this.basePath}/api/Auth/registeruser`,
+            body,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -94,18 +109,23 @@ export class AuthService {
     /**
      * 
      * 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthSigninPost(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiAuthSigninPost(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiAuthSigninPost(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiAuthSigninPost(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiAuthSigninPost(body?: UserModel, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public apiAuthSigninPost(body?: UserModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public apiAuthSigninPost(body?: UserModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public apiAuthSigninPost(body?: UserModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -114,10 +134,18 @@ export class AuthService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
         ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
 
-        return this.httpClient.post<any>(`${this.basePath}/api/Auth/signin`,
-            null,
+        return this.httpClient.post<boolean>(`${this.basePath}/api/Auth/signin`,
+            body,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

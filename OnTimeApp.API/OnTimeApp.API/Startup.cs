@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using OnTimeApp.API.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -30,7 +31,7 @@ namespace OnTimeApp.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("OnTimeAppAPISpecification",
+                c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
                         Title = "OnTimeApp API",
@@ -45,6 +46,7 @@ namespace OnTimeApp.API
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 c.IncludeXmlComments(xmlCommentsFullPath);
+
             });
 
             var users = new UserService();
@@ -84,17 +86,17 @@ namespace OnTimeApp.API
 
             app.UseHttpsRedirection();
 
-            app.UseSwagger();
+            app.UseSwagger(c=> c.SerializeAsV2 = true);
 
             app.UseSwaggerUI(x =>
             {
-                x.SwaggerEndpoint("/swagger/OnTimeAppAPISpecification/swagger.json",
+                x.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "OnTimeApp API");
             });
 
             app.UseAuthentication();
 
-            app.UseMvc();
+            app.UseMvc();;
         }
     }
 }
