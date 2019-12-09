@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Interfaces;
-using Microsoft.OpenApi.Models;
-using OnTimeApp.API.Services;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using OnTimeApp.API.Installers;
 
 namespace OnTimeApp.API
 {
@@ -27,50 +18,7 @@ namespace OnTimeApp.API
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1",
-                    new OpenApiInfo
-                    {
-                        Title = "OnTimeApp API",
-                        Version = "1",
-                        Contact = new OpenApiContact()
-                        {
-                            Email = "sergiojj932@gmail.com",
-                            Name = "Sergio Jimenez"
-                        }
-                    });
-
-                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
-                c.IncludeXmlComments(xmlCommentsFullPath);
-
-            });
-
-            var users = new UserService();
-            var roles = new RoleService(users);
-            services.AddSingleton<IUserService>(users);
-            services.AddSingleton<IRoleService>(roles);
-            roles.AddRoleToUser("admin", "admin");
-
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie(option => { option.LoginPath = "/api/Auth/signin"; });
-
-            services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy =
-                    new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme)
-                        .RequireAuthenticatedUser()
-                        .Build();
-            });
-        }
+            => services.InstallServicesInAssembly(Configuration);
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -85,8 +33,9 @@ namespace OnTimeApp.API
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-            app.UseSwagger(c=> c.SerializeAsV2 = true);
+            app.UseSwagger(c => c.SerializeAsV2 = true);
 
             app.UseSwaggerUI(x =>
             {
@@ -94,9 +43,9 @@ namespace OnTimeApp.API
                     "OnTimeApp API");
             });
 
-            app.UseAuthentication();
 
-            app.UseMvc();;
+            app.UseMvc();
+            ;
         }
     }
 }

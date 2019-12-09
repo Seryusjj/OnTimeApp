@@ -31,6 +31,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  swagger:
+    path: ../generated/dart_on_time_app_api
 
 
 # For information on the generic Dart part of this file, see the
