@@ -16,11 +16,21 @@ namespace OnTimeApp.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-            => services.InstallServicesInAssembly(Configuration);
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services"></param>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.InstallServicesInAssembly(Configuration);
+        }
+
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -34,6 +44,7 @@ namespace OnTimeApp.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseSwagger(c => c.SerializeAsV2 = true);
 
@@ -45,7 +56,6 @@ namespace OnTimeApp.API
 
 
             app.UseMvc();
-            ;
         }
     }
 }
