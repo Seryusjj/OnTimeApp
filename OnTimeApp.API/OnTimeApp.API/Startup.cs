@@ -44,7 +44,7 @@ namespace OnTimeApp.API
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
+            
 
             app.UseSwagger(c => c.SerializeAsV2 = true);
 
@@ -56,6 +56,8 @@ namespace OnTimeApp.API
 
 
             app.UseMvc();
+            
+            app.UseAuthentication();
         }
     }
 }

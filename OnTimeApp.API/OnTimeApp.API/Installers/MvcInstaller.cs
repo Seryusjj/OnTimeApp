@@ -22,7 +22,7 @@ namespace OnTimeApp.API.Installers
             configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
             services.AddScoped<IIdentitySevice, IdentityService>();
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddAuthentication(x =>
@@ -30,7 +30,8 @@ namespace OnTimeApp.API.Installers
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x=> {
+            }).AddJwtBearer(x =>
+            {
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -43,7 +44,7 @@ namespace OnTimeApp.API.Installers
                 };
             });
 
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
@@ -58,29 +59,32 @@ namespace OnTimeApp.API.Installers
                         }
                     });
 
-                var scheme = new OpenApiSecurityScheme
+                c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
                 {
-                    Description = "JWT Athorization header using the berare scheme",
+                    Description = "JWT Authorization header using the bearer scheme",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey
-                };
-                c.AddSecurityDefinition("Bearer", scheme);
-                var security = new OpenApiSecurityRequirement();
-                security.Add(scheme, new string[0]);
-
-                c.AddSecurityRequirement(security);
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
 
                 var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 c.IncludeXmlComments(xmlCommentsFullPath);
             });
-
-            var users = new UserService();
-            var roles = new RoleService(users);
-            services.AddSingleton<IUserService>(users);
-            services.AddSingleton<IRoleService>(roles);
-            roles.AddRoleToUser("admin", "admin");
         }
     }
 }

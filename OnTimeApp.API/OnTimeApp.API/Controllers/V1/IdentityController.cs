@@ -36,5 +36,22 @@ namespace OnTimeApp.API.Controllers.NewFolder
                 Token = authResponse.Token
             });
         }
+        
+        [HttpPost("login")]
+        public async Task<IActionResult> Register([FromBody] UserLoginRequest request) 
+        {
+            var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
+            if (!authResponse.Success) 
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = authResponse.Errors
+                });
+            }
+            return Ok(new AuthSuccessResponse 
+            {
+                Token = authResponse.Token
+            });
+        }
     }
 }

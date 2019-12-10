@@ -11,7 +11,7 @@ namespace OnTimeApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Manager")]
     public class ValuesController : ControllerBase
     {
         // GET api/values

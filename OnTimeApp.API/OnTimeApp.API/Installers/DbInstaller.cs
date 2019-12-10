@@ -19,10 +19,11 @@ namespace OnTimeApp.API.Installers
                 options.UseInMemoryDatabase(databaseName: "Test");
                 //init db
             });            
+            
 
-
-
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<DataContext>();
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
 
             //services.AddScoped() register new service            
         }
