@@ -11,7 +11,14 @@
  */
 
 
-export interface UserModel { 
-    email: string;
-    password: string;
+export interface StringResponseSet { 
+    response?: Array<string>;
+    /**
+     * Set of errors that can potentially occur
+     */
+    errors?: Array<string>;
+    /**
+     * If the request was succesfull or not
+     */
+    success?: boolean;
 }

@@ -122,7 +122,7 @@
             <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
             <response code ="400">Returns an AuthResponse object with errors in it</response>
         </member>
-        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.Register(OnTimeApp.API.Contracts.V1.Requests.UserLoginRequest)">
+        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.Login(OnTimeApp.API.Contracts.V1.Requests.UserLoginRequest)">
             <summary>
             Login user in the system
             </summary>

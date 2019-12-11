@@ -3,16 +3,18 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
-import { AuthService } from './api/auth.service';
-import { ValuesService } from './api/values.service';
+import { IdentityService } from './api/identity.service';
+import { RolesService } from './api/roles.service';
+import { UsersService } from './api/users.service';
 
 @NgModule({
   imports:      [],
   declarations: [],
   exports:      [],
   providers: [
-    AuthService,
-    ValuesService ]
+    IdentityService,
+    RolesService,
+    UsersService ]
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {

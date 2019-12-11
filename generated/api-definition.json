@@ -9,221 +9,295 @@
     "version": "1"
   },
   "paths": {
-    "/api/Auth/signin": {
+    "/api/v1/Identity/init": {
       "post": {
         "tags": [
-          "Auth"
+          "Identity"
         ],
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "$ref": "#/definitions/UserModel"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        }
-      }
-    },
-    "/api/Auth/singout": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
+        "summary": "Creates default admin user, this is added because we do not have a real database where to add this info.\r\nWe use an in memeory db so each time the service is restarted, this should be called",
         "responses": {
           "200": {
             "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Auth/registeruser": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "$ref": "#/definitions/SingUpModel"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        }
-      }
-    },
-    "/api/Values": {
-      "get": {
-        "tags": [
-          "Values"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Values"
-        ],
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Values/{id}": {
-      "get": {
-        "tags": [
-          "Values"
-        ],
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Values"
-        ],
-        "consumes": [
-          "application/json-patch+json",
-          "application/json",
-          "text/json",
-          "application/*+json"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
           },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1/Identity/register": {
+      "post": {
+        "tags": [
+          "Identity"
+        ],
+        "summary": "Register a new user in the system",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
           {
             "in": "body",
             "name": "body",
+            "description": "The new user information",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/UserRegistrationRequest"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Returns an AuthResponse object with succes true and empty token",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          },
+          "400": {
+            "description": "Returns an AuthResponse object with errors in it",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/v1/Identity/login": {
+      "post": {
         "tags": [
-          "Values"
+          "Identity"
         ],
-        "summary": "Delete one value",
+        "summary": "Login user in the system",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "description": "The id of the value to remove",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
+            "in": "body",
+            "name": "body",
+            "description": "The user information",
+            "schema": {
+              "$ref": "#/definitions/UserLoginRequest"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Returns an AuthResponse object with succes true and empty token",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          },
+          "400": {
+            "description": "Returns an AuthResponse object with errors in it",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Roles/register": {
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RoleRegistrationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RoleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/RoleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Roles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/StringResponseSet"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/StringResponseSet"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserResponseResponseSet"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/UserResponseResponseSet"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Users/AddRole": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UserRoleAdditionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RoleResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/RoleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Users/GetRoles/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RoleResponseResponseSet"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/RoleResponseResponseSet"
+            }
           }
         }
       }
     }
   },
   "definitions": {
-    "UserModel": {
+    "UserRegistrationRequest": {
+      "description": "Request to create a new user",
       "required": [
         "email",
         "password"
@@ -231,31 +305,204 @@
       "type": "object",
       "properties": {
         "email": {
+          "format": "email",
+          "description": "The email of the user",
           "type": "string"
         },
         "password": {
+          "description": "The password of the user",
           "type": "string"
         }
       }
     },
-    "SingUpModel": {
+    "AuthResponse": {
+      "description": "Response of authentication",
+      "type": "object",
+      "properties": {
+        "token": {
+          "description": "The token assigned to the user",
+          "type": "string"
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "UserLoginRequest": {
+      "description": "Request to login a user",
       "required": [
         "email",
-        "password",
-        "repeatPassword"
+        "password"
       ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "format": "email",
+          "description": "The email of the user",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the user",
+          "type": "string"
+        }
+      }
+    },
+    "RoleRegistrationRequest": {
+      "description": "Request to create a new Role",
+      "required": [
+        "roleName"
+      ],
+      "type": "object",
+      "properties": {
+        "roleName": {
+          "description": "The name of the new role",
+          "type": "string"
+        }
+      }
+    },
+    "RoleResponse": {
+      "type": "object",
+      "properties": {
+        "roleName": {
+          "type": "string"
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "StringResponseSet": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "UserResponse": {
       "type": "object",
       "properties": {
         "email": {
           "type": "string"
         },
-        "password": {
+        "userName": {
           "type": "string"
         },
-        "repeatPassword": {
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "UserResponseResponseSet": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserResponse"
+          }
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "UserRoleAdditionRequest": {
+      "required": [
+        "role",
+        "userEmail"
+      ],
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "userEmail": {
+          "format": "email",
           "type": "string"
         }
       }
+    },
+    "RoleResponseResponseSet": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleResponse"
+          }
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
     }
-  }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Authorization header using the bearer scheme"
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

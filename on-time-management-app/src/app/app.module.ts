@@ -1,9 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
+
+import {environment} from '../environments/environment';
+import {ApiModule, BASE_PATH, Configuration, ConfigurationParameters} from '@swagger/typescript-on-time-app-api';
+import {HttpClientModule} from '@angular/common/http';
+
+export function apiConfigFactory(): Configuration {
+  const params: ConfigurationParameters = {
+    apiKeys: {
+      Authorization: 'Bearer token'
+    }
+
+  };
+  return new Configuration(params);
+}
 
 
 @NgModule({
@@ -11,11 +25,17 @@ import {AppRoutingModule} from './app-routing.module';
     AppComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
+    ApiModule.forRoot(apiConfigFactory),
+    HttpClientModule,
     RouterModule,
+    BrowserModule,
+    AppRoutingModule
+
   ],
-  providers: [],
+  providers: [
+    {provide: BASE_PATH, useValue: environment.API_BASE_PATH}
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

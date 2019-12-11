@@ -42,7 +42,7 @@ namespace OnTimeApp.API
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            
             app.UseStaticFiles();
             
 
@@ -55,6 +55,8 @@ namespace OnTimeApp.API
             });
 
 
+            app.UseCors("Any");
+            app.UseHttpsRedirection();
             app.UseMvc();
             
             app.UseAuthentication();

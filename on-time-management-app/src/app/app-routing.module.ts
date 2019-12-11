@@ -7,8 +7,12 @@ import {PreloadAllModules, RouterModule} from '@angular/router';
       [
         {
           path: '',
-          redirectTo: '/Admin',
+          redirectTo: '/Login',
           pathMatch: 'full'
+        },
+        {
+          path: 'Login',
+          loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
         },
         {
           path: 'Admin',
@@ -16,7 +20,7 @@ import {PreloadAllModules, RouterModule} from '@angular/router';
         }
       ],
       {
-        enableTracing: true,
+        enableTracing: false,
         preloadingStrategy: PreloadAllModules
       }
     )

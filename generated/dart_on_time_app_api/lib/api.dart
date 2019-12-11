@@ -7,16 +7,31 @@ import 'package:swagger/auth/api_key_auth.dart';
 import 'package:swagger/auth/basic_auth.dart';
 import 'package:swagger/auth/oauth.dart';
 
-import 'package:swagger/api/auth_api.dart';
-import 'package:swagger/api/values_api.dart';
+import 'package:swagger/api/identity_api.dart';
+import 'package:swagger/api/roles_api.dart';
+import 'package:swagger/api/users_api.dart';
 
-import 'package:swagger/model/sing_up_model.dart';
-import 'package:swagger/model/user_model.dart';
+import 'package:swagger/model/auth_response.dart';
+import 'package:swagger/model/role_registration_request.dart';
+import 'package:swagger/model/role_response.dart';
+import 'package:swagger/model/string_response_set.dart';
+import 'package:swagger/model/user_login_request.dart';
+import 'package:swagger/model/user_registration_request.dart';
+import 'package:swagger/model/user_response.dart';
+import 'package:swagger/model/user_response_response_set.dart';
+import 'package:swagger/model/user_role_addition_request.dart';
 
 
 final jsonJaguarRepo = JsonRepo()
-..add(SingUpModelSerializer())
-..add(UserModelSerializer())
+..add(AuthResponseSerializer())
+..add(RoleRegistrationRequestSerializer())
+..add(RoleResponseSerializer())
+..add(StringResponseSetSerializer())
+..add(UserLoginRequestSerializer())
+..add(UserRegistrationRequestSerializer())
+..add(UserResponseSerializer())
+..add(UserResponseResponseSetSerializer())
+..add(UserRoleAdditionRequestSerializer())
 ;
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
@@ -61,32 +76,47 @@ class JaguarApiGen {
 
     
     /**
-     * Get AuthApi instance, base route and serializer can be overridden by a given but be careful,
+     * Get IdentityApi instance, base route and serializer can be overridden by a given but be careful,
      * by doing that all interceptors will not be executed
      */
-    AuthApi getAuthApi({Route base, SerializerRepo serializers}) {
+    IdentityApi getIdentityApi({Route base, SerializerRepo serializers}) {
         if(base == null) {
             base = _baseRoute;
         }
         if(serializers == null) {
             serializers = jsonJaguarRepo;
         }
-        return AuthApi(base: base, serializers: serializers);
+        return IdentityApi(base: base, serializers: serializers);
     }
 
     
     /**
-     * Get ValuesApi instance, base route and serializer can be overridden by a given but be careful,
+     * Get RolesApi instance, base route and serializer can be overridden by a given but be careful,
      * by doing that all interceptors will not be executed
      */
-    ValuesApi getValuesApi({Route base, SerializerRepo serializers}) {
+    RolesApi getRolesApi({Route base, SerializerRepo serializers}) {
         if(base == null) {
             base = _baseRoute;
         }
         if(serializers == null) {
             serializers = jsonJaguarRepo;
         }
-        return ValuesApi(base: base, serializers: serializers);
+        return RolesApi(base: base, serializers: serializers);
+    }
+
+    
+    /**
+     * Get UsersApi instance, base route and serializer can be overridden by a given but be careful,
+     * by doing that all interceptors will not be executed
+     */
+    UsersApi getUsersApi({Route base, SerializerRepo serializers}) {
+        if(base == null) {
+            base = _baseRoute;
+        }
+        if(serializers == null) {
+            serializers = jsonJaguarRepo;
+        }
+        return UsersApi(base: base, serializers: serializers);
     }
 
     

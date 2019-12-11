@@ -11,8 +11,16 @@
  */
 
 
-export interface SingUpModel { 
+/**
+ * Request to login a user
+ */
+export interface UserLoginRequest { 
+    /**
+     * The email of the user
+     */
     email: string;
+    /**
+     * The password of the user
+     */
     password: string;
-    repeatPassword: string;
 }

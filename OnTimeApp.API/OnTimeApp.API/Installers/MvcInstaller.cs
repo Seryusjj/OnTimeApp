@@ -23,7 +23,14 @@ namespace OnTimeApp.API.Installers
             services.AddSingleton(jwtSettings);
             services.AddScoped<IIdentitySevice, IdentityService>();
 
+            services.AddCors(c=> c.AddPolicy("Any", builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+            }));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
 
             services.AddAuthentication(x =>
             {

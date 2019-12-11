@@ -5,6 +5,7 @@ using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Services;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 
 namespace OnTimeApp.API.Controllers.NewFolder
 {
@@ -48,14 +49,9 @@ namespace OnTimeApp.API.Controllers.NewFolder
             var authResponse = await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
             var roleResponse = await _roleService.RegisterRole("Admin");
             var userResponse = await _userService.AddRoleToUser("admin@admin.com", "Admin");
-            if (authResponse.Success && roleResponse.Success && userResponse.Success)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+
+            return Ok();
+
         }
 
 
@@ -93,7 +89,7 @@ namespace OnTimeApp.API.Controllers.NewFolder
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(AuthResponse))]
-        public async Task<ActionResult<AuthResponse>> Register([FromBody] UserLoginRequest request)
+        public async Task<ActionResult<AuthResponse>> Login([FromBody] UserLoginRequest request)
         {
             if (!ModelState.IsValid)
             {

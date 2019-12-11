@@ -18,15 +18,17 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { SingUpModel } from '../model/singUpModel';
-import { UserModel } from '../model/userModel';
+import { RoleResponse } from '../model/roleResponse';
+import { RoleResponseResponseSet } from '../model/roleResponseResponseSet';
+import { UserResponseResponseSet } from '../model/userResponseResponseSet';
+import { UserRoleAdditionRequest } from '../model/userRoleAdditionRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class AuthService {
+export class UsersService {
 
     protected basePath = 'https://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -64,13 +66,18 @@ export class AuthService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthRegisteruserPost(body?: SingUpModel, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public apiAuthRegisteruserPost(body?: SingUpModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public apiAuthRegisteruserPost(body?: SingUpModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public apiAuthRegisteruserPost(body?: SingUpModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'body', reportProgress?: boolean): Observable<RoleResponse>;
+    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponse>>;
+    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponse>>;
+    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -95,7 +102,7 @@ export class AuthService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<boolean>(`${this.basePath}/api/Auth/registeruser`,
+        return this.httpClient.post<RoleResponse>(`${this.basePath}/api/v1/Users/AddRole`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -109,17 +116,20 @@ export class AuthService {
     /**
      * 
      * 
-     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthSigninPost(body?: UserModel, observe?: 'body', reportProgress?: boolean): Observable<boolean>;
-    public apiAuthSigninPost(body?: UserModel, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
-    public apiAuthSigninPost(body?: UserModel, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
-    public apiAuthSigninPost(body?: UserModel, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
+    public apiV1UsersGet(observe?: 'body', reportProgress?: boolean): Observable<UserResponseResponseSet>;
+    public apiV1UsersGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponseResponseSet>>;
+    public apiV1UsersGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponseResponseSet>>;
+    public apiV1UsersGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
@@ -134,18 +144,9 @@ export class AuthService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json-patch+json',
-            'application/json',
-            'text/json',
-            'application/_*+json'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
-        }
 
-        return this.httpClient.post<boolean>(`${this.basePath}/api/Auth/signin`,
-            body,
+        return this.httpClient.get<UserResponseResponseSet>(`${this.basePath}/api/v1/Users`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -158,18 +159,31 @@ export class AuthService {
     /**
      * 
      * 
+     * @param email 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthSingoutPost(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiAuthSingoutPost(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiAuthSingoutPost(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiAuthSingoutPost(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<RoleResponseResponseSet>;
+    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponseResponseSet>>;
+    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponseResponseSet>>;
+    public apiV1UsersGetRolesEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling apiV1UsersGetRolesEmailGet.');
+        }
 
         let headers = this.defaultHeaders;
 
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -180,8 +194,7 @@ export class AuthService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.post<any>(`${this.basePath}/api/Auth/singout`,
-            null,
+        return this.httpClient.get<RoleResponseResponseSet>(`${this.basePath}/api/v1/Users/GetRoles/${encodeURIComponent(String(email))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

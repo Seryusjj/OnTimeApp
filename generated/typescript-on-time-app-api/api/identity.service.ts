@@ -18,13 +18,16 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { AuthResponse } from '../model/authResponse';
+import { UserLoginRequest } from '../model/userLoginRequest';
+import { UserRegistrationRequest } from '../model/userRegistrationRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class ValuesService {
+export class IdentityService {
 
     protected basePath = 'https://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -56,148 +59,71 @@ export class ValuesService {
 
 
     /**
-     * 
+     * Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiValuesGet(observe?: 'body', reportProgress?: boolean): Observable<Array<string>>;
-    public apiValuesGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<string>>>;
-    public apiValuesGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<string>>>;
-    public apiValuesGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1IdentityInitPost(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiV1IdentityInitPost(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiV1IdentityInitPost(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiV1IdentityInitPost(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.post<any>(`${this.basePath}/api/v1/Identity/init`,
+            null,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Login user in the system
+     * 
+     * @param body The user information
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1IdentityLoginPost(body?: UserLoginRequest, observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
+    public apiV1IdentityLoginPost(body?: UserLoginRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
+    public apiV1IdentityLoginPost(body?: UserLoginRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
+    public apiV1IdentityLoginPost(body?: UserLoginRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
 
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'text/plain',
             'application/json',
             'text/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<Array<string>>(`${this.basePath}/api/Values`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete one value
-     * 
-     * @param id The id of the value to remove
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiValuesIdDelete(id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiValuesIdDelete(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiValuesIdDelete(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiValuesIdDelete(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiValuesIdDelete.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.delete<any>(`${this.basePath}/api/Values/${encodeURIComponent(String(id))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param id 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiValuesIdGet(id: number, observe?: 'body', reportProgress?: boolean): Observable<string>;
-    public apiValuesIdGet(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<string>>;
-    public apiValuesIdGet(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<string>>;
-    public apiValuesIdGet(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiValuesIdGet.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<string>(`${this.basePath}/api/Values/${encodeURIComponent(String(id))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param id 
-     * @param body 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiValuesIdPut(id: number, body?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiValuesIdPut(id: number, body?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiValuesIdPut(id: number, body?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiValuesIdPut(id: number, body?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling apiValuesIdPut.');
-        }
-
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -216,7 +142,7 @@ export class ValuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<any>(`${this.basePath}/api/Values/${encodeURIComponent(String(id))}`,
+        return this.httpClient.post<AuthResponse>(`${this.basePath}/api/v1/Identity/login`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -228,22 +154,30 @@ export class ValuesService {
     }
 
     /**
+     * Register a new user in the system
      * 
-     * 
-     * @param body 
+     * @param body The new user information
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiValuesPost(body?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public apiValuesPost(body?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public apiValuesPost(body?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public apiValuesPost(body?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1IdentityRegisterPost(body?: UserRegistrationRequest, observe?: 'body', reportProgress?: boolean): Observable<AuthResponse>;
+    public apiV1IdentityRegisterPost(body?: UserRegistrationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<AuthResponse>>;
+    public apiV1IdentityRegisterPost(body?: UserRegistrationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<AuthResponse>>;
+    public apiV1IdentityRegisterPost(body?: UserRegistrationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
 
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -262,7 +196,7 @@ export class ValuesService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.basePath}/api/Values`,
+        return this.httpClient.post<AuthResponse>(`${this.basePath}/api/v1/Identity/register`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
