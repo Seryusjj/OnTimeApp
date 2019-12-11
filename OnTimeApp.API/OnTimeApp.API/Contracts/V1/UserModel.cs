@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace OnTimeApp.API.Contracts.V1.Responses
 {
-    public class AuthSuccessResponse
+    public class UserModel
     {
-        public string Token { get; set; }
+        public string Email { get; set; }
+        public string UserName { get; set; }
     }
 }

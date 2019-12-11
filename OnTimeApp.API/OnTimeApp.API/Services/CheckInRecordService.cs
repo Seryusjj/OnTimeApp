@@ -1,6 +1,6 @@
 ﻿namespace OnTimeApp.API.Services
 {
-    public class CheckInRecordService
+    public class CheckInRecordService : ICheckInRecordService
     {
         
     }

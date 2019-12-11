@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnTimeApp.API.Entities;
+using OnTimeApp.API.Services;
 
 namespace OnTimeApp.API.Installers
 {
@@ -24,8 +25,10 @@ namespace OnTimeApp.API.Installers
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
-
-            //services.AddScoped() register new service            
+              
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ICheckInRecordService, CheckInRecordService>();
         }
     }
 }

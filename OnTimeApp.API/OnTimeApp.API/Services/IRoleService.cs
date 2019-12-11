@@ -7,11 +7,9 @@ namespace OnTimeApp.API.Services
 {
     public interface IRoleService
     {
-        Task<bool> AddRole(string role);
+        Task<bool> RegisterRole(string role);
         
-        Task<bool> RemoveRole(string role);
-        
-        Task<bool> AddRoleToUser(string userEmail, string role);
+        Task<bool> RemoveRole(string role);        
         
     }
 }

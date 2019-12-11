@@ -7,21 +7,14 @@ using System.Threading.Tasks;
 namespace OnTimeApp.API.Contracts.V1.Requests
 {
     /// <summary>
-    /// Request to login a user
+    /// Request to create a new Role
     /// </summary>
-    public class UserLoginRequest
+    public class RoleRegistrationRequest
     {
         /// <summary>
-        /// The email of the user
+        /// The name of the new role
         /// </summary>
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        /// <summary>
-        /// The password of the user
-        /// </summary>
-        [Required]
-        public string Password { get; set; }
+        public string RoleName { get; set; }
     }
 }

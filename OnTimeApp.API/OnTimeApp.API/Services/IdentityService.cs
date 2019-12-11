@@ -15,15 +15,12 @@ namespace OnTimeApp.API.Services
     public class IdentityService : IIdentitySevice
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings,
-            RoleManager<IdentityRole> roleManager)
+        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings)
         {
             _userManager = userManager;
-            _jwtSettings = jwtSettings;
-            _roleManager = roleManager;
+            _jwtSettings = jwtSettings;            
         }
 
         public async Task<AuthenticationResult> LoginAsync(string email, string password)
@@ -80,21 +77,11 @@ namespace OnTimeApp.API.Services
                 {
                     Errors = createdUser.Errors.Select(x => x.Description)
                 };
-            }
-
-            // all will be admin after creating
-            await _roleManager.CreateAsync(new IdentityRole("Admin"));
-            await _roleManager.CreateAsync(new IdentityRole("Worker"));
-            await _roleManager.CreateAsync(new IdentityRole("Manager"));
+            }           
             
-            IdentityUser usr = await _userManager.FindByEmailAsync(email);
-            var res = await _userManager.AddToRolesAsync(usr, new[] {"Admin", "Worker", "Manager"});
-
-            string token = JwtSecurityTokenResolve(newUser);
             return new AuthenticationResult
             {
-                Success = true,
-                Token = token
+                Success = createdUser.Succeeded
             };
         }
 

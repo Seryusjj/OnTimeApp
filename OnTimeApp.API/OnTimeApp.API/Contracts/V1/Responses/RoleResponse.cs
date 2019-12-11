@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace OnTimeApp.API.Contracts.V1.Responses
 {
-    public class LoginSuccessResponse
+    public class RoleResponse : BaseResponse
     {
-        public string Token { get; set; }
     }
 }

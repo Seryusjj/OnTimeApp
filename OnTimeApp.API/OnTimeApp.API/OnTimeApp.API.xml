@@ -4,6 +4,121 @@
         <name>OnTimeApp.API</name>
     </assembly>
     <members>
+        <member name="T:OnTimeApp.API.Contracts.V1.Requests.RoleRegistrationRequest">
+            <summary>
+            Request to create a new Role
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Requests.RoleRegistrationRequest.RoleName">
+            <summary>
+            The name of the new role
+            </summary>
+        </member>
+        <member name="T:OnTimeApp.API.Contracts.V1.Requests.UserLoginRequest">
+            <summary>
+            Request to login a user
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Requests.UserLoginRequest.Email">
+            <summary>
+            The email of the user
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Requests.UserLoginRequest.Password">
+            <summary>
+            The password of the user
+            </summary>
+        </member>
+        <member name="T:OnTimeApp.API.Contracts.V1.Requests.UserRegistrationRequest">
+            <summary>
+            Request to create a new user
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Requests.UserRegistrationRequest.Email">
+            <summary>
+            The email of the user
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Requests.UserRegistrationRequest.Password">
+            <summary>
+            The password of the user
+            </summary>
+        </member>
+        <member name="T:OnTimeApp.API.Contracts.V1.Responses.AuthResponse">
+            <summary>
+            Response of authentication
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Responses.AuthResponse.Token">
+            <summary>
+            The token assigned to the user
+            </summary>
+        </member>
+        <member name="M:OnTimeApp.API.Contracts.V1.Responses.AuthResponse.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Unscucessful response
+            </summary>
+            <param name="errors">The set of errors</param>
+        </member>
+        <member name="M:OnTimeApp.API.Contracts.V1.Responses.AuthResponse.#ctor(System.String)">
+            <summary>
+            Succesfull response
+            </summary>
+            <param name="token">The assigned token</param>
+        </member>
+        <member name="T:OnTimeApp.API.Contracts.V1.Responses.BaseResponse">
+            <summary>
+            Common object for all responses
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Responses.BaseResponse.Errors">
+            <summary>
+            Set of errors that can potentially occur
+            </summary>
+        </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Responses.BaseResponse.Success">
+            <summary>
+            If the request was succesfull or not
+            </summary>
+        </member>
+        <member name="T:OnTimeApp.API.Controllers.NewFolder.IdentityController">
+            <summary>
+            Identification controller, used for registering or login users
+            </summary>
+        </member>
+        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.#ctor(OnTimeApp.API.Services.IIdentitySevice,OnTimeApp.API.Services.IRoleService,OnTimeApp.API.Services.IUserService)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="identityService"></param>
+            <param name="roleService"></param>
+            <param name="userService"></param>
+        </member>
+        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.Init">
+            <summary>
+            Creates default admin user, this is added because we do not have a real database where to add this info.
+            We use an in memeory db so each time the service is restarted, this should be called
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.Register(OnTimeApp.API.Contracts.V1.Requests.UserRegistrationRequest)">
+            <summary>
+            Register a new user in the system
+            </summary>
+            <param name="request">The new user information</param>
+            <returns>An Auth response</returns>
+            <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
+            <response code ="400">Returns an AuthResponse object with errors in it</response>
+        </member>
+        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.Register(OnTimeApp.API.Contracts.V1.Requests.UserLoginRequest)">
+            <summary>
+            Login user in the system
+            </summary>
+            <param name="request">The user information</param>
+            <returns>An Auth response</returns>
+            <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
+            <response code ="400">Returns an AuthResponse object with errors in it</response>
+        </member>
         <member name="M:OnTimeApp.API.Controllers.ValuesController.Delete(System.Int32)">
             <summary>
             Delete one value
