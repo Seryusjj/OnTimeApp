@@ -1,7 +1,4 @@
-﻿using OnTimeApp.API.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using OnTimeApp.API.Data.Results;
 using System.Threading.Tasks;
 
 namespace OnTimeApp.API.Services

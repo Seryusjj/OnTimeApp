@@ -56,7 +56,7 @@
         </member>
         <member name="M:OnTimeApp.API.Contracts.V1.Responses.AuthResponse.#ctor(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            Unscucessful response
+            Unsuccucessful response
             </summary>
             <param name="errors">The set of errors</param>
         </member>
@@ -80,6 +80,18 @@
             <summary>
             If the request was succesfull or not
             </summary>
+        </member>
+        <member name="M:OnTimeApp.API.Contracts.V1.Responses.RoleResponse.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Unsuccucessful response
+            </summary>
+            <param name="errors">The set of errors</param>
+        </member>
+        <member name="M:OnTimeApp.API.Contracts.V1.Responses.RoleResponse.#ctor(System.String)">
+            <summary>
+            Succesfull response
+            </summary>
+            <param name="roleName">The role name</param>
         </member>
         <member name="T:OnTimeApp.API.Controllers.NewFolder.IdentityController">
             <summary>
@@ -118,12 +130,6 @@
             <returns>An Auth response</returns>
             <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
             <response code ="400">Returns an AuthResponse object with errors in it</response>
-        </member>
-        <member name="M:OnTimeApp.API.Controllers.ValuesController.Delete(System.Int32)">
-            <summary>
-            Delete one value
-            </summary>
-            <param name="id">The id of the value to remove</param>
         </member>
         <member name="M:OnTimeApp.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

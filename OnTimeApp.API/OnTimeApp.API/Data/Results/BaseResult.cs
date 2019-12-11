@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnTimeApp.API.Entities
+namespace OnTimeApp.API.Data.Results
 {
-    public class AuthenticationResult
+    public class BaseResult
     {
-        public string Token { get; set; }
         public bool Success { get; set; }
         public IEnumerable<string> Errors { get; set; }
     }

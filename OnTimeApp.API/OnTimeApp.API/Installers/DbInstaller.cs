@@ -18,7 +18,6 @@ namespace OnTimeApp.API.Installers
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseInMemoryDatabase(databaseName: "Test");
-                //init db
             });            
             
 

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using OnTimeApp.API.Entities;
+﻿using System.Threading.Tasks;
+using OnTimeApp.API.Data.Results;
+
 
 namespace OnTimeApp.API.Services
 {
     public interface IRoleService
     {
-        Task<bool> RegisterRole(string role);
+        Task<RoleResult> RegisterRole(string role);
         
-        Task<bool> RemoveRole(string role);        
-        
+        Task<RoleResult> RemoveRole(string role);
+        Task<ResultSet<RoleResult>> GetRoles();
     }
 }

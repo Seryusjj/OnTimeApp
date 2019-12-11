@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using OnTimeApp.API.Data.Results;
 using OnTimeApp.API.Entities;
 
 namespace OnTimeApp.API.Services
@@ -11,26 +12,68 @@ namespace OnTimeApp.API.Services
     {
         private readonly UserManager<IdentityUser> _userManager;
 
-        public UserService(UserManager<IdentityUser> userManager) 
+        public UserService(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
-        public async Task<bool> AddRoleToUser(string email, string role)
+        public async Task<RoleResult> AddRoleToUser(string email, string role)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                new RoleResult
+                {
+                    Errors = new string[] { "The user does not exists" }
+                };
+            }
             var res = await _userManager.AddToRoleAsync(user, role);
-            return res.Succeeded;
+            if (!res.Succeeded)
+                return new RoleResult
+                {
+                    Errors = res.Errors.Select(x => x.Description)
+                };
+
+            return new RoleResult
+            {
+                RoleName = role,
+                Success = res.Succeeded
+            };
         }
 
-        public Task<IEnumerable<T>> GetAllUsers<T>(Func<IdentityUser, T> converter)
+        public Task<ResultSet<UserResult>> GetAllUsers()
         {
-            IEnumerable<IdentityUser> users = _userManager.Users;
-            return Task.FromResult(users.Select(converter));
+            return Task.FromResult(new ResultSet<UserResult>
+            {
+                Success = true,
+                Results = _userManager.Users.Select(x => new UserResult
+                {
+                    Email = x.Email,
+                    UserName = x.UserName,
+                    Success = true
+                })
+            });
         }
 
-        public Task<IEnumerable<string>> GetUserRoles(string email)
+        public async Task<ResultSet<RoleResult>> GetUserRoles(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                new ResultSet<RoleResult>
+                {
+                    Errors = new string[] { "The user does not exists" }
+                };
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            return new ResultSet<RoleResult>
+            {
+                Success = true,
+                Results = roles.Select(x => new RoleResult
+                {
+                    Success = true,
+                    RoleName = x
+                }).ToList()
+            };
         }
     }
 }

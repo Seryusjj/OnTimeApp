@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace OnTimeApp.API.Entities
 {
@@ -21,10 +18,7 @@ namespace OnTimeApp.API.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<CheckInRecord>().HasKey(d => d.Id);
-
-
-            
+            modelBuilder.Entity<CheckInRecord>().HasKey(d => d.Id);                  
         }
     }
 }

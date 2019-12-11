@@ -16,7 +16,7 @@ namespace OnTimeApp.API.Contracts.V1.Responses
         public string Token { get; set; }
 
         /// <summary>
-        /// Unscucessful response
+        /// Unsuccucessful response
         /// </summary>
         /// <param name="errors">The set of errors</param>
         public AuthResponse(IEnumerable<string> errors)

@@ -48,7 +48,7 @@ namespace OnTimeApp.API.Controllers.NewFolder
             var authResponse = await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
             var roleResponse = await _roleService.RegisterRole("Admin");
             var userResponse = await _userService.AddRoleToUser("admin@admin.com", "Admin");
-            if (authResponse.Success && roleResponse && userResponse)
+            if (authResponse.Success && roleResponse.Success && userResponse.Success)
             {
                 return Ok();
             }

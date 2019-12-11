@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using OnTimeApp.API.Entities;
+using OnTimeApp.API.Data.Results;
 using OnTimeApp.API.Options;
 
 namespace OnTimeApp.API.Services

@@ -4,8 +4,13 @@ namespace OnTimeApp.API.Entities
 {
     public class CheckInRecord
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public DateTime checkTime { get; set; }
+
+        public CheckInRecord() 
+        {
+            Id = Guid.NewGuid().ToString();
+        }
         
     }
 }
