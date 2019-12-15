@@ -1,25 +1,19 @@
-import 'dart:async';
-import 'package:swagger/auth/auth.dart';
-import 'package:jaguar_retrofit/jaguar_retrofit.dart';
+part of swagger.api;
 
-class OAuthInterceptor extends AuthInterceptor {
-    Map<String, String> tokens = {};
+class OAuth implements Authentication {
+  String accessToken;
 
-    @override
-    FutureOr<void> before(RouteBase route) {
-        final authInfo = getAuthInfo(route, "oauth");
-        for (var info in authInfo) {
-            final token = tokens[info["name"]];
-            if(token != null) {
-                route.header("Authorization", "Bearer ${token}");
-                break;
-            }
-        }
-        return super.before(route);
+  OAuth({this.accessToken}) {
+  }
+
+  @override
+  void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
+    if (accessToken != null) {
+      headerParams["Authorization"] = "Bearer " + accessToken;
     }
+  }
 
-    @override
-    FutureOr after(StringResponse response) {
-        return Future.value(response);
-    }
+  void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
 }

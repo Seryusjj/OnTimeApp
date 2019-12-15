@@ -3,7 +3,7 @@
     <tr>
       <th scope="col">{{header}}
         <button (click)="fireAdd()"
-                class="btn btn-outline-secondary fa fa-plus pull-right">
+                [ngClass]="addButtonClass()">
         </button>
       </th>
     </tr>
@@ -15,13 +15,13 @@
           {{this.girdDisplay(item)}}
           <div class="pull-right bt-container">
             <button (click)="fireDetail(item)"
-                    class="btn btn-outline-primary fa fa-eye">
+                    [ngClass]="detailButtonClass()">
             </button>
             <button (click)="fireDelete(item)"
-                    class="btn btn-outline-primary fa fa-trash">
+                    [ngClass]="deleteButtonClass()">
             </button>
             <button (click)="fireEdit(item)"
-                    class="btn btn-outline-primary fa fa-edit">
+                    [ngClass]="editButtonClass()">
             </button>
           </div>
         </td>

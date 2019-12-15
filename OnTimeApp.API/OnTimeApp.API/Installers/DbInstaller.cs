@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OnTimeApp.API.Entities;
+using OnTimeApp.API.Entities.DAL;
 using OnTimeApp.API.Services;
 
 namespace OnTimeApp.API.Installers
@@ -21,10 +18,13 @@ namespace OnTimeApp.API.Installers
             });            
             
 
+            // DAL
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
-              
+            services.AddScoped<ICheckInDAL, CheckInDAL>();
+            
+            // services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICheckInRecordService, CheckInRecordService>();

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +6,10 @@ using OnTimeApp.API.Contracts.V1.Requests;
 using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Services;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
-using OnTimeApp.API.Data.Results;
+using Microsoft.OpenApi.Any;
+
 
 namespace OnTimeApp.API.Controllers.V1
 {
@@ -28,68 +28,68 @@ namespace OnTimeApp.API.Controllers.V1
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseSet<UserResponse>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseSet<UserResponse>))]
         public async Task<ActionResult<ResponseSet<UserResponse>>> Get()
         {
-            var res = await _userService.GetAllUsers();
+            var res = await _userService.GetAllUsersAsync();
             if (!res.Success)
             {
-                return BadRequest(new ResponseSet<UserResponse>
-                {
-                    Errors = res.Errors
-                });
+                return Ok(new ResponseSet<UserResponse>(res.Errors));
             }
-            return Ok(new ResponseSet<UserResponse>
-            {
-                Success = true,
-                Response = res.Results.Select(x => new UserResponse
+
+            return Ok(new ResponseSet<UserResponse>(
+                res.Results.Select(x => new UserResponse
                 {
                     Success = true,
                     Email = x.Email,
                     UserName = x.UserName
-                })
+                })));
+        }
+
+        [HttpGet("{email}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponse))]
+        public async Task<ActionResult<UserResponse>> Get(string email)
+        {
+            var res = await _userService.GetUserAsync(email);
+            return Ok(new UserResponse
+            {
+                Success = res.Success,
+                Errors = res.Errors,
+                Email = res.Email,
+                UserName = res.UserName
             });
         }
 
-
         [HttpPost(nameof(AddRole))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RoleResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RoleResponse))]
         public async Task<ActionResult<RoleResponse>> AddRole([FromBody] UserRoleAdditionRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new RoleResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
+                return BadRequest(
+                    new RoleResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
             }
-            var additionResponse = await _userService.AddRoleToUser(request.UserEmail, request.Role);
+
+            var additionResponse = await _userService.AddRoleToUserAsync(request.UserEmail, request.Role);
             if (!additionResponse.Success)
             {
                 return BadRequest(new RoleResponse(additionResponse.Errors));
             }
+
             return Ok(new RoleResponse(additionResponse.RoleName));
         }
-        
-        
+
+
         [HttpGet(nameof(GetRoles) + "/{email}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseSet<RoleResponse>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ResponseSet<RoleResponse>))]
         public async Task<ActionResult<ResponseSet<RoleResponse>>> GetRoles(string email)
         {
-            var res = await _userService.GetUserRoles(email);
+            var res = await _userService.GetUserRolesAsync(email);
             if (!res.Success)
             {
-                return BadRequest(new ResponseSet<RoleResponse>
-                {
-                    Errors = res.Errors
-                });
+                return Ok(new ResponseSet<RoleResponse>(res.Errors));
             }
-            return Ok(new ResponseSet<RoleResponse>
-            {
-                Success = true,
-                Response = res.Results.Select(x => new RoleResponse(x.RoleName))
-            });
-        }
 
-        
+            return Ok(new ResponseSet<RoleResponse>(res.Results.Select(x => new RoleResponse(x.RoleName))));
+        }
     }
 }

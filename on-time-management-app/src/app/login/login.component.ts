@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {IdentityService, UserLoginRequest, UsersService} from '@swagger/typescript-on-time-app-api';
+import {ApiModule, IdentityService, UserLoginRequest, UsersService} from '@swagger/typescript-on-time-app-api';
 import {Router} from '@angular/router';
+import {ApiConfig, SetBearer} from '../core/config/global-config';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,6 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginRequest: UserLoginRequest;
-  token: string;
 
   constructor(private identityService: IdentityService,
               private router: Router,
@@ -19,7 +20,6 @@ export class LoginComponent implements OnInit {
       email: 'admin@admin.com',
       password: 'Admin123!'
     };
-
   }
 
   ngOnInit() {
@@ -30,10 +30,15 @@ export class LoginComponent implements OnInit {
     this.identityService.apiV1IdentityInitPost().subscribe(() => {
       this.identityService.apiV1IdentityLoginPost(this.loginRequest).subscribe(x => {
         if (x.success) {
-          this.token = x.token;
-          this.userService.configuration.apiKeys['Authorization'] = 'Bearer ' + this.token;
+          console.log(x.token);
+          SetBearer(x.token);
           this.userService.apiV1UsersGetRolesEmailGet(this.loginRequest.email).subscribe(y => {
-            console.log(y);
+            if (y.success) {
+              const f = _.find(y.response, r => r.roleName === 'Admin');
+              if (f) {
+                this.router.navigate(['/Admin']);
+              }
+            }
           });
         }
       });

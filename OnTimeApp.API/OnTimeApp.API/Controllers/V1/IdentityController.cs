@@ -5,7 +5,6 @@ using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Services;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
 
 namespace OnTimeApp.API.Controllers.NewFolder
 {
@@ -43,15 +42,25 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// <returns></returns>
         [HttpPost("init")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(void))]
         public async Task<ActionResult> Init()
         {
-            var authResponse = await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
-            var roleResponse = await _roleService.RegisterRole("Admin");
-            var userResponse = await _userService.AddRoleToUser("admin@admin.com", "Admin");
+            await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
+            await _identityService.RegisterAsync("sergio@sergio.com", "Sergio123!");
+            await _identityService.RegisterAsync("dev@dev.com", "Dev123!");
+            
+            await _roleService.RegisterRoleAsync("Admin");
+            await _roleService.RegisterRoleAsync("Manager");
+            await _roleService.RegisterRoleAsync("Worker");
+            
+            await _userService.AddRoleToUserAsync("admin@admin.com", "Admin");
+            
+            await _userService.AddRoleToUserAsync("sergio1@sergio.com", "Worker");
+            
+            await _userService.AddRoleToUserAsync("dev@dev.com", "Worker");
+            await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
+            await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
 
             return Ok();
-
         }
 
 
@@ -61,20 +70,18 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// <param name="request">The new user information</param>
         /// <returns>An Auth response</returns>
         /// <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
-        /// <response code ="400">Returns an AuthResponse object with errors in it</response>
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(AuthResponse))]
         public async Task<ActionResult<AuthResponse>> Register([FromBody] UserRegistrationRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
+                return Ok(new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
             }
             var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
             if (!authResponse.Success)
             {
-                return BadRequest(new AuthResponse(authResponse.Errors));
+                return Ok(new AuthResponse(authResponse.Errors));
             }
             return Ok(new AuthResponse(string.Empty));
         }
@@ -85,20 +92,18 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// <param name="request">The user information</param>
         /// <returns>An Auth response</returns>
         /// <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
-        /// <response code ="400">Returns an AuthResponse object with errors in it</response>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(AuthResponse))]
         public async Task<ActionResult<AuthResponse>> Login([FromBody] UserLoginRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
+                return Ok(new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
             }
             var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
             if (!authResponse.Success)
             {
-                return BadRequest(new AuthResponse(authResponse.Errors));
+                return Ok(new AuthResponse(authResponse.Errors));
             }
             return Ok(new AuthResponse(authResponse.Token));
         }

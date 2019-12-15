@@ -3,7 +3,7 @@ import {async, ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular
 import { EditUserComponent } from './edit-user.component';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AdminService} from '../../core/services/admin.service';
+
 
 describe('EditUserComponent', () => {
   let component: EditUserComponent;
@@ -21,8 +21,7 @@ describe('EditUserComponent', () => {
       declarations: [ EditUserComponent ],
       providers: [
         { provide: Router, useValue: router },
-        { provide: ActivatedRoute, useValue: { snapshot: {paramMap: mockParamMap}} },
-        { provide: AdminService, useValue: new AdminService() }
+        { provide: ActivatedRoute, useValue: { snapshot: {paramMap: mockParamMap}} }
       ]
     })
     .compileComponents();

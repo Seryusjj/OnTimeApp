@@ -18,9 +18,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
@@ -58,12 +55,6 @@
             "schema": {
               "$ref": "#/definitions/AuthResponse"
             }
-          },
-          "400": {
-            "description": "Returns an AuthResponse object with errors in it",
-            "schema": {
-              "$ref": "#/definitions/AuthResponse"
-            }
           }
         }
       }
@@ -98,12 +89,6 @@
         "responses": {
           "200": {
             "description": "Returns an AuthResponse object with succes true and empty token",
-            "schema": {
-              "$ref": "#/definitions/AuthResponse"
-            }
-          },
-          "400": {
-            "description": "Returns an AuthResponse object with errors in it",
             "schema": {
               "$ref": "#/definitions/AuthResponse"
             }
@@ -145,12 +130,6 @@
             "schema": {
               "$ref": "#/definitions/RoleResponse"
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/RoleResponse"
-            }
           }
         }
       }
@@ -171,12 +150,6 @@
           },
           "200": {
             "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/StringResponseSet"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "schema": {
               "$ref": "#/definitions/StringResponseSet"
             }
@@ -203,11 +176,36 @@
             "schema": {
               "$ref": "#/definitions/UserResponseResponseSet"
             }
+          }
+        }
+      }
+    },
+    "/api/v1/Users/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
           },
-          "400": {
-            "description": "Bad Request",
+          "200": {
+            "description": "Success",
             "schema": {
-              "$ref": "#/definitions/UserResponseResponseSet"
+              "$ref": "#/definitions/UserResponse"
             }
           }
         }
@@ -247,12 +245,6 @@
             "schema": {
               "$ref": "#/definitions/RoleResponse"
             }
-          },
-          "400": {
-            "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/RoleResponse"
-            }
           }
         }
       }
@@ -281,12 +273,6 @@
           },
           "200": {
             "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/RoleResponseResponseSet"
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "schema": {
               "$ref": "#/definitions/RoleResponseResponseSet"
             }

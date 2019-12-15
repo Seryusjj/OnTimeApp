@@ -6,11 +6,13 @@ namespace OnTimeApp.API.Services
 {
     public interface IUserService
     {        
-        Task<ResultSet<UserResult>> GetAllUsers();
+        Task<ResultSet<UserResult>> GetAllUsersAsync();
 
-        Task<ResultSet<RoleResult>> GetUserRoles(string email);
+        Task<ResultSet<RoleResult>> GetUserRolesAsync(string email);
 
-        Task<RoleResult> AddRoleToUser(string email, string role);
+        Task<RoleResult> AddRoleToUserAsync(string email, string role);
+
+        Task<UserResult> GetUserAsync(string email);
 
 
     }

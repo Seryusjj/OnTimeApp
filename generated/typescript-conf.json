@@ -1,6 +1,6 @@
 {
   "npmName": "@swagger/typescript-on-time-app-api",
-  "npmVersion": "0.0.1",
+  "npmVersion": "0.0.4",
   "npmRepository" : "http://localhost:4873/",
   "snapshot" : false
 }

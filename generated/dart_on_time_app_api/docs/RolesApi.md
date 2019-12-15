@@ -9,8 +9,8 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**apiV1RolesGet**](RolesApi.md#apiV1RolesGet) | **Get** /api/v1/Roles | 
-[**apiV1RolesRegisterPost**](RolesApi.md#apiV1RolesRegisterPost) | **Post** /api/v1/Roles/register | 
+[**apiV1RolesGet**](RolesApi.md#apiV1RolesGet) | **GET** /api/v1/Roles | 
+[**apiV1RolesRegisterPost**](RolesApi.md#apiV1RolesRegisterPost) | **POST** /api/v1/Roles/register | 
 
 
 # **apiV1RolesGet**

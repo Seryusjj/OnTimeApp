@@ -1,8 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import {RoleModel} from '../core/model/role-model';
-import {UserModel} from '../core/model/user-model';
-import {AdminService} from '../core/services/admin.service';
 import {Router} from '@angular/router';
+import {forkJoin} from 'rxjs';
+import {RolesService, UserResponse, UsersService} from '@swagger/typescript-on-time-app-api';
 
 @Component({
   selector: 'app-admin',
@@ -10,12 +9,13 @@ import {Router} from '@angular/router';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  roles: RoleModel[];
+  roles: string[];
   rolesHeader: string;
   usersHeader: string;
-  users: UserModel[];
+  users: UserResponse[];
 
-  constructor(private adminService: AdminService,
+  constructor(private userService: UsersService,
+              private roleService: RolesService,
               private router: Router) {
     this.rolesHeader = 'Roles';
     this.usersHeader = 'Users';
@@ -23,37 +23,38 @@ export class AdminComponent implements OnInit {
     this.users = [];
   }
 
-  rolePrint(role: RoleModel): string {
-    return role ? role.role : '';
+  rolePrint(role: string): string {
+    return role ? role : '';
   }
 
-  userPrint(user: UserModel): string {
-    return user ? user.name + ', ' + user.surname + ' -> ' + user.email : '';
+  userPrint(user: UserResponse): string {
+    return user ? user.email : '';
   }
 
   ngOnInit() {
-    this.adminService.getRoles().subscribe(x => this.roles = x);
-    this.adminService.getUsers().subscribe(x => this.users = x);
-  }
-
-  deleteUser(usr: UserModel) {
-    this.adminService.removeUser(usr).subscribe(x => {
-      if (x) {
-        this.adminService.getUsers().subscribe(y =>  this.users = y);
+    forkJoin([
+      this.roleService.apiV1RolesGet(),
+      this.userService.apiV1UsersGet()
+    ]).subscribe(data => {
+      if (data[0].success) {
+        this.roles = data[0].response;
+      }
+      if (data[1].success) {
+        this.users = data[1].response;
       }
     });
   }
 
-  deleteRole(role: RoleModel) {
-    this.adminService.removeRole(role).subscribe(x => {
-      if (x) {
-        this.adminService.getRoles().subscribe(y => this.roles = y);
-      }
-    });
+  deleteUser(usr: any) {
+
   }
 
-  editUser(user: UserModel) {
-    this.router.navigate(['/Admin/User', user.id]);
+  deleteRole(role: any) {
+
+  }
+
+  editUser(user: UserResponse) {
+    this.router.navigate(['/Admin/User', user.email]);
   }
 
   addUser() {

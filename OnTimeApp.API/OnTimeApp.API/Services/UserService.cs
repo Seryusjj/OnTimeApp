@@ -16,12 +16,12 @@ namespace OnTimeApp.API.Services
         {
             _userManager = userManager;
         }
-        public async Task<RoleResult> AddRoleToUser(string email, string role)
+        public async Task<RoleResult> AddRoleToUserAsync(string email, string role)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                new RoleResult
+                return new RoleResult
                 {
                     Errors = new string[] { "The user does not exists" }
                 };
@@ -40,7 +40,7 @@ namespace OnTimeApp.API.Services
             };
         }
 
-        public Task<ResultSet<UserResult>> GetAllUsers()
+        public Task<ResultSet<UserResult>> GetAllUsersAsync()
         {
             return Task.FromResult(new ResultSet<UserResult>
             {
@@ -53,8 +53,27 @@ namespace OnTimeApp.API.Services
                 })
             });
         }
+        
+        public async Task<UserResult> GetUserAsync(string email)
+        {
+            var res = await _userManager.FindByEmailAsync(email);
+            if (res == null)
+            {
+                return new UserResult
+                {
+                    Errors = new string[] {"User does not exists"}
+                };
+            }
 
-        public async Task<ResultSet<RoleResult>> GetUserRoles(string email)
+            return new UserResult
+            {
+                Success = true,
+                Email = res.Email,
+                UserName = res.UserName
+            };
+        }
+
+        public async Task<ResultSet<RoleResult>> GetUserRolesAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)

@@ -21,7 +21,7 @@ namespace OnTimeApp.API.Contracts.V1.Responses
         /// <param name="errors">The set of errors</param>
         public AuthResponse(IEnumerable<string> errors)
         {
-            Errors = errors;
+            Errors = errors ?? new string[0];
             Token = null;
             Success = false;
         }
@@ -32,7 +32,7 @@ namespace OnTimeApp.API.Contracts.V1.Responses
         /// <param name="token">The assigned token</param>
         public AuthResponse(string token)
         {
-            Errors = null;
+            Errors = new string[0];
             Token = token;
             Success = true;
         }

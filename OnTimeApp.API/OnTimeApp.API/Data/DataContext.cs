@@ -18,7 +18,9 @@ namespace OnTimeApp.API.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<CheckInRecord>().HasKey(d => d.Id);                  
+            modelBuilder.Entity<CheckInRecord>().HasKey(d => d.Id);
+            modelBuilder.Entity<CheckInRecord>().HasOne(x => x.User);
         }
     }
 }
+

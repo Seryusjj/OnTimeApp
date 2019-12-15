@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 
 import { RoleResponse } from '../model/roleResponse';
 import { RoleResponseResponseSet } from '../model/roleResponseResponseSet';
+import { UserResponse } from '../model/userResponse';
 import { UserResponseResponseSet } from '../model/userResponseResponseSet';
 import { UserRoleAdditionRequest } from '../model/userRoleAdditionRequest';
 
@@ -104,6 +105,54 @@ export class UsersService {
 
         return this.httpClient.post<RoleResponse>(`${this.basePath}/api/v1/Users/AddRole`,
             body,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param email 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1UsersEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
+    public apiV1UsersEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
+    public apiV1UsersEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
+    public apiV1UsersEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling apiV1UsersEmailGet.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<UserResponse>(`${this.basePath}/api/v1/Users/${encodeURIComponent(String(email))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

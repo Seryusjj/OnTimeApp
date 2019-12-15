@@ -10,6 +10,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate -i %definition% -l dart-jaguar -o %outDir% -DhideGenerationTimestamp=true -DbrowserClient=false
+set ags=generate -i %definition% -l dart -o %outDir% -DbrowserClient=false
 REM java %JAVA_OPTS% -jar %executable% %ags%
 java %JAVA_OPTS% -jar %executable% %ags%

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {UserModel} from '../../core/model/user-model';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AdminService} from '../../core/services/admin.service';
+import {IdentityService, UserRegistrationRequest, UsersService} from '@swagger/typescript-on-time-app-api';
+
 
 @Component({
   selector: 'app-edit-user',
@@ -10,24 +10,33 @@ import {AdminService} from '../../core/services/admin.service';
 })
 export class EditUserComponent implements OnInit {
 
-  userModel: UserModel;
+  userModel: UserRegistrationRequest;
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private adminService: AdminService) {
-
+              private identityService: IdentityService,
+              private usersService: UsersService) {
+    this.userModel = {
+      password: '',
+      email: ''
+    };
   }
 
   ngOnInit() {
-    this.userModel = new UserModel();
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.adminService.getUser(+id).subscribe(x => this.userModel = x);
+      this.usersService.apiV1UsersEmailGet(id).subscribe(x => {
+        this.userModel.email = x.email;
+        this.userModel.password = '';
+      });
     }
   }
 
   save() {
-    this.adminService.createOrUpdate(this.userModel)
-      .subscribe(x => this.router.navigate(['/Admin']));
+    this.identityService.apiV1IdentityRegisterPost(this.userModel).subscribe(x => {
+      this.router.navigate(['Admin']);
+    });
+
   }
 }

@@ -15,7 +15,7 @@ namespace OnTimeApp.API.Contracts.V1.Responses
         /// <param name="errors">The set of errors</param>
         public RoleResponse(IEnumerable<string> errors)
         {
-            Errors = errors;
+            Errors = errors ?? new string[0];
             RoleName = null;
             Success = false;
         }
@@ -26,7 +26,7 @@ namespace OnTimeApp.API.Contracts.V1.Responses
         /// <param name="roleName">The role name</param>
         public RoleResponse(string roleName)
         {
-            Errors = null;
+            Errors = new string[0];
             RoleName = roleName;
             Success = true;
         }

@@ -19,7 +19,7 @@ namespace OnTimeApp.API.Services
             _roleManager = roleManager;
         }
 
-        public async Task<RoleResult> RegisterRole(string role)
+        public async Task<RoleResult> RegisterRoleAsync(string role)
         {
             var res = await _roleManager.CreateAsync(new IdentityRole(role));
             if (!res.Succeeded)
@@ -36,7 +36,7 @@ namespace OnTimeApp.API.Services
             };
         }
 
-        public Task<ResultSet<RoleResult>> GetRoles() 
+        public Task<ResultSet<RoleResult>> GetRolesAsync() 
         {
             return Task.FromResult(new ResultSet<RoleResult>
             {
@@ -49,7 +49,7 @@ namespace OnTimeApp.API.Services
             });
         }
 
-        public async Task<RoleResult> RemoveRole(string role)
+        public async Task<RoleResult> RemoveRoleAsync(string role)
         {
             var found = await _roleManager.FindByNameAsync(role);
             if (found == null)

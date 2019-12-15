@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {RoleModel} from '../../model/role-model';
 
 @Component({
   selector: 'app-crud-grid',
@@ -44,5 +43,25 @@ export class CrudGridComponent<T> implements OnInit {
 
   fireAdd() {
     this.add.emit();
+  }
+
+  detailButtonClass(): string {
+    const extra = this.detail.observers.length === 0 ? 'disabled' : '';
+    return 'btn btn-outline-primary fa fa-eye ' + extra;
+  }
+
+  deleteButtonClass() {
+    const extra = this.delete.observers.length === 0 ? 'disabled' : '';
+    return 'btn btn-outline-primary fa fa-trash ';
+  }
+
+  editButtonClass() {
+    const extra = this.edit.observers.length === 0 ? 'disabled' : '';
+    return 'btn btn-outline-primary fa fa-edit ' + extra;
+  }
+
+  addButtonClass() {
+    const extra = this.add.observers.length === 0 ? 'disabled' : '';
+    return 'btn btn-outline-secondary fa fa-plus pull-right ' + extra;
   }
 }
