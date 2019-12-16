@@ -8,9 +8,13 @@ import 'package:on_time_app/tabs/settings_tab.dart';
 
 @protected
 class AndroidHomeMenu extends StatelessWidget {
+  final String userMail;
+
+  AndroidHomeMenu(this.userMail);
+
   @override
   Widget build(BuildContext context) {
-    return DefaultAppTab(
+    return DefaultAppTab(userMail,
         androidDrawer: SizedBox(
             width: MediaQuery.of(context).size.width * 0.75,
             child: Drawer(
@@ -43,7 +47,7 @@ class AndroidHomeMenu extends StatelessWidget {
                       Navigator.push<void>(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CheckInTab()));
+                              builder: (context) => CheckInTab(userMail)));
                     },
                   ),
                   ListTile(

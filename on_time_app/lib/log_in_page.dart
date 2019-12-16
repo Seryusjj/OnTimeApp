@@ -16,12 +16,10 @@ class _LogInPageState extends State<LogInPage> {
   final userPassController = TextEditingController();
 
   IdentityApi ident_api;
-  RolesApi role_api;
 
   _LogInPageState() {
     // create api
     ident_api = new IdentityApi();
-    role_api = new RolesApi();
     userNameController.text = "admin@admin.com";
     userPassController.text = "Admin123!";
   }
@@ -49,7 +47,7 @@ class _LogInPageState extends State<LogInPage> {
     if (t.success) {
       defaultApiClient.addDefaultHeader("Authorization", "Bearer " + t.token);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeWidget()));
+          context, MaterialPageRoute(builder: (context) => HomeWidget(userMail: userNameController.text)));
     }
   }
 
@@ -58,34 +56,34 @@ class _LogInPageState extends State<LogInPage> {
     //UserLoginRequest req;
 
     return Scaffold(
-        body: Center(
-            child: SingleChildScrollView(child: Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Column(children: <Widget>[
-                  DrawerHeader(
-                    decoration: BoxDecoration(color: Colors.transparent),
-                    child: Icon(
-                      Icons.account_circle,
-                      color: Colors.blue.shade800,
-                      size: 100,
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: "Email"),
-                    controller: userNameController,
-                  ),
-                  TextField(
-                      decoration: InputDecoration(labelText: "Password"),
-                      obscureText: true,
-                      controller: userPassController),
-                  RaisedButton(
-                      textColor: Colors.white,
-                      color: Colors.blueAccent,
-                      splashColor: Colors.blueAccent.shade700,
-                      onPressed: () => logIn(
-                          userNameController.text, userPassController.text),
-                      child: Text("Log in"))
-                ])))));
-
+        body: SingleChildScrollView(
+            child: SafeArea(
+                child: Container(
+                    padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
+                    child: Column(children: <Widget>[
+                      DrawerHeader(
+                        decoration: BoxDecoration(color: Colors.transparent),
+                        child: Icon(
+                          Icons.account_circle,
+                          color: Colors.blue.shade800,
+                          size: 140,
+                        ),
+                      ),
+                      TextField(
+                        decoration: InputDecoration(labelText: "Email"),
+                        controller: userNameController,
+                      ),
+                      TextField(
+                          decoration: InputDecoration(labelText: "Password"),
+                          obscureText: true,
+                          controller: userPassController),
+                      RaisedButton(
+                          textColor: Colors.white,
+                          color: Colors.blueAccent,
+                          splashColor: Colors.blueAccent.shade700,
+                          onPressed: () => logIn(
+                              userNameController.text, userPassController.text),
+                          child: Text("Log in"))
+                    ])))));
   }
 }

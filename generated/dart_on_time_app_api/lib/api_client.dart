@@ -40,6 +40,10 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'AuthResponse':
           return new AuthResponse.fromJson(value);
+        case 'CheckInResponse':
+          return new CheckInResponse.fromJson(value);
+        case 'CheckInResponseResponseSet':
+          return new CheckInResponseResponseSet.fromJson(value);
         case 'RoleRegistrationRequest':
           return new RoleRegistrationRequest.fromJson(value);
         case 'RoleResponse':

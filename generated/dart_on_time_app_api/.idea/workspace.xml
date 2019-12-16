@@ -2,111 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae298341-d313-49d7-9f2f-6454475a2e4d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Requests/UserCheckInRegistrationRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/CheckInResponse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/DAL/CheckInDAL.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/DAL/ICheckInDAL.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/Results/CheckInResult.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/config/global-config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../on_time_app/lib/api/api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/AuthResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/AuthResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/ResponseSet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/ResponseSet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/RoleResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Contracts/V1/Responses/RoleResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/CheckInRecordController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/CheckInRecordsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/IdentityController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/IdentityController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/RolesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/RolesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/UsersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Controllers/V1/UsersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/DataContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/DataContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/Entities/CheckInRecord.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Data/Entities/CheckInRecord.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Installers/DbInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Installers/DbInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/OnTimeApp.API.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/OnTimeApp.API.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/CheckInRecordService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/CheckInRecordService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/ICheckInRecordService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/ICheckInRecordService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/IRoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/IRoleService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/IUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/RoleService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/RoleService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../OnTimeApp.API/OnTimeApp.API/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../api-definition.json" beforeDir="false" afterPath="$PROJECT_DIR$/../api-definition.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/pub/bin/build_runner/build_runner.dart.snapshot.dart2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/pub/bin/build_runner/graph_inspector.dart.snapshot.dart2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/pub/bin/sdk-version" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.swagger-codegen-ignore" beforeDir="false" afterPath="$PROJECT_DIR$/.swagger-codegen-ignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analysis_options.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/AuthApi.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/AuthResponse.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/AuthResponse.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/IdentityApi.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/IdentityApi.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/RoleResponse.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/RoleResponse.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/RolesApi.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/RolesApi.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/SingUpModel.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/StringResponseSet.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/StringResponseSet.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/UserModel.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/UserResponse.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/UserResponse.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/UserResponseResponseSet.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/UserResponseResponseSet.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/UsersApi.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/UsersApi.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ValuesApi.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/git_push.sh" beforeDir="false" afterPath="$PROJECT_DIR$/git_push.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/auth_api.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/auth_api.jretro.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/identity_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api/identity_api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/roles_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api/roles_api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/users_api.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/api/users_api.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/values_api.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/api/values_api.jretro.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/auth/api_key_auth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/auth/api_key_auth.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/auth/auth.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/auth/basic_auth.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/auth/oauth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/auth/oauth.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/auth_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/auth_response.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/role_registration_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/role_registration_request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/role_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/role_response.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/sing_up_model.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/sing_up_model.jser.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/string_response_set.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/string_response_set.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_login_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user_login_request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_model.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_model.jser.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_registration_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user_registration_request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user_response.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_response_response_set.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user_response_response_set.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/user_role_addition_request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user_role_addition_request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ontimeapp-dart-flutter.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../ontimeapp-dart-flutter.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/../typescript-conf.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/.idea/typescript-on-time-app-api.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../typescript-on-time-app-api/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/api/users.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../typescript-on-time-app-api/api/users.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../typescript-on-time-app-api/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../typescript-on-time-app-api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../typescript-on-time-app-api/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/admin.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/admin.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/admin.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/admin.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/admin.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/admin.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/edit-user/edit-user.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/edit-user/edit-user.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/edit-user/edit-user.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/edit-user/edit-user.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/edit-user/edit-user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/admin/edit-user/edit-user.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/components/crud-grid/crud-grid.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/components/crud-grid/crud-grid.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/components/crud-grid/crud-grid.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/components/crud-grid/crud-grid.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/core-module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/core-module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/model/role-model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/model/user-model.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/services/admin.service.spec.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/core/services/admin.service.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/app/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/app/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on-time-management-app/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../on-time-management-app/src/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dart_on_time_app_api.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../on_time_app/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../on_time_app/android/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../on_time_app/lib/log_in_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../on_time_app/lib/log_in_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../on_time_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../on_time_app/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../on_time_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../on_time_app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../on_time_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../on_time_app/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package-lock.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -116,11 +20,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/api.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="221">
               <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
               <folding>
                 <element signature="e#22#42#0" expanded="true" />
@@ -162,7 +66,7 @@
         <entry file="file://$PROJECT_DIR$/pubspec.yaml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="26" />
+              <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -227,11 +131,6 @@
               <item name="dart_on_time_app_api" type="b2602c69:ProjectViewProjectNode" />
               <item name="dart_on_time_app_api" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="dart_on_time_app_api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dart_on_time_app_api" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -242,8 +141,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="E:/Android/sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="dart.settings" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../on_time_app" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunDashboard">
@@ -273,78 +173,49 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1929" y="-26" width="1938" height="1050" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.32995737" />
-      <window_info id="Structure" side_tool="true" />
-      <window_info id="Image Layers" />
-      <window_info id="Designer" />
-      <window_info id="Resources Explorer" />
-      <window_info id="Capture Tool" />
-      <window_info id="Favorites" side_tool="true" />
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="TODO" />
-      <window_info anchor="bottom" id="Run" />
-      <window_info anchor="bottom" id="Debug" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Find" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Flutter Inspector" />
-      <window_info anchor="right" id="Flutter Outline" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Flutter Performance" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.33742005" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="Resources Explorer" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Dart Analysis" visible="true" weight="0.32893288" />
+      <window_info anchor="bottom" id="Run" order="0" />
+      <window_info anchor="bottom" id="TODO" order="1" />
+      <window_info anchor="bottom" id="Debug" order="2" />
+      <window_info anchor="bottom" id="Terminal" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Theme Preview" order="1" />
+      <window_info anchor="right" id="Flutter Inspector" order="2" />
+      <window_info anchor="right" id="Flutter Outline" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Flutter Performance" order="5" />
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/auth/oauth.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/api_exception.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.swagger-codegen/VERSION">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/.analysis_options">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/.swagger-codegen-ignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/git_push.sh">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/api/identity_api.dart">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/api/identity_api.jretro.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="21" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/api/identity_api.jretro.dart" />
     <entry file="file://$PROJECT_DIR$/lib/api.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="221">
           <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
           <folding>
             <element signature="e#22#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/api_helper.dart">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/api_client.dart">
       <provider selected="true" editor-type-id="text-editor">
@@ -353,10 +224,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lib/api_helper.dart">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/git_push.sh">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.swagger-codegen-ignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/api/identity_api.dart">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.swagger-codegen/VERSION">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/auth/oauth.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pubspec.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="26" />
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
         </state>
       </provider>
     </entry>

@@ -12,11 +12,14 @@ part 'auth/api_key_auth.dart';
 part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 
+part 'api/check_in_records_api.dart';
 part 'api/identity_api.dart';
 part 'api/roles_api.dart';
 part 'api/users_api.dart';
 
 part 'model/auth_response.dart';
+part 'model/check_in_response.dart';
+part 'model/check_in_response_response_set.dart';
 part 'model/role_registration_request.dart';
 part 'model/role_response.dart';
 part 'model/role_response_response_set.dart';

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -29,16 +30,11 @@ namespace OnTimeApp.API.Controllers
             var records = await _recordService.GetAllCheckInsAsync();
             if (records.Success)
             {
-                return Ok(new ResponseSet<CheckInResponse>(records.Errors));
+                return new ResponseSet<CheckInResponse>(records.Errors);
             }
 
-            return Ok(new ResponseSet<CheckInResponse>(
-                records.Results.Select(x => new CheckInResponse
-                {
-                    Success = true,
-                    Info = x.Info,
-                    UtcDateTime = x.UtcDateTime
-                })));
+            return new ResponseSet<CheckInResponse>(
+                records.Results.Select(x => new CheckInResponse(x.Info, x.UtcDateTime)));
         }
 
         [HttpGet("{email}")]
@@ -46,18 +42,31 @@ namespace OnTimeApp.API.Controllers
         public async Task<ActionResult<ResponseSet<CheckInResponse>>> Get(string email)
         {
             var records = await _recordService.GetCheckInByUserEmailAsync(email);
-            if (records.Success)
+            if (!records.Success)
             {
-                return Ok(new ResponseSet<CheckInResponse>(records.Errors));
+                return new ResponseSet<CheckInResponse>(records.Errors);
             }
 
-            return Ok(new ResponseSet<CheckInResponse>(
-                records.Results.Select(x => new CheckInResponse
-                {
-                    Success = true,
-                    Info = x.Info,
-                    UtcDateTime = x.UtcDateTime
-                })));
+            return new ResponseSet<CheckInResponse>(
+                records.Results.Select(x =>
+                    new CheckInResponse(x.Info, x.UtcDateTime)
+                ));
+        }
+        
+        [HttpGet("{email}/{date}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseSet<CheckInResponse>))]
+        public async Task<ActionResult<ResponseSet<CheckInResponse>>> Get(string email, DateTime date)
+        {
+            var records = await _recordService.GetCheckInByUserEmailAndDateAsync(email, date);
+            if (!records.Success)
+            {
+                return new ResponseSet<CheckInResponse>(records.Errors);
+            }
+
+            return new ResponseSet<CheckInResponse>(
+                records.Results.Select(x =>
+                    new CheckInResponse(x.Info, x.UtcDateTime)
+                ));
         }
     }
 }

@@ -98,7 +98,7 @@
             Identification controller, used for registering or login users
             </summary>
         </member>
-        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.#ctor(OnTimeApp.API.Services.IIdentitySevice,OnTimeApp.API.Services.IRoleService,OnTimeApp.API.Services.IUserService)">
+        <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.#ctor(OnTimeApp.API.Services.IIdentitySevice,OnTimeApp.API.Services.IRoleService,OnTimeApp.API.Services.IUserService,OnTimeApp.API.Services.ICheckInRecordService)">
             <summary>
             Constructor
             </summary>

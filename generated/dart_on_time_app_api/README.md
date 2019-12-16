@@ -48,12 +48,15 @@ import 'package:swagger/api.dart';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //swagger.api.Configuration.apiKeyPrefix{'Authorization'} = "Bearer";
 
-var api_instance = new IdentityApi();
+var api_instance = new CheckInRecordsApi();
+var email = email_example; // String | 
+var date = 2013-10-20T19:20:30+01:00; // DateTime | 
 
 try {
-    api_instance.apiV1IdentityInitPost();
+    var result = api_instance.apiV1CheckInRecordsEmailDateGet(email, date);
+    print(result);
 } catch (e) {
-    print("Exception when calling IdentityApi->apiV1IdentityInitPost: $e\n");
+    print("Exception when calling CheckInRecordsApi->apiV1CheckInRecordsEmailDateGet: $e\n");
 }
 
 ```
@@ -64,6 +67,9 @@ All URIs are relative to *https://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*CheckInRecordsApi* | [**apiV1CheckInRecordsEmailDateGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemaildateget) | **GET** /api/v1/CheckInRecords/{email}/{date} | 
+*CheckInRecordsApi* | [**apiV1CheckInRecordsEmailGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemailget) | **GET** /api/v1/CheckInRecords/{email} | 
+*CheckInRecordsApi* | [**apiV1CheckInRecordsGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsget) | **GET** /api/v1/CheckInRecords | 
 *IdentityApi* | [**apiV1IdentityInitPost**](docs//IdentityApi.md#apiv1identityinitpost) | **POST** /api/v1/Identity/init | Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
 *IdentityApi* | [**apiV1IdentityLoginPost**](docs//IdentityApi.md#apiv1identityloginpost) | **POST** /api/v1/Identity/login | Login user in the system
 *IdentityApi* | [**apiV1IdentityRegisterPost**](docs//IdentityApi.md#apiv1identityregisterpost) | **POST** /api/v1/Identity/register | Register a new user in the system
@@ -78,6 +84,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AuthResponse](docs//AuthResponse.md)
+ - [CheckInResponse](docs//CheckInResponse.md)
+ - [CheckInResponseResponseSet](docs//CheckInResponseResponseSet.md)
  - [RoleRegistrationRequest](docs//RoleRegistrationRequest.md)
  - [RoleResponse](docs//RoleResponse.md)
  - [RoleResponseResponseSet](docs//RoleResponseResponseSet.md)

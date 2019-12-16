@@ -7,8 +7,6 @@ import 'package:swagger/api.dart';
 
 void main() => runApp(MyApp());
 
-
-
 class MyApp extends StatelessWidget {
   // This widget is the root of the application.
   @override
@@ -17,9 +15,11 @@ class MyApp extends StatelessWidget {
     defaultApiClient.basePath = 'https://10.0.2.2:5001';
     HttpClient httpClient = new HttpClient()
       ..badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);// accept any certificate
+          ((X509Certificate cert, String host, int port) =>
+              true); // accept any certificate
     IOClient ioClient = new IOClient(httpClient);
     defaultApiClient.client = ioClient;
+
 
     // build app
     return MaterialApp(
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'On Time-app',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: LogInPage() /* add child content here */,
-         //HomeWidget(),
+      //HomeWidget(),
     );
   }
 }

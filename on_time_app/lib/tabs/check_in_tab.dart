@@ -10,15 +10,19 @@ class CheckInTab extends StatefulWidget {
   static const androidIcon = Icon(Icons.location_on);
   static const iosIcon = Icon(CupertinoIcons.location_solid);
 
+  final String userMail;
 
-
-  CheckInTab();
+  CheckInTab(this.userMail);
 
   @override
-  State<StatefulWidget> createState() => _CheckInTabState();
+  State<StatefulWidget> createState() => _CheckInTabState(userMail);
 }
 
 class _CheckInTabState extends State<CheckInTab> {
+  String userMail;
+
+  _CheckInTabState(this.userMail);
+
   @override
   void initState() {
     super.initState();

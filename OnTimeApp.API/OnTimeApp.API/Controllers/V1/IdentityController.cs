@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnTimeApp.API.Contracts.V1.Requests;
 using OnTimeApp.API.Contracts.V1.Responses;
@@ -18,7 +19,9 @@ namespace OnTimeApp.API.Controllers.NewFolder
         private readonly IIdentitySevice _identityService;
         private readonly IRoleService _roleService;
         private readonly IUserService _userService;
+        private readonly ICheckInRecordService _checkInRecordService;
 
+        private bool init = false;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -27,11 +30,13 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// <param name="userService"></param>
         public IdentityController(IIdentitySevice identityService,
                                   IRoleService roleService,
-                                  IUserService userService)
+                                  IUserService userService,
+                                  ICheckInRecordService checkInRecordService)
         {
             _identityService = identityService;
             _roleService = roleService;
             _userService = userService;
+            _checkInRecordService = checkInRecordService;
         }
 
 
@@ -44,21 +49,43 @@ namespace OnTimeApp.API.Controllers.NewFolder
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
         public async Task<ActionResult> Init()
         {
-            await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
-            await _identityService.RegisterAsync("sergio@sergio.com", "Sergio123!");
-            await _identityService.RegisterAsync("dev@dev.com", "Dev123!");
-            
-            await _roleService.RegisterRoleAsync("Admin");
-            await _roleService.RegisterRoleAsync("Manager");
-            await _roleService.RegisterRoleAsync("Worker");
-            
-            await _userService.AddRoleToUserAsync("admin@admin.com", "Admin");
-            
-            await _userService.AddRoleToUserAsync("sergio1@sergio.com", "Worker");
-            
-            await _userService.AddRoleToUserAsync("dev@dev.com", "Worker");
-            await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
-            await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
+            if (!init)
+            {
+                await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
+                await _identityService.RegisterAsync("sergio@sergio.com", "Sergio123!");
+                await _identityService.RegisterAsync("dev@dev.com", "Dev123!");
+
+                await _roleService.RegisterRoleAsync("Admin");
+                await _roleService.RegisterRoleAsync("Manager");
+                await _roleService.RegisterRoleAsync("Worker");
+
+                await _userService.AddRoleToUserAsync("admin@admin.com", "Admin");
+
+                await _userService.AddRoleToUserAsync("sergio1@sergio.com", "Worker");
+
+                await _userService.AddRoleToUserAsync("dev@dev.com", "Worker");
+                await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
+                await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
+
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow);
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddHours(1));
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddHours(2));
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddHours(3));
+
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddDays(-1));
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddDays(-1).AddHours(1));
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddDays(-1).AddHours(2));
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddDays(-1).AddHours(3));
+                init = true;
+            }
 
             return Ok();
         }

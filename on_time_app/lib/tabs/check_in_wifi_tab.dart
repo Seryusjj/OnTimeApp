@@ -10,9 +10,9 @@ class CheckInWifiTab extends StatefulWidget {
   static const androidIcon = Icon(Icons.location_on);
   static const iosIcon = Icon(CupertinoIcons.location_solid);
 
-  var useWifi;
+  final String userMail;
 
-  CheckInWifiTab({this.useWifi = false});
+  CheckInWifiTab(this.userMail);
 
   @override
   State<StatefulWidget> createState() => _CheckInWifiTabState();

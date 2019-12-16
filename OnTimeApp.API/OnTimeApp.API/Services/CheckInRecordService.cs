@@ -61,6 +61,32 @@ namespace OnTimeApp.API.Services
             };
         }
 
+        public async Task<ResultSet<CheckInResult>> GetCheckInByUserEmailAndDateAsync(string email, DateTime date)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new ResultSet<CheckInResult>()
+                {
+                    Success = false,
+                    Errors = new string[] {"User email does not exits"}
+                };
+            }
+
+            var checkIns = await _checkinManager.FindByUserEmailAndDateAsync(email, date);
+            return new ResultSet<CheckInResult>
+            {
+                Success = true,
+                Results = checkIns.Select(x =>
+                    new CheckInResult
+                    {
+                        Success = true,
+                        Info = x.Info,
+                        UtcDateTime = x.UtcDateTime
+                    })
+            };
+        }
+
         public async Task<CheckInResult> RegisterCheckInAsync(string email, string info, DateTime utcDateTime)
         {
             var user = await _userManager.FindByEmailAsync(email);

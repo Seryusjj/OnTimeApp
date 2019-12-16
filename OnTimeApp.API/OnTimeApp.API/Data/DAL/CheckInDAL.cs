@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,12 @@ namespace OnTimeApp.API.Entities.DAL
         public async Task<IEnumerable<CheckInRecord>> FindByUserEmailAsync(string email)
         {
             var res = _context.CheckInRecords.Where(x => x.User.Email == email);
+            return res.ToList();
+        }
+
+        public async Task<IEnumerable<CheckInRecord>> FindByUserEmailAndDateAsync(string email, DateTime date)
+        {
+            var res = _context.CheckInRecords.Where(x => x.User.Email == email && x.UtcDateTime.Date == date.Date);
             return res.ToList();
         }
 

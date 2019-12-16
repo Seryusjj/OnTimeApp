@@ -6,7 +6,9 @@ import 'package:on_time_app/tabs/holiday_tab.dart';
 
 @protected
 class IosHomeMenu extends StatelessWidget {
-  IosHomeMenu();
+
+  final String userMail;
+  IosHomeMenu(this.userMail);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +28,12 @@ class IosHomeMenu extends StatelessWidget {
           case 0:
             return CupertinoTabView(
               defaultTitle: DefaultAppTab.title,
-              builder: (context) => DefaultAppTab(),
+              builder: (context) => DefaultAppTab(userMail),
             );
           case 1:
             return CupertinoTabView(
               defaultTitle: CheckInTab.title,
-              builder: (context) => CheckInWifiTab(),
+              builder: (context) => CheckInWifiTab(userMail),
             );
           case 2:
             return CupertinoTabView(
