@@ -12,7 +12,7 @@ class GMap extends StatefulWidget {
 
   double length;
 
-  GMap({double this.length});
+  GMap({this.length});
 
   @override
   State<GMap> createState() {

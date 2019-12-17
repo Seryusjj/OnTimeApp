@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:on_time_app/utils/gmap.dart';
 import 'package:on_time_app/utils/widgets.dart';
+import 'package:swagger/api.dart';
 
 class CheckInTab extends StatefulWidget {
   static const title = 'Check in';
@@ -20,8 +22,14 @@ class CheckInTab extends StatefulWidget {
 
 class _CheckInTabState extends State<CheckInTab> {
   String userMail;
+  CheckInRecordsApi _recordsApi;
+  bool _recordDisabled;
+  GMap gmap;
 
-  _CheckInTabState(this.userMail);
+  _CheckInTabState(this.userMail) {
+    _recordsApi = new CheckInRecordsApi();
+    _recordDisabled = false;
+  }
 
   @override
   void initState() {
@@ -32,7 +40,7 @@ class _CheckInTabState extends State<CheckInTab> {
     double length = cons.maxWidth * 0.75;
     double marginTop = cons.maxHeight * 0.05;
     double columnH = cons.maxHeight - length - marginTop;
-    GMap gmap = GMap(length: length);
+    gmap = GMap(length: length);
 
     return Container(
         decoration: BoxDecoration(color: Colors.lightBlueAccent),
@@ -43,26 +51,32 @@ class _CheckInTabState extends State<CheckInTab> {
               borderRadius: BorderRadius.circular(360),
               child: Container(width: length, height: length, child: gmap)),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, columnH * 0.1, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, columnH * 0.05, 0, 0),
               child: Column(
                 children: <Widget>[
-                  IconButton(
-                      icon: Icon(Icons.gps_fixed),
-                      color: Colors.blueAccent,
-                      tooltip: 'Center location to your position',
-                      focusColor: Colors.blueAccent.shade700,
-                      hoverColor: Colors.amber,
-                      splashColor: Colors.white,
-                      onPressed: () => gmap.getCurrentLocation()),
+                  CustomIconButton(
+                      height: 42,
+                      width: 42,
+                      icon: Icons.gps_fixed,
+                      onPressed: () =>
+                          gmap.getCurrentLocation().then(_registerCheckIn)),
                   Padding(
                       padding: EdgeInsets.only(top: columnH * 0.1),
-                      child: checkInButton(gmap))
+                      child: checkInButton())
                 ],
               ))
         ])));
   }
 
-  Widget checkInButton(GMap gmap) {
+  _recordLocation() {
+    if (!_recordDisabled) {
+      gmap.getCurrentLocation().then((l) => {
+        //_recordsApi.registerCheckin(email, info, datetime);
+      });
+    }
+  }
+
+  Widget checkInButton() {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return Column(children: <Widget>[
@@ -71,7 +85,7 @@ class _CheckInTabState extends State<CheckInTab> {
               textColor: Colors.white,
               color: Colors.blueAccent,
               splashColor: Colors.blueAccent.shade700,
-              onPressed: () => gmap.getCurrentLocation(),
+              onPressed: () => _recordLocation(),
               child: Text("Record"))
         ]);
 
@@ -82,10 +96,10 @@ class _CheckInTabState extends State<CheckInTab> {
                   fontSize: 12,
                   color: Colors.black,
                   decoration: TextDecoration.none)),
-              CupertinoButton(
-                  onPressed: () => gmap.getCurrentLocation(),
-                  color: Colors.blueAccent,
-                  child: Text("Record"))
+          CupertinoButton(
+              onPressed: () => _recordLocation(),
+              color: Colors.blueAccent,
+              child: Text("Record"))
         ]);
       default:
         return Container();
@@ -103,7 +117,8 @@ class _CheckInTabState extends State<CheckInTab> {
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(),
-        child: Scaffold(body: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder))));
+        child: Scaffold(
+            body: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder))));
   }
 
   @override
@@ -112,5 +127,9 @@ class _CheckInTabState extends State<CheckInTab> {
       androidBuilder: _buildAndroid,
       iosBuilder: _buildIos,
     );
+  }
+
+  _registerCheckIn(LatLng l) {
+    if (l != null) {}
   }
 }

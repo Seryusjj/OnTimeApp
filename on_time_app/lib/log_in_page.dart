@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
 
 import 'home/home_widget.dart';
@@ -15,12 +17,14 @@ class _LogInPageState extends State<LogInPage> {
   final userNameController = TextEditingController();
   final userPassController = TextEditingController();
 
-  IdentityApi ident_api;
+  IdentityApi _identityApi;
+  bool _loginDisabled;
 
   _LogInPageState() {
     // create api
-    ident_api = new IdentityApi();
-    userNameController.text = "admin@admin.com";
+    _loginDisabled = false;
+    _identityApi = new IdentityApi();
+    userNameController.text = "admin@admin.comr";
     userPassController.text = "Admin123!";
   }
 
@@ -32,58 +36,133 @@ class _LogInPageState extends State<LogInPage> {
     super.dispose();
   }
 
-  void logIn(String username, String password) {
-    Map<String, String> json = Map<String, String>();
-    ident_api.apiV1IdentityInitPost().then((v) => {
-          json['email'] = userNameController.text,
-          json['password'] = userPassController.text,
-          ident_api
-              .apiV1IdentityLoginPost(body: UserLoginRequest.fromJson(json))
-              .then((t) => navigate(t))
-        });
-  }
+  Future<void> logIn(String username, String password) async {
+    if (!_loginDisabled) {
+      setState(() {
+        _loginDisabled = true;
+      });
+      Map<String, String> json = Map<String, String>();
 
-  void navigate(AuthResponse t) {
-    if (t.success) {
-      defaultApiClient.addDefaultHeader("Authorization", "Bearer " + t.token);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeWidget(userMail: userNameController.text)));
+      // do nothing on timeout
+      await _identityApi.apiV1IdentityInitPost().timeout(Duration(seconds: 2), onTimeout: () => {});
+
+      json['email'] = userNameController.text;
+      json['password'] = userPassController.text;
+      // if this one fails then show errors
+      var res = await _identityApi
+          .apiV1IdentityLoginPost(body: UserLoginRequest.fromJson(json))
+          .timeout(Duration(seconds: 2),
+              onTimeout: () => DialogManager.showException(context,
+                  "Could not connect to service, please try later"))
+          .catchError((e) => DialogManager.showException(context, e.toString()));
+
+      if (res != null && res.success) {
+        defaultApiClient.addDefaultHeader(
+            "Authorization", "Bearer " + res.token);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomeWidget(userMail: userNameController.text)));
+      } else if (res != null) {
+        DialogManager.showErrors(context, res.errors);
+      }
+
+      setState(() {
+        _loginDisabled = false;
+      });
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    //UserLoginRequest req;
+  Widget build(context) {
+    return PlatformWidget(
+      androidBuilder: _buildAndroidLoginPage,
+      iosBuilder: _buildIosLoginPage,
+    );
+  }
 
+  Widget _buildIosLoginPage(BuildContext context) {
+    return CupertinoPageScaffold(
+        resizeToAvoidBottomInset: true,
+        child: SingleChildScrollView(
+            child: SafeArea(
+                child: Container(
+                    padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
+                    child: Column(children: <Widget>[
+                      Image(
+                          image: AssetImage('images/header.png'),
+                          width: 250,
+                          height: 160),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
+                      CupertinoTextField(
+                        placeholder: "Email",
+                        controller: userNameController,
+                      ),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                      CupertinoTextField(
+                          placeholder: "Password",
+                          obscureText: true,
+                          controller: userPassController),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
+                      logInButton()
+                    ])))));
+  }
+
+  Widget _buildAndroidLoginPage(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
             child: SafeArea(
                 child: Container(
                     padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
                     child: Column(children: <Widget>[
-                      DrawerHeader(
-                        decoration: BoxDecoration(color: Colors.transparent),
-                        child: Icon(
-                          Icons.account_circle,
-                          color: Colors.blue.shade800,
-                          size: 140,
-                        ),
-                      ),
+                      Image(
+                          image: AssetImage('images/header.png'),
+                          width: 250,
+                          height: 160),
                       TextField(
                         decoration: InputDecoration(labelText: "Email"),
                         controller: userNameController,
                       ),
+                      Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
                       TextField(
                           decoration: InputDecoration(labelText: "Password"),
                           obscureText: true,
                           controller: userPassController),
-                      RaisedButton(
-                          textColor: Colors.white,
-                          color: Colors.blueAccent,
-                          splashColor: Colors.blueAccent.shade700,
-                          onPressed: () => logIn(
-                              userNameController.text, userPassController.text),
-                          child: Text("Log in"))
+                      Padding(padding: EdgeInsets.fromLTRB(0, 20, 0, 0)),
+                      logInButton()
                     ])))));
+  }
+
+  Widget logInButton() {
+    if (_loginDisabled) {
+      switch (defaultTargetPlatform) {
+        case TargetPlatform.android:
+          return Container(padding: EdgeInsets.all(5) ,child: CircularProgressIndicator());
+        case TargetPlatform.iOS:
+          return Container(child: CupertinoActivityIndicator());
+        default:
+          return Container();
+      }
+    }
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return RaisedButton(
+            textColor: Colors.white,
+            color: Colors.blueAccent,
+            splashColor: Colors.blueAccent.shade700,
+            onPressed: () =>
+                logIn(userNameController.text, userPassController.text),
+            child: Text("Log in"));
+
+      case TargetPlatform.iOS:
+        return CupertinoButton(
+            onPressed: () =>
+                logIn(userNameController.text, userPassController.text),
+            color: Colors.blueAccent,
+            child: Text("Log in"));
+      default:
+        return Container();
+    }
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:on_time_app/log_in_page.dart';
+import 'package:on_time_app/main.dart';
 import 'package:on_time_app/tabs/requests_page.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
@@ -36,8 +36,15 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
     _recordsApi = new CheckInRecordsApi();
     _currentCheckIns = new List<CheckInResponse>();
 
-    _getCheckIns(DateTime.now()).then((v) => this.setState(
-            () => { _currentCheckIns = v}));
+    _getCheckIns(DateTime.now())
+        .then((v) => this.setState(() => {_currentCheckIns = v}));
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _currentCheckIns.clear();
+    super.dispose();
   }
 
   @override
@@ -46,7 +53,8 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   }
 
   Future<List<CheckInResponse>> _getCheckIns(DateTime time) async {
-    var res = await _recordsApi.apiV1CheckInRecordsEmailDateGet(userMail, time.toUtc());
+    var res = await _recordsApi.apiV1CheckInRecordsEmailDateGet(
+        userMail, time.toUtc());
     if (res.success) {
       return res.response;
     }
@@ -54,6 +62,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   }
 
   Widget _getCard(CheckInResponse response) {
+    var format = [dd, '/', mm, '/', yyyy, ' - ', HH, ':', nn, ':', ss];
     return SafeArea(
       top: false,
       bottom: false,
@@ -82,7 +91,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        formatDate(response.utcDateTime.toLocal(), [dd, '/', mm, '/', yyyy, ' - ', HH, ':', nn, ':', ss]),
+                        formatDate(response.utcDateTime.toLocal(), format),
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -142,14 +151,12 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   }
 
   void _navigateMail(BuildContext context) {
-    //Navigator.pop(context);
-    Navigator.push<void>(
+    Navigator.push(
         context, MaterialPageRoute(builder: (context) => RequestsPage()));
   }
 
   void _navigateLogout(BuildContext context) {
-    Navigator.popUntil(context, (route) => false);
-    Navigator.push<void>(
+    Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LogInPage()));
   }
 
@@ -174,34 +181,33 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
 
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
+        child: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder)),
         navigationBar: CupertinoNavigationBar(
-            trailing: CupertinoButton(
-              padding: EdgeInsets.zero,
-              child: Icon(Icons.mail),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).push<void>(
-                  CupertinoPageRoute(
-                    title: RequestsPage.title,
-                    fullscreenDialog: true,
-                    builder: (context) => RequestsPage(),
-                  ),
-                );
-              },
-            ),
-            leading: CupertinoButton(
-              padding: EdgeInsets.zero,
-              child: Icon(Icons.exit_to_app),
-              onPressed: () {
-                Navigator.popUntil(context, (route) => false);
-                Navigator.of(context, rootNavigator: true).push<void>(
-                  CupertinoPageRoute(
-                    fullscreenDialog: true,
-                    builder: (context) => LogInPage(),
-                  ),
-                );
-              },
-            )),
-        child: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder)));
+            leading: Row(children: <Widget>[
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: Icon(Icons.mail),
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).push(
+                CupertinoPageRoute(
+                  title: RequestsPage.title,
+                  fullscreenDialog: true,
+                  builder: (context) => RequestsPage(),
+                ),
+              );
+            },
+          ),
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            child: Icon(Icons.exit_to_app),
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true)
+                  .pushAndRemoveUntil(CupertinoPageRoute(
+                  fullscreenDialog: true,
+                  builder: (context) => LogInPage()), (f) => false);
+            },
+          )
+        ])));
   }
 
   @override

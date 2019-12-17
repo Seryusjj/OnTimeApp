@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:on_time_app/home/home_widget.dart';
 import 'package:on_time_app/log_in_page.dart';
 import 'package:swagger/api.dart';
 
@@ -26,8 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'On Time-app',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: LogInPage() /* add child content here */,
-      //HomeWidget(),
+      home: LogInPage()
     );
   }
 }

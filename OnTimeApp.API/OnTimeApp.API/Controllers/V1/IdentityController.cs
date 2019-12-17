@@ -21,7 +21,7 @@ namespace OnTimeApp.API.Controllers.NewFolder
         private readonly IUserService _userService;
         private readonly ICheckInRecordService _checkInRecordService;
 
-        private bool init = false;
+        private static bool init = false;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -51,6 +51,7 @@ namespace OnTimeApp.API.Controllers.NewFolder
         {
             if (!init)
             {
+                init = true;
                 await _identityService.RegisterAsync("admin@admin.com", "Admin123!");
                 await _identityService.RegisterAsync("sergio@sergio.com", "Sergio123!");
                 await _identityService.RegisterAsync("dev@dev.com", "Dev123!");
@@ -84,7 +85,7 @@ namespace OnTimeApp.API.Controllers.NewFolder
                     DateTime.UtcNow.AddDays(-1).AddHours(2));
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
                     DateTime.UtcNow.AddDays(-1).AddHours(3));
-                init = true;
+                
             }
 
             return Ok();
