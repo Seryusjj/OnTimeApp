@@ -7,6 +7,12 @@ class CheckInResponse {
 
   DateTime utcDateTime = null;
   
+/* If true location is assume else, wifi */
+  bool location = null;
+  
+
+  bool endDay = null;
+  
 /* Set of errors that can potentially occur */
   List<String> errors = [];
   
@@ -17,7 +23,7 @@ class CheckInResponse {
 
   @override
   String toString() {
-    return 'CheckInResponse[info=$info, utcDateTime=$utcDateTime, errors=$errors, success=$success, ]';
+    return 'CheckInResponse[info=$info, utcDateTime=$utcDateTime, location=$location, endDay=$endDay, errors=$errors, success=$success, ]';
   }
 
   CheckInResponse.fromJson(Map<String, dynamic> json) {
@@ -26,6 +32,12 @@ class CheckInResponse {
         json['info']
     ;
     utcDateTime = json['utcDateTime'] == null ? null : DateTime.parse(json['utcDateTime']);
+    location =
+        json['location']
+    ;
+    endDay =
+        json['endDay']
+    ;
     errors =
         (json['errors'] as List).map((item) => item as String).toList()
     ;
@@ -38,6 +50,8 @@ class CheckInResponse {
     return {
       'info': info,
       'utcDateTime': utcDateTime == null ? '' : utcDateTime.toUtc().toIso8601String(),
+      'location': location,
+      'endDay': endDay,
       'errors': errors,
       'success': success
      };

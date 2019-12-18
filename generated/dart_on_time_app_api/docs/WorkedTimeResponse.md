@@ -1,4 +1,4 @@
-# swagger.model.CheckInResponse
+# swagger.model.WorkedTimeResponse
 
 ## Load the model package
 ```dart
@@ -8,10 +8,8 @@ import 'package:swagger/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**info** | **String** |  | [optional] [default to null]
-**utcDateTime** | [**DateTime**](DateTime.md) |  | [optional] [default to null]
-**location** | **bool** | If true location is assume else, wifi | [optional] [default to null]
-**endDay** | **bool** |  | [optional] [default to null]
+**hours** | **int** |  | [optional] [default to null]
+**minutes** | **int** |  | [optional] [default to null]
 **errors** | **List&lt;String&gt;** | Set of errors that can potentially occur | [optional] [default to []]
 **success** | **bool** | If the request was succesfull or not | [optional] [default to null]
 

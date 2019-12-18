@@ -24,7 +24,7 @@ class _LogInPageState extends State<LogInPage> {
     // create api
     _loginDisabled = false;
     _identityApi = new IdentityApi();
-    userNameController.text = "admin@admin.comr";
+    userNameController.text = "admin@admin.com";
     userPassController.text = "Admin123!";
   }
 
@@ -44,7 +44,9 @@ class _LogInPageState extends State<LogInPage> {
       Map<String, String> json = Map<String, String>();
 
       // do nothing on timeout
-      await _identityApi.apiV1IdentityInitPost().timeout(Duration(seconds: 2), onTimeout: () => {});
+      await _identityApi
+          .apiV1IdentityInitPost()
+          .timeout(Duration(seconds: 2), onTimeout: () => {});
 
       json['email'] = userNameController.text;
       json['password'] = userPassController.text;
@@ -52,9 +54,10 @@ class _LogInPageState extends State<LogInPage> {
       var res = await _identityApi
           .apiV1IdentityLoginPost(body: UserLoginRequest.fromJson(json))
           .timeout(Duration(seconds: 2),
-              onTimeout: () => DialogManager.showException(context,
-                  "Could not connect to service, please try later"))
-          .catchError((e) => DialogManager.showException(context, e.toString()));
+              onTimeout: () => DialogManager.showException(
+                  context, "Could not connect to service, please try later"))
+          .catchError(
+              (e) => DialogManager.showException(context, e.toString()));
 
       if (res != null && res.success) {
         defaultApiClient.addDefaultHeader(
@@ -138,7 +141,8 @@ class _LogInPageState extends State<LogInPage> {
     if (_loginDisabled) {
       switch (defaultTargetPlatform) {
         case TargetPlatform.android:
-          return Container(padding: EdgeInsets.all(5) ,child: CircularProgressIndicator());
+          return Container(
+              padding: EdgeInsets.all(5), child: CircularProgressIndicator());
         case TargetPlatform.iOS:
           return Container(child: CupertinoActivityIndicator());
         default:

@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:on_time_app/log_in_page.dart';
-import 'package:on_time_app/main.dart';
 import 'package:on_time_app/tabs/requests_page.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
@@ -32,24 +31,24 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   CheckInRecordsApi _recordsApi;
   String userMail;
 
+
   _DefaultAppTabState(this.userMail) {
     _recordsApi = new CheckInRecordsApi();
+    _currentDate = DateTime.now();
     _currentCheckIns = new List<CheckInResponse>();
-
-    _getCheckIns(DateTime.now())
-        .then((v) => this.setState(() => {_currentCheckIns = v}));
   }
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
-    _currentCheckIns.clear();
+    _currentCheckIns = new List<CheckInResponse>();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    _getCheckIns(_currentDate)
+        .then((v) => this.setState(() => {_currentCheckIns = v}));
   }
 
   Future<List<CheckInResponse>> _getCheckIns(DateTime time) async {
@@ -73,17 +72,18 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
           borderRadius: BorderRadius.circular(4),
         ),
         child: InkWell(
-          // Make it splash on Android. It would happen automatically if this
-          // was a real card but this is just a demo. Skip the splash on iOS.
-          onTap: defaultTargetPlatform == TargetPlatform.iOS ? null : () {},
+          onTap: null,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: Icon(Icons.edit),
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.grey,
+                  child: response.location
+                      ? Icon(Icons.location_on)
+                      : Icon(Icons.wifi),
                 ),
                 Padding(padding: EdgeInsets.only(left: 16)),
                 Expanded(
@@ -98,9 +98,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                         ),
                       ),
                       Padding(padding: EdgeInsets.only(top: 8)),
-                      Text(
-                        response.info,
-                      )
+                      Text(response.info)
                     ],
                   ),
                 ),
@@ -117,6 +115,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
     return _getCard(_currentCheckIns[index]);
   }
 
+
   Widget _buildBodyBuilder(BuildContext ctx, BoxConstraints cons) {
     return Scaffold(
       body: Column(children: <Widget>[
@@ -126,7 +125,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                 onDayPressed: (DateTime date, List<Event> events) {
                   _currentCheckIns.clear();
                   _getCheckIns(date).then((v) => this.setState(
-                      () => {_currentDate = date, _currentCheckIns = v}));
+                          () => {_currentDate = date, _currentCheckIns = v}));
                 },
                 weekFormat: true,
                 width: cons.maxWidth,
@@ -201,10 +200,11 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
             padding: EdgeInsets.zero,
             child: Icon(Icons.exit_to_app),
             onPressed: () {
-              Navigator.of(context, rootNavigator: true)
-                  .pushAndRemoveUntil(CupertinoPageRoute(
-                  fullscreenDialog: true,
-                  builder: (context) => LogInPage()), (f) => false);
+              Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                  CupertinoPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => LogInPage()),
+                  (f) => false);
             },
           )
         ])));

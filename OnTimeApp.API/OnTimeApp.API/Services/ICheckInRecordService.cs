@@ -12,7 +12,8 @@ namespace OnTimeApp.API.Services
         
         Task<ResultSet<CheckInResult>> GetCheckInByUserEmailAndDateAsync(string email, DateTime date);
         
-        Task<CheckInResult> RegisterCheckInAsync(string email, string info, DateTime utcDateTime);
-        
+        Task<CheckInResult> RegisterCheckInAsync(string email, string info, DateTime utcDateTime, bool location, bool endDay);
+
+        Task<WorkedTimeResult> WorkedTimeOnDayAsync(string email, DateTime date);
     }
 }

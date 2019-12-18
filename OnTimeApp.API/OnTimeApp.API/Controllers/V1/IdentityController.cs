@@ -68,23 +68,23 @@ namespace OnTimeApp.API.Controllers.NewFolder
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
 
+               /* await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow, true);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow);
+                    DateTime.UtcNow.AddHours(1), false);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddHours(1));
-                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddHours(2));
-                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddHours(3));
+                    DateTime.UtcNow.AddHours(2), true);*/
+
 
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddDays(-1));
+                    DateTime.UtcNow.AddDays(-1), true, false);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddDays(-1).AddHours(1));
+                    DateTime.UtcNow.AddDays(-1).AddHours(1), true, false);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddDays(-1).AddHours(2));
+                    DateTime.UtcNow.AddDays(-1).AddHours(2), false, false);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddDays(-1).AddHours(3));
+                    DateTime.UtcNow.AddDays(-1).AddHours(3), false, true);
+                
                 
             }
 

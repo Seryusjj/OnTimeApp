@@ -70,6 +70,8 @@ Class | Method | HTTP request | Description
 *CheckInRecordsApi* | [**apiV1CheckInRecordsEmailDateGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemaildateget) | **GET** /api/v1/CheckInRecords/{email}/{date} | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsEmailGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemailget) | **GET** /api/v1/CheckInRecords/{email} | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsget) | **GET** /api/v1/CheckInRecords | 
+*CheckInRecordsApi* | [**apiV1CheckInRecordsRegisterPost**](docs//CheckInRecordsApi.md#apiv1checkinrecordsregisterpost) | **POST** /api/v1/CheckInRecords/Register | 
+*CheckInRecordsApi* | [**apiV1CheckInRecordsWorkedTimeEmailDateGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsworkedtimeemaildateget) | **GET** /api/v1/CheckInRecords/WorkedTime/{email}/{date} | 
 *IdentityApi* | [**apiV1IdentityInitPost**](docs//IdentityApi.md#apiv1identityinitpost) | **POST** /api/v1/Identity/init | Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
 *IdentityApi* | [**apiV1IdentityLoginPost**](docs//IdentityApi.md#apiv1identityloginpost) | **POST** /api/v1/Identity/login | Login user in the system
 *IdentityApi* | [**apiV1IdentityRegisterPost**](docs//IdentityApi.md#apiv1identityregisterpost) | **POST** /api/v1/Identity/register | Register a new user in the system
@@ -84,6 +86,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [AuthResponse](docs//AuthResponse.md)
+ - [CheckInResgistrationRequest](docs//CheckInResgistrationRequest.md)
  - [CheckInResponse](docs//CheckInResponse.md)
  - [CheckInResponseResponseSet](docs//CheckInResponseResponseSet.md)
  - [RoleRegistrationRequest](docs//RoleRegistrationRequest.md)
@@ -95,6 +98,7 @@ Class | Method | HTTP request | Description
  - [UserResponse](docs//UserResponse.md)
  - [UserResponseResponseSet](docs//UserResponseResponseSet.md)
  - [UserRoleAdditionRequest](docs//UserRoleAdditionRequest.md)
+ - [WorkedTimeResponse](docs//WorkedTimeResponse.md)
 
 
 ## Documentation For Authorization

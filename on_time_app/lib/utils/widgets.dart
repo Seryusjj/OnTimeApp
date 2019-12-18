@@ -67,31 +67,36 @@ class DialogManager {
     }
   }
 
-  static showError(BuildContext context, String message) {
+  static _singleAcceptButtonMessage(
+      BuildContext context, String message, String title, VoidCallback callback) {
     _showDialog(context, (BuildContext context) {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
           return CupertinoAlertDialog(
-            title: Text('Error'),
+            title: Text(title),
             content: Text(message),
             actions: <Widget>[
               Center(
                   child: CupertinoButton(
                       child: Text('Accept'),
                       onPressed: () {
+                        if(callback!=null)
+                          callback();
                         Navigator.pop(context);
                       }))
             ],
           );
         case TargetPlatform.android:
           return AlertDialog(
-              title: Text('Error'),
+              title: Text(title),
               content: Text(message),
               actions: <Widget>[
                 Center(
-                    child: RaisedButton(
+                    child: FlatButton(
                         child: Text('Accept'),
                         onPressed: () {
+                          if(callback!=null)
+                            callback();
                           Navigator.pop(context);
                         })),
               ]);
@@ -102,42 +107,132 @@ class DialogManager {
     });
   }
 
-  static showException(BuildContext context, String message) {
+  static showError(BuildContext context, String message, {VoidCallback callback}) {
+    _singleAcceptButtonMessage(context, message, 'Error', callback);
+  }
+
+  static showException(BuildContext context, String message, {VoidCallback callback}) {
+    _singleAcceptButtonMessage(context, message, 'Exception', callback);
+  }
+
+  static showInfo(BuildContext context, String message, {VoidCallback callback}) {
+    _singleAcceptButtonMessage(context, message, 'Info', callback);
+  }
+
+  static showCheckInPause(BuildContext context, String message, {VoidCallback onPause, VoidCallback onOut, VoidCallback onCancel}) {
     _showDialog(context, (BuildContext context) {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
           return CupertinoAlertDialog(
-            title: Text('Exception'),
+            title: Text('Confirm'),
             content: Text(message),
             actions: <Widget>[
-              Center(
-                  child: CupertinoButton(
-                      child: Text('Accept'),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }))
+              CupertinoButton(
+                  child: Text('Pause'),
+                  onPressed: () {
+                    if (onPause != null)
+                      onPause();
+                    Navigator.pop(context);
+                  }),
+              CupertinoButton(
+                  child: Text('Out'),
+                  onPressed: () async {
+                    if (onOut != null)
+                      onOut();
+                    Navigator.pop(context);
+                  }),
+              CupertinoButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    if(onCancel != null)
+                      onCancel();
+                    Navigator.pop(context);
+                  }),
             ],
           );
         case TargetPlatform.android:
           return AlertDialog(
-              title: Text('Exception'),
+              title: Text('Confirm'),
               content: Text(message),
               actions: <Widget>[
-                Center(
-                    child: RaisedButton(
-                        child: Text('Accept'),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        })),
+                FlatButton(
+                    child: Text('Pause'),
+                    onPressed: () {
+                      if (onPause != null)
+                        onPause();
+                      Navigator.pop(context);
+                    }),
+                FlatButton(
+                    child: Text('Out'),
+                    onPressed: () {
+                      if (onOut != null)
+                        onOut();
+                      Navigator.pop(context);
+                    }),
+                FlatButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      if(onCancel != null)
+                        onCancel();
+                      Navigator.pop(context);
+                    }),
               ]);
-
         default:
           return null;
       }
     });
   }
 
-  static showConfirmation(String message) {}
+  static showConfirmation(BuildContext context, String message, {VoidCallback onAccept, VoidCallback onCancel}) {
+    _showDialog(context, (BuildContext context) {
+      switch (defaultTargetPlatform) {
+        case TargetPlatform.iOS:
+          return CupertinoAlertDialog(
+            title: Text('Confirm'),
+            content: Text(message),
+            actions: <Widget>[
+              CupertinoButton(
+                  child: Text('Accept'),
+                  onPressed: () {
+                    if (onAccept != null)
+                      onAccept();
+                    Navigator.pop(context);
+                  }),
+              CupertinoButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    if(onCancel != null)
+                      onCancel();
+                    Navigator.pop(context);
+                  }),
+            ],
+          );
+        case TargetPlatform.android:
+          return AlertDialog(
+              title: Text('Confirm'),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                    child: Text('Accept'),
+                    onPressed: () {
+                      if (onAccept != null)
+                        onAccept();
+                      Navigator.pop(context);
+                    }),
+                FlatButton(
+                    child: Text('Cancel'),
+                    onPressed: () {
+                      if(onCancel != null)
+                        onCancel();
+                      Navigator.pop(context);
+                    }),
+              ]);
+        default:
+          return null;
+      }
+    });
+  }
+
 
   static showErrors(BuildContext context, List<String> message) {
     String error = '';

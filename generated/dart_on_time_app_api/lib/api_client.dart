@@ -40,6 +40,8 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'AuthResponse':
           return new AuthResponse.fromJson(value);
+        case 'CheckInResgistrationRequest':
+          return new CheckInResgistrationRequest.fromJson(value);
         case 'CheckInResponse':
           return new CheckInResponse.fromJson(value);
         case 'CheckInResponseResponseSet':
@@ -62,6 +64,8 @@ class ApiClient {
           return new UserResponseResponseSet.fromJson(value);
         case 'UserRoleAdditionRequest':
           return new UserRoleAdditionRequest.fromJson(value);
+        case 'WorkedTimeResponse':
+          return new WorkedTimeResponse.fromJson(value);
         default:
           {
             Match match;

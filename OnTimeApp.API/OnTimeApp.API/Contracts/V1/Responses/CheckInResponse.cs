@@ -8,12 +8,21 @@ namespace OnTimeApp.API.Contracts.V1.Responses
         public string Info { get; set; }
         public DateTime? UtcDateTime { get; set; }
 
-        public CheckInResponse(string info, DateTime utcDateTime)
+        /// <summary>
+        /// If true location is assume else, wifi
+        /// </summary>
+        public bool Location { get; set; }
+        
+        public bool EndDay { get; set; }
+
+        public CheckInResponse(string info, DateTime utcDateTime, bool location, bool endDay)
         {
             Info = info;
             UtcDateTime = utcDateTime;
             Success = true;
             Errors = new string[0];
+            Location = location;
+            EndDay = endDay;
         }
         
         public CheckInResponse(IEnumerable<string> errors)
@@ -22,6 +31,7 @@ namespace OnTimeApp.API.Contracts.V1.Responses
             UtcDateTime = null;
             Success = false;
             Errors = new string[0];
+            EndDay = false;
         }
     }
 }

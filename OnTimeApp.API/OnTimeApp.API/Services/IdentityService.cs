@@ -30,7 +30,7 @@ namespace OnTimeApp.API.Services
             {
                 return new AuthenticationResult
                 {
-                    Errors = new[] {"User does not exists"}
+                    Errors = new[] {"User/Password combination is wrong"}
                 };
             }
 
@@ -39,7 +39,7 @@ namespace OnTimeApp.API.Services
             {
                 return new AuthenticationResult
                 {
-                    Errors = new[] {"User/password combination is wrong"}
+                    Errors = new[] {"User/Password combination is wrong"}
                 };
             }
 

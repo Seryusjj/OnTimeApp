@@ -18,6 +18,7 @@ part 'api/roles_api.dart';
 part 'api/users_api.dart';
 
 part 'model/auth_response.dart';
+part 'model/check_in_resgistration_request.dart';
 part 'model/check_in_response.dart';
 part 'model/check_in_response_response_set.dart';
 part 'model/role_registration_request.dart';
@@ -29,6 +30,7 @@ part 'model/user_registration_request.dart';
 part 'model/user_response.dart';
 part 'model/user_response_response_set.dart';
 part 'model/user_role_addition_request.dart';
+part 'model/worked_time_response.dart';
 
 
 ApiClient defaultApiClient = new ApiClient();

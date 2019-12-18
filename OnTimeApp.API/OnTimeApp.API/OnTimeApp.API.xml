@@ -81,6 +81,11 @@
             If the request was succesfull or not
             </summary>
         </member>
+        <member name="P:OnTimeApp.API.Contracts.V1.Responses.CheckInResponse.Location">
+            <summary>
+            If true location is assume else, wifi
+            </summary>
+        </member>
         <member name="M:OnTimeApp.API.Contracts.V1.Responses.RoleResponse.#ctor(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
             Unsuccucessful response
