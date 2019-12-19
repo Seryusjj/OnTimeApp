@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:on_time_app/utils/config.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
 
@@ -38,6 +39,7 @@ class _LogInPageState extends State<LogInPage> {
 
   Future<void> logIn(String username, String password) async {
     if (!_loginDisabled) {
+      await Config.initAll();
       setState(() {
         _loginDisabled = true;
       });

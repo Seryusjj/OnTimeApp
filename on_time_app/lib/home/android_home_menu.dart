@@ -5,6 +5,7 @@ import 'package:on_time_app/tabs/check_in_tab.dart';
 import 'package:on_time_app/tabs/check_in_wifi_tab.dart';
 import 'package:on_time_app/tabs/holiday_tab.dart';
 import 'package:on_time_app/tabs/settings_tab.dart';
+import 'package:on_time_app/utils/config.dart';
 
 @protected
 class AndroidHomeMenu extends StatelessWidget {
@@ -40,11 +41,11 @@ class AndroidHomeMenu extends StatelessWidget {
               ListTile(
                 leading: CheckInWifiTab.androidIcon,
                 title: Text(CheckInWifiTab.title),
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(context);
                   Navigator.of(context)
-                      .push<CheckInTab>(MaterialPageRoute(
-                          builder: (context) => CheckInTab(userMail: userMail)));
+                      .push(MaterialPageRoute(
+                          builder: (context) => Config.useWifi ? CheckInWifiTab(userMail) : CheckInTab(userMail)));
                 },
               ),
               ListTile(

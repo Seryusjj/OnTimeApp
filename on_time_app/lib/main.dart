@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:on_time_app/home/home_widget.dart';
 import 'package:on_time_app/log_in_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swagger/api.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
+
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,6 @@ class MyApp extends StatelessWidget {
               true); // accept any certificate
     IOClient ioClient = new IOClient(httpClient);
     defaultApiClient.client = ioClient;
-
 
     // build app
     return MaterialApp(

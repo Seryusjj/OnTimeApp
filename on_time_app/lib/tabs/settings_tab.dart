@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:on_time_app/utils/config.dart';
 import 'package:on_time_app/utils/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsTab extends StatefulWidget {
   static const title = 'Settings';
@@ -12,13 +14,20 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-  var switch1 = false;
-  var switch2 = true;
-  var switch3 = true;
-  var switch4 = true;
-  var switch5 = true;
-  var switch6 = false;
-  var switch7 = true;
+  var useWifiSwitch = false;
+
+  @override
+  initState() {
+    super.initState();
+    useWifiSwitch = Config.useWifi;
+  }
+
+  useWifi(bool value) async {
+    var v = await Config.updateUseWifi(value);
+    setState(() {
+      useWifiSwitch = v;
+    });
+  }
 
   Widget _buildList() {
     return ListView(
@@ -28,8 +37,8 @@ class _SettingsTabState extends State<SettingsTab> {
           title: Text('Use wifi instead of GPS'),
           // The Material switch has a platform adaptive constructor.
           trailing: Switch.adaptive(
-            value: switch1,
-            onChanged: (value) => setState(() => switch1 = value),
+            value: useWifiSwitch,
+            onChanged: (value) => useWifi(value),
           ),
         )
       ],
@@ -48,7 +57,7 @@ class _SettingsTabState extends State<SettingsTab> {
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(),
-      child: Scaffold(body:_buildList()),
+      child: Scaffold(body: _buildList()),
     );
   }
 

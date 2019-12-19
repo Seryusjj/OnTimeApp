@@ -3,12 +3,18 @@ import 'package:on_time_app/home/default_app_tab.dart';
 import 'package:on_time_app/tabs/check_in_tab.dart';
 import 'package:on_time_app/tabs/check_in_wifi_tab.dart';
 import 'package:on_time_app/tabs/holiday_tab.dart';
+import 'package:on_time_app/utils/config.dart';
 
 @protected
 class IosHomeMenu extends StatelessWidget {
 
   final String userMail;
+
   IosHomeMenu(this.userMail);
+
+  Widget _buildCheckIn(BuildContext context) {
+    return Config.useWifi ? CheckInWifiTab(userMail) : CheckInTab(userMail);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +37,10 @@ class IosHomeMenu extends StatelessWidget {
               builder: (context) => DefaultAppTab(userMail),
             );
           case 1:
+
             return CupertinoTabView(
               defaultTitle: CheckInTab.title,
-              builder: (context) => CheckInWifiTab(userMail),
+              builder: _buildCheckIn,
             );
           case 2:
             return CupertinoTabView(

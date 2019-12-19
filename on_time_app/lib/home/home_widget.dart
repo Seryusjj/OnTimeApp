@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:on_time_app/utils/config.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'android_home_menu.dart';
 import 'ios_home_menu.dart';
@@ -17,6 +18,11 @@ class HomeWidget extends StatefulWidget {
 class _HomeWidgetState extends State<HomeWidget> {
 
   final String userMail;
+
+  @override
+  initState() {
+    super.initState();
+  }
 
   _HomeWidgetState(this.userMail);
 
