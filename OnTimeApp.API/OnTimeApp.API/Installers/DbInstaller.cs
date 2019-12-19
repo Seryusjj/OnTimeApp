@@ -19,15 +19,17 @@ namespace OnTimeApp.API.Installers
             
 
             // DAL
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<AppUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>();
             services.AddScoped<ICheckInDAL, CheckInDAL>();
+            services.AddScoped<IHolidayRequestDAL, HolidayRequestDAL>();
             
             // services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICheckInRecordService, CheckInRecordService>();
+            services.AddScoped<IHolidayRequestService, HolidayRequestService>();
         }
     }
 }

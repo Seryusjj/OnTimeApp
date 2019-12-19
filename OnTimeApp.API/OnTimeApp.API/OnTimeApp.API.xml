@@ -98,6 +98,29 @@
             </summary>
             <param name="roleName">The role name</param>
         </member>
+        <member name="M:OnTimeApp.API.Controllers.V1.HolidaysController.ToApprove(System.String)">
+            <summary>
+            Get the Holiday requests that the user has to approve
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OnTimeApp.API.Controllers.V1.HolidaysController.Register(OnTimeApp.API.Contracts.V1.Requests.HolidayRequestRegistration)">
+            <summary>
+            Register a new leave request
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OnTimeApp.API.Controllers.V1.HolidaysController.Get(System.String,System.Int32,System.Int32)">
+            <summary>
+            Get a set of request that belong to the user with the passed email between the years from and to
+            </summary>
+            <param name="email">Owner email</param>
+            <param name="from">From year</param>
+            <param name="to">To year</param>
+            <returns></returns>
+        </member>
         <member name="T:OnTimeApp.API.Controllers.NewFolder.IdentityController">
             <summary>
             Identification controller, used for registering or login users
@@ -110,6 +133,7 @@
             <param name="identityService"></param>
             <param name="roleService"></param>
             <param name="userService"></param>
+            <param name="checkInRecordService"></param>
         </member>
         <member name="M:OnTimeApp.API.Controllers.NewFolder.IdentityController.Init">
             <summary>

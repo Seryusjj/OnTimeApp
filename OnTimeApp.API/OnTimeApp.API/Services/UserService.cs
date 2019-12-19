@@ -10,9 +10,9 @@ namespace OnTimeApp.API.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public UserService(UserManager<IdentityUser> userManager)
+        public UserService(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }

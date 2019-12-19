@@ -30,12 +30,13 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   List<CheckInResponse> _currentCheckIns;
   CheckInRecordsApi _recordsApi;
   String userMail;
-
+  int _currentYear;
 
   _DefaultAppTabState(this.userMail) {
     _recordsApi = new CheckInRecordsApi();
     _currentDate = DateTime.now();
     _currentCheckIns = new List<CheckInResponse>();
+    _currentYear = _currentDate.year;
   }
 
   @override
@@ -115,7 +116,6 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
     return _getCard(_currentCheckIns[index]);
   }
 
-
   Widget _buildBodyBuilder(BuildContext ctx, BoxConstraints cons) {
     return Scaffold(
       body: Column(children: <Widget>[
@@ -125,9 +125,12 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                 onDayPressed: (DateTime date, List<Event> events) {
                   _currentCheckIns.clear();
                   _getCheckIns(date).then((v) => this.setState(
-                          () => {_currentDate = date, _currentCheckIns = v}));
+                      () => {_currentDate = date, _currentCheckIns = v}));
                 },
                 weekFormat: true,
+                headerMargin: const EdgeInsets.symmetric(vertical: 5),
+                minSelectedDate: DateTime(_currentYear - 3),
+                maxSelectedDate: DateTime(_currentYear + 3),
                 width: cons.maxWidth,
                 height: cons.maxHeight * 0.40,
                 daysHaveCircularBorder: true,

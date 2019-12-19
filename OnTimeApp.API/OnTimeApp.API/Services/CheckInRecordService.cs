@@ -12,9 +12,9 @@ namespace OnTimeApp.API.Services
     public class CheckInRecordService : ICheckInRecordService
     {
         private readonly ICheckInDAL _checkinManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public CheckInRecordService(ICheckInDAL checkinManager, UserManager<IdentityUser> userManager)
+        public CheckInRecordService(ICheckInDAL checkinManager, UserManager<AppUser> userManager)
         {
             _checkinManager = checkinManager;
             _userManager = userManager;
@@ -161,7 +161,7 @@ namespace OnTimeApp.API.Services
                 };
             }
             var checkin = await _checkinManager.FindByUserEmailAndDateAsync(email, date);
-            var checkInList = checkin.ToList();
+            var checkInList = checkin.OrderBy(x=>x.UtcDateTime).ToList();
             bool endDay = checkInList.Any(x => x.EndDay);
             if (!endDay)
             {

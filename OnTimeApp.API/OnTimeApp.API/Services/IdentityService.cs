@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using OnTimeApp.API.Data.Results;
+using OnTimeApp.API.Entities;
 using OnTimeApp.API.Options;
 
 namespace OnTimeApp.API.Services
 {
     public class IdentityService : IIdentitySevice
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly JwtSettings _jwtSettings;
 
-        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings)
+        public IdentityService(UserManager<AppUser> userManager, JwtSettings jwtSettings)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings;            
@@ -25,7 +26,7 @@ namespace OnTimeApp.API.Services
 
         public async Task<AuthenticationResult> LoginAsync(string email, string password)
         {
-            IdentityUser existingUser = await _userManager.FindByEmailAsync(email);
+            AppUser existingUser = await _userManager.FindByEmailAsync(email);
             if (existingUser == null)
             {
                 return new AuthenticationResult
@@ -64,10 +65,11 @@ namespace OnTimeApp.API.Services
                 };
             }
 
-            var newUser = new IdentityUser
+            var newUser = new AppUser
             {
                 Email = email,
-                UserName = email
+                UserName = email,
+                Manager = null
             };
 
             IdentityResult createdUser = await _userManager.CreateAsync(newUser, password);
@@ -85,17 +87,17 @@ namespace OnTimeApp.API.Services
             };
         }
 
-        private string JwtSecurityTokenResolve(IdentityUser identityUser, IEnumerable<string> roles = null)
+        private string JwtSecurityTokenResolve(AppUser user, IEnumerable<string> roles = null)
         {
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
 
             var identity = new ClaimsIdentity(new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, identityUser.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, identityUser.Email),
-                new Claim("id", identityUser.Id)
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("id", user.Id)
             });
             if (roles != null)
             {

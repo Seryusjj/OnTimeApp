@@ -22,12 +22,14 @@ namespace OnTimeApp.API.Controllers.NewFolder
         private readonly ICheckInRecordService _checkInRecordService;
 
         private static bool init = false;
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="identityService"></param>
         /// <param name="roleService"></param>
         /// <param name="userService"></param>
+        /// <param name="checkInRecordService"></param>
         public IdentityController(IIdentitySevice identityService,
                                   IRoleService roleService,
                                   IUserService userService,
@@ -68,13 +70,15 @@ namespace OnTimeApp.API.Controllers.NewFolder
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
 
-               /* await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow, true);
+               await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow, true, false);
+                /*await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddHours(1), false, false);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddHours(1), false);
-                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
-                    DateTime.UtcNow.AddHours(2), true);*/
+                    DateTime.UtcNow.AddHours(2), true, false);*/
 
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                    DateTime.UtcNow.AddHours(2), true, false);
 
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
                     DateTime.UtcNow.AddDays(-1), true, false);

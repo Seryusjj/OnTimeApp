@@ -59,7 +59,7 @@ class _LogInPageState extends State<LogInPage> {
               onTimeout: () => DialogManager.showException(
                   context, "Could not connect to service, please try later"))
           .catchError(
-              (e) => DialogManager.showException(context, e.toString()));
+              (e) => DialogManager.showException(context, "Something went wrong on the service call"));
 
       if (res != null && res.success) {
         defaultApiClient.addDefaultHeader(
