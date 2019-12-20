@@ -177,12 +177,214 @@
         }
       }
     },
+    "/api/v1/Holidays/ToApprove/{email}": {
+      "get": {
+        "tags": [
+          "Holidays"
+        ],
+        "summary": "Get the Holiday requests that the user has to approve",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "description": "The manager email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/HolidayRequestResponseResponseSet"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Holidays/{email}/{from}/{to}": {
+      "get": {
+        "tags": [
+          "Holidays"
+        ],
+        "summary": "Get a set of request that belong to the user with the passed email between the years from and to",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "description": "Owner email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "from",
+            "description": "From year",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "path",
+            "name": "to",
+            "description": "To year",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/HolidayRequestResponseResponseSet"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Holidays/Approve": {
+      "post": {
+        "tags": [
+          "Holidays"
+        ],
+        "summary": "Approve an existing Holiday request",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/HolidayApproveRequest"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/HolidayRequestResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Holidays/Delete": {
+      "post": {
+        "tags": [
+          "Holidays"
+        ],
+        "summary": "Delete an existing Holiday request",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/HolidayDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/HolidayRequestResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Holidays/Register": {
+      "post": {
+        "tags": [
+          "Holidays"
+        ],
+        "summary": "Register a new leave request",
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/HolidayRequestRegistration"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/HolidayRequestResponse"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/Identity/init": {
       "post": {
         "tags": [
           "Identity"
         ],
-        "summary": "Creates default admin user, this is added because we do not have a real database where to add this info.\r\nWe use an in memeory db so each time the service is restarted, this should be called",
+        "summary": "Creates default admin user, this is added because we do not have a real database where to add this info.\r\nWe use an in memory db so each time the service is restarted, this should be called",
         "responses": {
           "200": {
             "description": "Success"
@@ -550,6 +752,110 @@
         },
         "endDay": {
           "type": "boolean"
+        }
+      }
+    },
+    "HolidayRequestResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "dateFrom": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "dateTo": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "approved": {
+          "type": "boolean"
+        },
+        "approverEmail": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "HolidayRequestResponseResponseSet": {
+      "type": "object",
+      "properties": {
+        "response": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HolidayRequestResponse"
+          }
+        },
+        "errors": {
+          "description": "Set of errors that can potentially occur",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "success": {
+          "description": "If the request was succesfull or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "HolidayApproveRequest": {
+      "required": [
+        "requestId"
+      ],
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        }
+      }
+    },
+    "HolidayDeleteRequest": {
+      "required": [
+        "requestId"
+      ],
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string"
+        }
+      }
+    },
+    "HolidayRequestRegistration": {
+      "required": [
+        "from",
+        "to",
+        "userEmail"
+      ],
+      "type": "object",
+      "properties": {
+        "from": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "to": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
         }
       }
     },

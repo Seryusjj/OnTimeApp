@@ -20,17 +20,12 @@ class AndroidHomeMenu extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Icon(
-                    Icons.account_circle,
-                    color: Colors.blue.shade800,
-                    size: 80,
-                  ),
-                ),
-              ),
+              Padding(
+                padding: EdgeInsets.all(15),
+                  child: Image(
+                      image: AssetImage('images/header.png'),
+                      width: 200,
+                      height: 160)),
               ListTile(
                 leading: DefaultAppTab.androidIcon,
                 title: Text(DefaultAppTab.title),
@@ -43,9 +38,10 @@ class AndroidHomeMenu extends StatelessWidget {
                 title: Text(CheckInWifiTab.title),
                 onTap: () async {
                   Navigator.pop(context);
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(
-                          builder: (context) => Config.useWifi ? CheckInWifiTab(userMail) : CheckInTab(userMail)));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Config.useWifi
+                          ? CheckInWifiTab(userMail)
+                          : CheckInTab(userMail)));
                 },
               ),
               ListTile(
@@ -53,8 +49,10 @@ class AndroidHomeMenu extends StatelessWidget {
                 title: Text(HolidayTab.title),
                 onTap: () {
                   Navigator.pop(context);
-                  Navigator.push<void>(context,
-                      MaterialPageRoute(builder: (context) => HolidayTab()));
+                  Navigator.push<void>(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HolidayTab(userMail)));
                 },
               ),
               // Long drawer contents are often segmented.

@@ -1,15 +1,29 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:on_time_app/utils/widgets.dart';
+import 'package:swagger/api.dart';
 
 class RequestsPage extends StatefulWidget {
   static String title = "Requests";
 
+  final List<HolidayRequestResponse> pendingApprovals;
+
+  RequestsPage(this.pendingApprovals);
+
   @override
-  State<StatefulWidget> createState() => _RequestsPageState();
+  State<StatefulWidget> createState() => _RequestsPageState(pendingApprovals);
 }
 
 class _RequestsPageState extends State<RequestsPage> {
+  List<HolidayRequestResponse> pendingApprovals;
+  HolidaysApi _holidaysApi;
+
+  _RequestsPageState(List<HolidayRequestResponse> pendingApprovals) {
+    this.pendingApprovals = pendingApprovals ?? [];
+    _holidaysApi = new HolidaysApi();
+  }
+
   Widget _buildBodyBuilder(BuildContext ctx, BoxConstraints cons) {
     return Container(
         child: ListView.builder(
@@ -18,9 +32,40 @@ class _RequestsPageState extends State<RequestsPage> {
         decoration: BoxDecoration(color: Colors.lightBlue));
   }
 
-  Widget _listBuilder(BuildContext context, int index) {
-    if (index >= 3) return null;
+  _approve(HolidayRequestResponse req) async {
+    Map<String, dynamic> json = Map();
+    json['requestId'] = req.id;
+    var send = HolidayApproveRequest.fromJson(json);
+    var response = await _holidaysApi.apiV1HolidaysApprovePost(body: send);
+    if (response.success) {
+      setState(() {
+        pendingApprovals.remove(req);
+      });
+      DialogManager.showInfo(context, "Succesfully approved");
+    } else {
+      DialogManager.showErrors(context, response.errors);
+    }
+  }
 
+  _cancel(HolidayRequestResponse req) async {
+    Map<String, dynamic> json = Map();
+    json['requestId'] = req.id;
+    var send = HolidayDeleteRequest.fromJson(json);
+    var response = await _holidaysApi.apiV1HolidaysDeletePost(body: send);
+    if (response.success) {
+      setState(() {
+        pendingApprovals.remove(req);
+      });
+      DialogManager.showInfo(context, "Succesfully cancelled");
+    } else {
+      DialogManager.showErrors(context, response.errors);
+    }
+  }
+
+  Widget _getCard(HolidayRequestResponse req) {
+    var format = [dd, '/', mm, '/', yyyy];
+    var from = formatDate(req.dateFrom.toLocal(), format);
+    var to = formatDate(req.dateTo.toLocal(), format);
     return SafeArea(
         top: false,
         bottom: false,
@@ -34,25 +79,29 @@ class _RequestsPageState extends State<RequestsPage> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                    padding: EdgeInsets.all(5),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.check),
-                    )),
-                Padding(
-                    padding: EdgeInsets.all(5),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.redAccent,
-                      child: Icon(Icons.cancel),
-                    )),
-                Padding(padding: EdgeInsets.only(left: 16)),
+                Container(
+                    height: 65,
+                    color: Colors.green.withAlpha(200),
+                    child: IconButton(
+                        splashColor: Colors.green.shade800,
+                        color: Colors.white,
+                        icon: Icon(Icons.check),
+                        onPressed: () => _approve(req))),
+                Container(
+                    height: 65,
+                    color: Colors.red.withAlpha(200),
+                    child: IconButton(
+                        splashColor: Colors.red.shade800,
+                        color: Colors.white,
+                        icon: Icon(Icons.cancel),
+                        onPressed: () => _cancel(req))),
+                Padding(padding: EdgeInsets.only(left: 5)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Holiday req. from: user',
+                        'Holiday req. from: ${req.userEmail}',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -60,7 +109,7 @@ class _RequestsPageState extends State<RequestsPage> {
                       ),
                       Padding(padding: EdgeInsets.only(top: 8)),
                       Text(
-                        'Leaving from x to y',
+                        'From: $from To: $to',
                       )
                     ],
                   ),
@@ -69,6 +118,12 @@ class _RequestsPageState extends State<RequestsPage> {
             ),
           ),
         ));
+  }
+
+  Widget _listBuilder(BuildContext context, int index) {
+    if (index >= pendingApprovals.length) return null;
+
+    return _getCard(pendingApprovals[index]);
   }
 
   Widget _buildAndroid(BuildContext context) {

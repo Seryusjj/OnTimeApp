@@ -9,7 +9,7 @@ All URIs are relative to *https://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**apiV1IdentityInitPost**](IdentityApi.md#apiV1IdentityInitPost) | **POST** /api/v1/Identity/init | Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
+[**apiV1IdentityInitPost**](IdentityApi.md#apiV1IdentityInitPost) | **POST** /api/v1/Identity/init | Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memory db so each time the service is restarted, this should be called
 [**apiV1IdentityLoginPost**](IdentityApi.md#apiV1IdentityLoginPost) | **POST** /api/v1/Identity/login | Login user in the system
 [**apiV1IdentityRegisterPost**](IdentityApi.md#apiV1IdentityRegisterPost) | **POST** /api/v1/Identity/register | Register a new user in the system
 
@@ -17,7 +17,7 @@ Method | HTTP request | Description
 # **apiV1IdentityInitPost**
 > apiV1IdentityInitPost()
 
-Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
+Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memory db so each time the service is restarted, this should be called
 
 ### Example 
 ```dart

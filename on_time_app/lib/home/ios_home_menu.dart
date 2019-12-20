@@ -45,7 +45,7 @@ class IosHomeMenu extends StatelessWidget {
           case 2:
             return CupertinoTabView(
               defaultTitle: HolidayTab.title,
-              builder: (context) => HolidayTab(),
+              builder: (context) => HolidayTab(userMail),
             );
           default:
             assert(false, DefaultAppTab.title);

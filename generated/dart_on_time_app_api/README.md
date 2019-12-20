@@ -72,7 +72,12 @@ Class | Method | HTTP request | Description
 *CheckInRecordsApi* | [**apiV1CheckInRecordsGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsget) | **GET** /api/v1/CheckInRecords | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsRegisterPost**](docs//CheckInRecordsApi.md#apiv1checkinrecordsregisterpost) | **POST** /api/v1/CheckInRecords/Register | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsWorkedTimeEmailDateGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsworkedtimeemaildateget) | **GET** /api/v1/CheckInRecords/WorkedTime/{email}/{date} | 
-*IdentityApi* | [**apiV1IdentityInitPost**](docs//IdentityApi.md#apiv1identityinitpost) | **POST** /api/v1/Identity/init | Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
+*HolidaysApi* | [**apiV1HolidaysApprovePost**](docs//HolidaysApi.md#apiv1holidaysapprovepost) | **POST** /api/v1/Holidays/Approve | Approve an existing Holiday request
+*HolidaysApi* | [**apiV1HolidaysDeletePost**](docs//HolidaysApi.md#apiv1holidaysdeletepost) | **POST** /api/v1/Holidays/Delete | Delete an existing Holiday request
+*HolidaysApi* | [**apiV1HolidaysEmailFromToGet**](docs//HolidaysApi.md#apiv1holidaysemailfromtoget) | **GET** /api/v1/Holidays/{email}/{from}/{to} | Get a set of request that belong to the user with the passed email between the years from and to
+*HolidaysApi* | [**apiV1HolidaysRegisterPost**](docs//HolidaysApi.md#apiv1holidaysregisterpost) | **POST** /api/v1/Holidays/Register | Register a new leave request
+*HolidaysApi* | [**apiV1HolidaysToApproveEmailGet**](docs//HolidaysApi.md#apiv1holidaystoapproveemailget) | **GET** /api/v1/Holidays/ToApprove/{email} | Get the Holiday requests that the user has to approve
+*IdentityApi* | [**apiV1IdentityInitPost**](docs//IdentityApi.md#apiv1identityinitpost) | **POST** /api/v1/Identity/init | Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memory db so each time the service is restarted, this should be called
 *IdentityApi* | [**apiV1IdentityLoginPost**](docs//IdentityApi.md#apiv1identityloginpost) | **POST** /api/v1/Identity/login | Login user in the system
 *IdentityApi* | [**apiV1IdentityRegisterPost**](docs//IdentityApi.md#apiv1identityregisterpost) | **POST** /api/v1/Identity/register | Register a new user in the system
 *RolesApi* | [**apiV1RolesGet**](docs//RolesApi.md#apiv1rolesget) | **GET** /api/v1/Roles | 
@@ -89,6 +94,11 @@ Class | Method | HTTP request | Description
  - [CheckInResgistrationRequest](docs//CheckInResgistrationRequest.md)
  - [CheckInResponse](docs//CheckInResponse.md)
  - [CheckInResponseResponseSet](docs//CheckInResponseResponseSet.md)
+ - [HolidayApproveRequest](docs//HolidayApproveRequest.md)
+ - [HolidayDeleteRequest](docs//HolidayDeleteRequest.md)
+ - [HolidayRequestRegistration](docs//HolidayRequestRegistration.md)
+ - [HolidayRequestResponse](docs//HolidayRequestResponse.md)
+ - [HolidayRequestResponseResponseSet](docs//HolidayRequestResponseResponseSet.md)
  - [RoleRegistrationRequest](docs//RoleRegistrationRequest.md)
  - [RoleResponse](docs//RoleResponse.md)
  - [RoleResponseResponseSet](docs//RoleResponseResponseSet.md)

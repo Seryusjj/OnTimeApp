@@ -18,6 +18,7 @@ namespace OnTimeApp.API.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<AppUser>().HasOne(x => x.Manager);
             BuildCheckInRecords(modelBuilder);
             BuildHolidayRequests(modelBuilder);
         }
@@ -26,7 +27,6 @@ namespace OnTimeApp.API.Entities
         {
             modelBuilder.Entity<CheckInRecord>().HasKey(d => d.Id);
             modelBuilder.Entity<CheckInRecord>().HasOne(x => x.User);
-            
         }
 
         private void BuildHolidayRequests(ModelBuilder modelBuilder)

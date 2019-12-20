@@ -8,10 +8,12 @@ import 'package:swagger/api.dart';
 import 'home/home_widget.dart';
 
 class LogInPage extends StatefulWidget {
+
+
+  LogInPage();
+
   @override
-  State<StatefulWidget> createState() {
-    return _LogInPageState();
-  }
+  State<StatefulWidget> createState() => _LogInPageState();
 }
 
 class _LogInPageState extends State<LogInPage> {

@@ -24,6 +24,7 @@ namespace OnTimeApp.API.Installers
                 .AddEntityFrameworkStores<DataContext>();
             services.AddScoped<ICheckInDAL, CheckInDAL>();
             services.AddScoped<IHolidayRequestDAL, HolidayRequestDAL>();
+            services.AddScoped<IAppUserDAL, AppUserDAL>();
             
             // services
             services.AddScoped<IUserService, UserService>();

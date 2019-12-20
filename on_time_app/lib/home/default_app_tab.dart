@@ -29,14 +29,21 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
   DateTime _currentDate;
   List<CheckInResponse> _currentCheckIns;
   CheckInRecordsApi _recordsApi;
+  HolidaysApi _holidaysApi;
   String userMail;
   int _currentYear;
 
+  int _pendingApprovalCount;
+  List<HolidayRequestResponse> _pendingApprovals;
+
   _DefaultAppTabState(this.userMail) {
     _recordsApi = new CheckInRecordsApi();
+    _holidaysApi = new HolidaysApi();
     _currentDate = DateTime.now();
     _currentCheckIns = new List<CheckInResponse>();
     _currentYear = _currentDate.year;
+    _pendingApprovalCount = 0;
+    _pendingApprovals = [];
   }
 
   @override
@@ -50,6 +57,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
     super.initState();
     _getCheckIns(_currentDate)
         .then((v) => this.setState(() => {_currentCheckIns = v}));
+    _getPendingApproval(userMail);
   }
 
   Future<List<CheckInResponse>> _getCheckIns(DateTime time) async {
@@ -59,6 +67,16 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
       return res.response;
     }
     return new List<CheckInResponse>();
+  }
+
+  Future<List<CheckInResponse>> _getPendingApproval(String email) async {
+    var res = await _holidaysApi.apiV1HolidaysToApproveEmailGet(email);
+    if (res.success) {
+      setState(() {
+        this._pendingApprovalCount = res.response.length;
+        this._pendingApprovals = res.response;
+      });
+    }
   }
 
   Widget _getCard(CheckInResponse response) {
@@ -154,7 +172,9 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
 
   void _navigateMail(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RequestsPage()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => RequestsPage(_pendingApprovals)));
   }
 
   void _navigateLogout(BuildContext context) {
@@ -167,10 +187,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
         appBar: AppBar(
           title: Text(DefaultAppTab.title),
           actions: [
-            IconButton(
-              icon: Icon(Icons.mail),
-              onPressed: () => _navigateMail(context),
-            ),
+            _mailIconAndroid(),
             IconButton(
               icon: Icon(Icons.exit_to_app),
               onPressed: () => _navigateLogout(context),
@@ -181,36 +198,81 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
         body: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder)));
   }
 
+  Widget _mailIconIos() {
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        Icon(Icons.mail),
+        Padding(
+            child: Text(
+                _pendingApprovalCount > 0
+                    ? _pendingApprovalCount.toString()
+                    : '',
+                style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold)),
+            padding: EdgeInsets.fromLTRB(12, 8, 0, 0)),
+      ],
+    );
+  }
+
+  Widget _mailIconAndroid() {
+    return Container(
+      height: 24, //icon default size
+      decoration: new BoxDecoration(color: Colors.transparent),
+      child: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.mail),
+              onPressed: () => _navigateMail(context),
+            ),
+            Padding(
+                child: Text(
+                    _pendingApprovalCount > 0
+                        ? _pendingApprovalCount.toString()
+                        : '',
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold)),
+                padding: EdgeInsets.fromLTRB(12, 12, 0, 0)),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildIos(BuildContext context) {
     return CupertinoPageScaffold(
         child: SafeArea(child: LayoutBuilder(builder: _buildBodyBuilder)),
         navigationBar: CupertinoNavigationBar(
-            leading: Row(children: <Widget>[
-          CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: Icon(Icons.mail),
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).push(
-                CupertinoPageRoute(
-                  title: RequestsPage.title,
-                  fullscreenDialog: true,
-                  builder: (context) => RequestsPage(),
-                ),
-              );
-            },
-          ),
-          CupertinoButton(
-            padding: EdgeInsets.zero,
-            child: Icon(Icons.exit_to_app),
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+            leading: CupertinoButton(
+              padding: EdgeInsets.zero,
+              child: Icon(Icons.exit_to_app),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    CupertinoPageRoute(
+                        fullscreenDialog: true,
+                        builder: (context) => LogInPage()),
+                    (f) => false);
+              },
+            ),
+            trailing: CupertinoButton(
+              padding: EdgeInsets.zero,
+              child: _mailIconIos(),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).push(
                   CupertinoPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => LogInPage()),
-                  (f) => false);
-            },
-          )
-        ])));
+                    title: RequestsPage.title,
+                    fullscreenDialog: true,
+                    builder: (context) => RequestsPage(_pendingApprovals),
+                  ),
+                );
+              },
+            )));
   }
 
   @override

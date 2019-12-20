@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:on_time_app/home/home_widget.dart';
 import 'package:on_time_app/log_in_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swagger/api.dart';
 
 void main() => runApp(MyApp());

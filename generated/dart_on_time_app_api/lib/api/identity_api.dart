@@ -7,7 +7,7 @@ class IdentityApi {
 
   IdentityApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-  /// Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
+  /// Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memory db so each time the service is restarted, this should be called
   ///
   /// 
   Future apiV1IdentityInitPost() async {

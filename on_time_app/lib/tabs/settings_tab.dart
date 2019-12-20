@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:on_time_app/utils/config.dart';
 import 'package:on_time_app/utils/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsTab extends StatefulWidget {
   static const title = 'Settings';

@@ -46,6 +46,16 @@ class ApiClient {
           return new CheckInResponse.fromJson(value);
         case 'CheckInResponseResponseSet':
           return new CheckInResponseResponseSet.fromJson(value);
+        case 'HolidayApproveRequest':
+          return new HolidayApproveRequest.fromJson(value);
+        case 'HolidayDeleteRequest':
+          return new HolidayDeleteRequest.fromJson(value);
+        case 'HolidayRequestRegistration':
+          return new HolidayRequestRegistration.fromJson(value);
+        case 'HolidayRequestResponse':
+          return new HolidayRequestResponse.fromJson(value);
+        case 'HolidayRequestResponseResponseSet':
+          return new HolidayRequestResponseResponseSet.fromJson(value);
         case 'RoleRegistrationRequest':
           return new RoleRegistrationRequest.fromJson(value);
         case 'RoleResponse':

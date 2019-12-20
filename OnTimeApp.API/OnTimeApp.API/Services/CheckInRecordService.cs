@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Data.Results;
 using OnTimeApp.API.Entities;
 using OnTimeApp.API.Entities.DAL;
@@ -26,7 +25,7 @@ namespace OnTimeApp.API.Services
             return new ResultSet<CheckInResult>()
             {
                 Success = true,
-                Results = res.OrderBy(x=> x.UtcDateTime).Select(x => new CheckInResult
+                Results = res.OrderBy(x => x.UtcDateTime).Select(x => new CheckInResult
                 {
                     Success = true,
                     EmailOwner = x.User.Email,
@@ -54,7 +53,7 @@ namespace OnTimeApp.API.Services
             return new ResultSet<CheckInResult>
             {
                 Success = true,
-                Results = checkIns.OrderBy(x=> x.UtcDateTime).Select(x =>
+                Results = checkIns.OrderBy(x => x.UtcDateTime).Select(x =>
                     new CheckInResult
                     {
                         Success = true,
@@ -82,7 +81,7 @@ namespace OnTimeApp.API.Services
             return new ResultSet<CheckInResult>
             {
                 Success = true,
-                Results = checkIns.OrderBy(x=> x.UtcDateTime).Select(x =>
+                Results = checkIns.OrderBy(x => x.UtcDateTime).Select(x =>
                     new CheckInResult
                     {
                         Success = true,
@@ -125,7 +124,8 @@ namespace OnTimeApp.API.Services
                 };
             }
 
-            var insert = new CheckInRecord {User = user, Info = info, UtcDateTime = utcDateTime, Location = location, EndDay = endDay};
+            var insert = new CheckInRecord
+                {User = user, Info = info, UtcDateTime = utcDateTime, Location = location, EndDay = endDay};
 
             bool added = await _checkinManager.AddRecord(insert);
             if (added)
@@ -147,7 +147,7 @@ namespace OnTimeApp.API.Services
                 Success = false
             };
         }
-        
+
 
         public async Task<WorkedTimeResult> WorkedTimeOnDayAsync(string email, DateTime date)
         {
@@ -160,8 +160,9 @@ namespace OnTimeApp.API.Services
                     Errors = new string[] {"User email does not exits"}
                 };
             }
+
             var checkin = await _checkinManager.FindByUserEmailAndDateAsync(email, date);
-            var checkInList = checkin.OrderBy(x=>x.UtcDateTime).ToList();
+            var checkInList = checkin.OrderBy(x => x.UtcDateTime).ToList();
             bool endDay = checkInList.Any(x => x.EndDay);
             if (!endDay)
             {
@@ -172,7 +173,7 @@ namespace OnTimeApp.API.Services
                 };
             }
 
-            
+
             long ticks = 0;
             try
             {

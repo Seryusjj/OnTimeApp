@@ -15,5 +15,6 @@ namespace OnTimeApp.API.Services
         Task<UserResult> GetUserAsync(string email);
 
 
+        Task<UserResult> AddManagerToUser(string userEmail, string managerEmail);
     }
 }

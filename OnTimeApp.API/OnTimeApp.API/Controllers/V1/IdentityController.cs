@@ -20,6 +20,7 @@ namespace OnTimeApp.API.Controllers.NewFolder
         private readonly IRoleService _roleService;
         private readonly IUserService _userService;
         private readonly ICheckInRecordService _checkInRecordService;
+        private readonly IHolidayRequestService _holidayRequestService;
 
         private static bool init = false;
 
@@ -30,21 +31,24 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// <param name="roleService"></param>
         /// <param name="userService"></param>
         /// <param name="checkInRecordService"></param>
+        /// <param name="holidayRequestService"></param>
         public IdentityController(IIdentitySevice identityService,
                                   IRoleService roleService,
                                   IUserService userService,
-                                  ICheckInRecordService checkInRecordService)
+                                  ICheckInRecordService checkInRecordService,
+                                  IHolidayRequestService holidayRequestService)
         {
             _identityService = identityService;
             _roleService = roleService;
             _userService = userService;
             _checkInRecordService = checkInRecordService;
+            _holidayRequestService = holidayRequestService;
         }
 
 
         /// <summary>
         /// Creates default admin user, this is added because we do not have a real database where to add this info.
-        /// We use an in memeory db so each time the service is restarted, this should be called
+        /// We use an in memory db so each time the service is restarted, this should be called
         /// </summary>
         /// <returns></returns>
         [HttpPost("init")]
@@ -69,7 +73,15 @@ namespace OnTimeApp.API.Controllers.NewFolder
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Worker");
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
+                
+                // Holiday
+                await _userService.AddManagerToUser("dev@dev.com", "admin@admin.com");
+                await _userService.AddManagerToUser("admin@admin.com", "admin@admin.com");
+                await _holidayRequestService.RegisterHolidayRequestAsync("dev@dev.com", DateTime.Now,
+                    DateTime.Now.AddDays(3));
 
+                
+                // checkin
                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
                     DateTime.UtcNow, true, false);
                 /*await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",

@@ -5,17 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using OnTimeApp.API.Data.Results;
 using OnTimeApp.API.Entities;
+using OnTimeApp.API.Entities.DAL;
 
 namespace OnTimeApp.API.Services
 {
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly IAppUserDAL _userDal;
 
-        public UserService(UserManager<AppUser> userManager)
+        public UserService(UserManager<AppUser> userManager, IAppUserDAL userDal)
         {
             _userManager = userManager;
+            _userDal = userDal;
         }
+
         public async Task<RoleResult> AddRoleToUserAsync(string email, string role)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -23,9 +27,10 @@ namespace OnTimeApp.API.Services
             {
                 return new RoleResult
                 {
-                    Errors = new string[] { "The user does not exists" }
+                    Errors = new string[] {"The user does not exists"}
                 };
             }
+
             var res = await _userManager.AddToRoleAsync(user, role);
             if (!res.Succeeded)
                 return new RoleResult
@@ -53,7 +58,7 @@ namespace OnTimeApp.API.Services
                 })
             });
         }
-        
+
         public async Task<UserResult> GetUserAsync(string email)
         {
             var res = await _userManager.FindByEmailAsync(email);
@@ -73,6 +78,36 @@ namespace OnTimeApp.API.Services
             };
         }
 
+        public async Task<UserResult> AddManagerToUser(string userEmail, string managerEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            var manager = await _userManager.FindByEmailAsync(managerEmail);
+            if (user == null || manager == null)
+            {
+                return new UserResult
+                {
+                    Errors = new string[] {"The user does not exists"}
+                };
+            }
+
+            user.Manager = manager;
+            var res = await _userDal.UpdateUserAsync(user);
+            if (!res)
+            {
+                return new UserResult
+                {
+                    Errors = new string[] {"Could not update user"}
+                };
+            }
+
+            return new UserResult
+            {
+                Email = user.Email,
+                Success = true,
+                UserName = user.UserName
+            };
+        }
+
         public async Task<ResultSet<RoleResult>> GetUserRolesAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -80,9 +115,10 @@ namespace OnTimeApp.API.Services
             {
                 new ResultSet<RoleResult>
                 {
-                    Errors = new string[] { "The user does not exists" }
+                    Errors = new string[] {"The user does not exists"}
                 };
             }
+
             var roles = await _userManager.GetRolesAsync(user);
             return new ResultSet<RoleResult>
             {
