@@ -26,7 +26,6 @@ class _HolidayTabState extends State<HolidayTab> {
   List<HolidayRequestResponse> _userRequests;
 
   DateTime _currentDate;
-  int _currentYear;
   DateTime _start;
   DateTime _end;
   DateTime _today;
@@ -38,7 +37,6 @@ class _HolidayTabState extends State<HolidayTab> {
     _currentDate = DateTime.now();
     _today = DateTime(_currentDate.year, _currentDate.month, _currentDate.day,
         _currentDate.hour, _currentDate.minute);
-    _currentYear = _currentDate.year;
 
     _holidaysApi = new HolidaysApi();
     _userRequests = [];
@@ -51,7 +49,7 @@ class _HolidayTabState extends State<HolidayTab> {
   }
 
   _listenUserRequests() {
-    this.setState(() => _userRequests = DataRepository.userRequests.value);
+    setState(() => _userRequests = DataRepository.userRequests.value);
   }
 
   @override
@@ -238,7 +236,7 @@ class _HolidayTabState extends State<HolidayTab> {
           onPressed: () {
             // This pushes the settings page as a full page modal dialog on top
             // of the tab bar and everything.
-            Navigator.of(context, rootNavigator: true).push<void>(
+            Navigator.of(context, rootNavigator: true).push(
               CupertinoPageRoute(
                 title: SettingsTab.title,
                 fullscreenDialog: true,

@@ -67,8 +67,8 @@ class DialogManager {
     }
   }
 
-  static _singleAcceptButtonMessage(
-      BuildContext context, String message, String title, VoidCallback callback) {
+  static _singleAcceptButtonMessage(BuildContext context, String message,
+      String title, VoidCallback callback) {
     _showDialog(context, (BuildContext context) {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
@@ -80,8 +80,7 @@ class DialogManager {
                   child: CupertinoButton(
                       child: Text('Accept'),
                       onPressed: () {
-                        if(callback!=null)
-                          callback();
+                        if (callback != null) callback();
                         Navigator.pop(context);
                       }))
             ],
@@ -95,8 +94,7 @@ class DialogManager {
                     child: FlatButton(
                         child: Text('Accept'),
                         onPressed: () {
-                          if(callback!=null)
-                            callback();
+                          if (callback != null) callback();
                           Navigator.pop(context);
                         })),
               ]);
@@ -107,19 +105,23 @@ class DialogManager {
     });
   }
 
-  static showError(BuildContext context, String message, {VoidCallback callback}) {
+  static showError(BuildContext context, String message,
+      {VoidCallback callback}) {
     _singleAcceptButtonMessage(context, message, 'Error', callback);
   }
 
-  static showException(BuildContext context, String message, {VoidCallback callback}) {
+  static showException(BuildContext context, String message,
+      {VoidCallback callback}) {
     _singleAcceptButtonMessage(context, message, 'Exception', callback);
   }
 
-  static showInfo(BuildContext context, String message, {VoidCallback callback}) {
+  static showInfo(BuildContext context, String message,
+      {VoidCallback callback}) {
     _singleAcceptButtonMessage(context, message, 'Info', callback);
   }
 
-  static showCheckInPause(BuildContext context, String message, {VoidCallback onPause, VoidCallback onOut, VoidCallback onCancel}) {
+  static showCheckInPause(BuildContext context, String message,
+      {VoidCallback onPause, VoidCallback onOut, VoidCallback onCancel}) {
     _showDialog(context, (BuildContext context) {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
@@ -130,22 +132,19 @@ class DialogManager {
               CupertinoButton(
                   child: Text('Pause'),
                   onPressed: () {
-                    if (onPause != null)
-                      onPause();
+                    if (onPause != null) onPause();
                     Navigator.pop(context);
                   }),
               CupertinoButton(
                   child: Text('Out'),
                   onPressed: () async {
-                    if (onOut != null)
-                      onOut();
+                    if (onOut != null) onOut();
                     Navigator.pop(context);
                   }),
               CupertinoButton(
                   child: Text('Cancel'),
                   onPressed: () {
-                    if(onCancel != null)
-                      onCancel();
+                    if (onCancel != null) onCancel();
                     Navigator.pop(context);
                   }),
             ],
@@ -158,22 +157,19 @@ class DialogManager {
                 FlatButton(
                     child: Text('Pause'),
                     onPressed: () {
-                      if (onPause != null)
-                        onPause();
+                      if (onPause != null) onPause();
                       Navigator.pop(context);
                     }),
                 FlatButton(
                     child: Text('Out'),
                     onPressed: () {
-                      if (onOut != null)
-                        onOut();
+                      if (onOut != null) onOut();
                       Navigator.pop(context);
                     }),
                 FlatButton(
                     child: Text('Cancel'),
                     onPressed: () {
-                      if(onCancel != null)
-                        onCancel();
+                      if (onCancel != null) onCancel();
                       Navigator.pop(context);
                     }),
               ]);
@@ -183,7 +179,8 @@ class DialogManager {
     });
   }
 
-  static showConfirmation(BuildContext context, String message, {VoidCallback onAccept, VoidCallback onCancel}) {
+  static showConfirmation(BuildContext context, String message,
+      {VoidCallback onAccept, VoidCallback onCancel}) {
     _showDialog(context, (BuildContext context) {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
@@ -194,15 +191,13 @@ class DialogManager {
               CupertinoButton(
                   child: Text('Accept'),
                   onPressed: () {
-                    if (onAccept != null)
-                      onAccept();
+                    if (onAccept != null) onAccept();
                     Navigator.pop(context);
                   }),
               CupertinoButton(
                   child: Text('Cancel'),
                   onPressed: () {
-                    if(onCancel != null)
-                      onCancel();
+                    if (onCancel != null) onCancel();
                     Navigator.pop(context);
                   }),
             ],
@@ -215,15 +210,13 @@ class DialogManager {
                 FlatButton(
                     child: Text('Accept'),
                     onPressed: () {
-                      if (onAccept != null)
-                        onAccept();
+                      if (onAccept != null) onAccept();
                       Navigator.pop(context);
                     }),
                 FlatButton(
                     child: Text('Cancel'),
                     onPressed: () {
-                      if(onCancel != null)
-                        onCancel();
+                      if (onCancel != null) onCancel();
                       Navigator.pop(context);
                     }),
               ]);
@@ -232,7 +225,6 @@ class DialogManager {
       }
     });
   }
-
 
   static showErrors(BuildContext context, List<String> message) {
     String error = '';

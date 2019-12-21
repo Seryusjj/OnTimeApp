@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:on_time_app/utils/gmap.dart';
 import 'package:on_time_app/utils/widgets.dart';
-
 import 'check_in_logic.dart';
 
 class CheckInTab extends StatefulWidget {

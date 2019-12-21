@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:on_time_app/utils/widgets.dart';
-
 import 'check_in_logic.dart';
 
 class CheckInWifiTab extends StatefulWidget {
@@ -93,7 +92,7 @@ class _CheckInWifiTabState extends CheckInLogic<CheckInWifiTab> {
 
     Map json = Map<String, dynamic>();
     json['userEmail'] = userMail;
-    json['info'] = 'wifi: ${info}';
+    json['info'] = 'wifi: $info';
     json['location'] = false;
     json['utcDateTime'] = null;
     json['endDay'] = false;

@@ -8,8 +8,6 @@ import 'package:swagger/api.dart';
 import 'home/home_widget.dart';
 
 class LogInPage extends StatefulWidget {
-
-
   LogInPage();
 
   @override
@@ -60,8 +58,8 @@ class _LogInPageState extends State<LogInPage> {
           .timeout(Duration(seconds: 10),
               onTimeout: () => DialogManager.showException(
                   context, "Could not connect to service, please try later"))
-          .catchError(
-              (e) => DialogManager.showException(context, "Something went wrong on the service call"));
+          .catchError((e) => DialogManager.showException(
+              context, "Something went wrong on the service call"));
 
       if (res != null && res.success) {
         defaultApiClient.addDefaultHeader(

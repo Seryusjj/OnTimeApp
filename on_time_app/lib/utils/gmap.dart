@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,6 @@ class GMapState extends State<GMap> {
   }
 
   void _addMarker(LatLng loc) {
-    // creating a new MARKER
     final Marker marker = Marker(
       position: loc,
       markerId: MarkerId('currentLoc'),
@@ -51,7 +49,7 @@ class GMapState extends State<GMap> {
 
   Future<LatLng> getCurrentLocation() async {
     final controller = await _controller.future;
-    var _location = new Location();
+    var _location = Location();
     LatLng res;
     try {
       var currentLocation = await _location.getLocation();
