@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:on_time_app/data/data_repository.dart';
 import 'package:on_time_app/tabs/settings_tab.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
@@ -26,7 +27,6 @@ class _HolidayTabState extends State<HolidayTab> {
 
   DateTime _currentDate;
   int _currentYear;
-  int _plus_years;
   DateTime _start;
   DateTime _end;
   DateTime _today;
@@ -39,18 +39,26 @@ class _HolidayTabState extends State<HolidayTab> {
     _today = DateTime(_currentDate.year, _currentDate.month, _currentDate.day,
         _currentDate.hour, _currentDate.minute);
     _currentYear = _currentDate.year;
-    _plus_years = 3;
+
     _holidaysApi = new HolidaysApi();
     _userRequests = [];
   }
 
   @override
+  void dispose() {
+    DataRepository.userRequests.removeListener(_listenUserRequests);
+    super.dispose();
+  }
+
+  _listenUserRequests() {
+    this.setState(() => _userRequests = DataRepository.userRequests.value);
+  }
+
+  @override
   void initState() {
     super.initState();
-    _holidaysApi
-        .apiV1HolidaysEmailFromToGet(this.userEmail, _currentYear - _plus_years,
-            _currentYear + _plus_years)
-        .then((r) => {this.setState(() => _userRequests = r.response)});
+    DataRepository.userRequests.addListener(_listenUserRequests);
+    DataRepository.updateUserRequests(context, userEmail);
   }
 
   Widget _dayBuilder(
@@ -66,33 +74,38 @@ class _HolidayTabState extends State<HolidayTab> {
   ) {
     if (_shouldPaintIcon(day, _start, _end)) {
       return Center(
-          child: Column(
+          child: Stack(
         // Replace with a Row for horizontal icon + text
         children: <Widget>[
-          Icon(Icons.hotel, color: Colors.black54),
-          Text(
+          Center(child: Icon(Icons.hotel, color: Colors.amber.shade800)),
+          Center(
+              child: Text(
             day.day.toString(),
-            style: TextStyle(color: Colors.amber.shade800),
-          )
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ))
         ],
       ));
     }
 
     for (final i in _userRequests) {
       // maybe use the delete info to show something to user ...
-      if (!i.deleted && _shouldPaintIcon(day, i.dateFrom.toLocal(), i.dateTo.toLocal())) {
+      if (!i.deleted &&
+          _shouldPaintIcon(day, i.dateFrom.toLocal(), i.dateTo.toLocal())) {
         return Center(
-            child: Column(
+            child: Stack(
           // Replace with a Row for horizontal icon + text
           children: <Widget>[
-            Icon(Icons.hotel, color: Colors.black54),
-            Text(
+            Center(
+                child: Icon(Icons.hotel,
+                    color: i.approved
+                        ? Colors.lightGreen
+                        : Colors.amber.shade800)),
+            Center(
+                child: Text(
               day.day.toString(),
-              style: TextStyle(
-                  color: i.approved
-                      ? Colors.green.shade800
-                      : Colors.amber.shade800),
-            )
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            ))
           ],
         ));
       }
@@ -114,7 +127,8 @@ class _HolidayTabState extends State<HolidayTab> {
   bool isUnusedDate(DateTime date) {
     bool unusedDay = true;
     for (final i in _userRequests) {
-      if (!i.deleted && _shouldPaintIcon(date, i.dateFrom.toLocal(), i.dateTo.toLocal())) {
+      if (!i.deleted &&
+          _shouldPaintIcon(date, i.dateFrom.toLocal(), i.dateTo.toLocal())) {
         return false;
       }
     }
@@ -157,8 +171,8 @@ class _HolidayTabState extends State<HolidayTab> {
               height: cons.maxHeight * 0.80,
               daysHaveCircularBorder: true,
               selectedDateTime: _currentDate,
-              minSelectedDate: DateTime(_currentYear - _plus_years),
-              maxSelectedDate: DateTime(_currentYear + _plus_years),
+              minSelectedDate: DateTime(DataRepository.fromYear),
+              maxSelectedDate: DateTime(DataRepository.toYear),
               weekendTextStyle: TextStyle(
                 color: Colors.red.shade900,
               ),
@@ -180,9 +194,8 @@ class _HolidayTabState extends State<HolidayTab> {
     var req = HolidayRequestRegistration.fromJson(json);
     var register = await _holidaysApi.apiV1HolidaysRegisterPost(body: req);
     if (register.success) {
-      setState(() {
-        _userRequests.add(register);
-      });
+      await DataRepository.updatePendingApprovals(context, userEmail);
+      await DataRepository.updateUserRequests(context, userEmail);
       DialogManager.showInfo(context, "Request submitted");
     } else {
       DialogManager.showErrors(context, register.errors);

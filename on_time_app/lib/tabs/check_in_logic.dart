@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:on_time_app/data/data_repository.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
 
@@ -9,6 +10,8 @@ class CheckInLogic<T extends StatefulWidget> extends State<T> {
   String userMail;
   int workedHours;
   int workedMinutes;
+
+  var _timeout = Duration(seconds: 10);
 
   CheckInLogic(this.userMail) {
     recordsApi = new CheckInRecordsApi();
@@ -21,7 +24,7 @@ class CheckInLogic<T extends StatefulWidget> extends State<T> {
     if (endDay) {
       var calculated =
           await recordsApi.apiV1CheckInRecordsWorkedTimeEmailDateGet(
-              userMail, DateTime.now().toUtc());
+              userMail, DataRepository.today);
       if (calculated.success) {
         setState(() {
           this.endDay = endDay;
@@ -42,17 +45,30 @@ class CheckInLogic<T extends StatefulWidget> extends State<T> {
         body: CheckInResgistrationRequest.fromJson(json));
     recordDisabled = false;
     var checkIns = await recordsApi.apiV1CheckInRecordsEmailDateGet(
-        userMail, DateTime.now().toUtc());
+        userMail, DataRepository.today);
+    await refreshDataRepoCheckIns();
     await calculateWorkedTime(checkIns);
   }
 
-  acceptAction(Map json) {
-    recordsApi
+  acceptAction(Map json) async {
+    var res = await recordsApi
         .apiV1CheckInRecordsRegisterPost(
             body: CheckInResgistrationRequest.fromJson(json))
-        .then((r) => {
-              setState(() => recordDisabled = false),
-            });
+        .timeout(_timeout,
+            onTimeout: () =>
+                DialogManager.showException(context, "Connection timeout"));
+    if (res.success) {
+      await refreshDataRepoCheckIns();
+
+      setState(() => recordDisabled = false);
+    } else {
+      DialogManager.showErrors(context, res.errors);
+    }
+  }
+
+  Future refreshDataRepoCheckIns() async {
+      await DataRepository.updateCheckInInfo(
+          context, DataRepository.selectedDate, userMail);
   }
 
   recordLocation() async {
@@ -62,13 +78,12 @@ class CheckInLogic<T extends StatefulWidget> extends State<T> {
       });
 
       var checkIns = await recordsApi.apiV1CheckInRecordsEmailDateGet(
-          userMail, DateTime.now().toUtc());
+          userMail, DataRepository.today);
 
       await calculateWorkedTime(checkIns);
 
       var json = await getInfo();
-      if (json == null)
-        return;
+      if (json == null) return;
 
       String message = '';
       if (checkIns.response.length == 0) {
@@ -103,7 +118,7 @@ class CheckInLogic<T extends StatefulWidget> extends State<T> {
   void initState() {
     super.initState();
     recordsApi
-        .apiV1CheckInRecordsEmailDateGet(userMail, DateTime.now().toUtc())
+        .apiV1CheckInRecordsEmailDateGet(userMail, DataRepository.today)
         .then((l) => {
               calculateWorkedTime(l),
             });

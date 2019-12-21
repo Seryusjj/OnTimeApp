@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:on_time_app/data/data_repository.dart';
 import 'package:on_time_app/log_in_page.dart';
 import 'package:on_time_app/tabs/requests_page.dart';
 import 'package:on_time_app/utils/widgets.dart';
@@ -26,57 +27,65 @@ class DefaultAppTab extends StatefulWidget {
 }
 
 class _DefaultAppTabState extends State<DefaultAppTab> {
-  DateTime _currentDate;
+
   List<CheckInResponse> _currentCheckIns;
-  CheckInRecordsApi _recordsApi;
-  HolidaysApi _holidaysApi;
   String userMail;
   int _currentYear;
 
   int _pendingApprovalCount;
-  List<HolidayRequestResponse> _pendingApprovals;
 
   _DefaultAppTabState(this.userMail) {
-    _recordsApi = new CheckInRecordsApi();
-    _holidaysApi = new HolidaysApi();
-    _currentDate = DateTime.now();
     _currentCheckIns = new List<CheckInResponse>();
     _currentYear = _currentDate.year;
     _pendingApprovalCount = 0;
-    _pendingApprovals = [];
+  }
+
+  set _currentDate(DateTime _currentDate) {
+    DataRepository.selectedDate = _currentDate;
+  }
+
+  get _currentDate {
+    return DataRepository.selectedDate;
   }
 
   @override
   void dispose() {
-    _currentCheckIns = new List<CheckInResponse>();
+    _currentCheckIns = [];
+    DataRepository.currentCheckIns.removeListener(_listenCurrentCheckIns);
+    DataRepository.pendingApprovals.removeListener(_listenPendingApprovals);
     super.dispose();
+  }
+
+  void _listenCurrentCheckIns() {
+    this.setState(
+        () => _currentCheckIns = DataRepository.currentCheckIns.value);
+  }
+
+  void _listenPendingApprovals() {
+    this.setState(() => {
+          _pendingApprovalCount = DataRepository.pendingApprovals.value.length
+        });
   }
 
   @override
   void initState() {
     super.initState();
-    _getCheckIns(_currentDate)
-        .then((v) => this.setState(() => {_currentCheckIns = v}));
-    _getPendingApproval(userMail);
+    // subscribe
+    DataRepository.currentCheckIns.addListener(_listenCurrentCheckIns);
+    DataRepository.pendingApprovals.addListener(_listenPendingApprovals);
+
+    // trigger update
+    _updateCheckIns(_currentDate);
+    _updatePendingApproval(userMail);
   }
 
-  Future<List<CheckInResponse>> _getCheckIns(DateTime time) async {
-    var res = await _recordsApi.apiV1CheckInRecordsEmailDateGet(
-        userMail, time.toUtc());
-    if (res.success) {
-      return res.response;
-    }
-    return new List<CheckInResponse>();
+  Future<void> _updateCheckIns(DateTime time) async {
+    return DataRepository.updateCheckInInfo(context, time, userMail);
   }
 
-  Future<List<CheckInResponse>> _getPendingApproval(String email) async {
-    var res = await _holidaysApi.apiV1HolidaysToApproveEmailGet(email);
-    if (res.success) {
-      setState(() {
-        this._pendingApprovalCount = res.response.length;
-        this._pendingApprovals = res.response;
-      });
-    }
+  Future<void> _updatePendingApproval(String email) async {
+    return DataRepository.updatePendingApprovals(context, userMail);
+
   }
 
   Widget _getCard(CheckInResponse response) {
@@ -141,14 +150,13 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
             alignment: Alignment.topCenter,
             child: CalendarCarousel<Event>(
                 onDayPressed: (DateTime date, List<Event> events) {
-                  _currentCheckIns.clear();
-                  _getCheckIns(date).then((v) => this.setState(
-                      () => {_currentDate = date, _currentCheckIns = v}));
+                  _updateCheckIns(date)
+                      .then((v) => this.setState(() => {_currentDate = date}));
                 },
                 weekFormat: true,
                 headerMargin: const EdgeInsets.symmetric(vertical: 5),
-                minSelectedDate: DateTime(_currentYear - 3),
-                maxSelectedDate: DateTime(_currentYear + 3),
+                minSelectedDate: DateTime(DataRepository.fromYear),
+                maxSelectedDate: DateTime(DataRepository.toYear),
                 width: cons.maxWidth,
                 height: cons.maxHeight * 0.40,
                 daysHaveCircularBorder: true,
@@ -174,7 +182,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => RequestsPage(_pendingApprovals)));
+            builder: (context) => RequestsPage(userMail)));
   }
 
   void _navigateLogout(BuildContext context) {
@@ -268,7 +276,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                   CupertinoPageRoute(
                     title: RequestsPage.title,
                     fullscreenDialog: true,
-                    builder: (context) => RequestsPage(_pendingApprovals),
+                    builder: (context) => RequestsPage(userMail),
                   ),
                 );
               },

@@ -1,27 +1,47 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:on_time_app/data/data_repository.dart';
 import 'package:on_time_app/utils/widgets.dart';
 import 'package:swagger/api.dart';
 
 class RequestsPage extends StatefulWidget {
   static String title = "Requests";
 
-  final List<HolidayRequestResponse> pendingApprovals;
+  final String userEmail;
 
-  RequestsPage(this.pendingApprovals);
+  RequestsPage(this.userEmail);
 
   @override
-  State<StatefulWidget> createState() => _RequestsPageState(pendingApprovals);
+  State<StatefulWidget> createState() => _RequestsPageState(userEmail);
 }
 
 class _RequestsPageState extends State<RequestsPage> {
-  List<HolidayRequestResponse> pendingApprovals;
+  final String userEmail;
+  List<HolidayRequestResponse> _pendingApprovals;
   HolidaysApi _holidaysApi;
 
-  _RequestsPageState(List<HolidayRequestResponse> pendingApprovals) {
-    this.pendingApprovals = pendingApprovals ?? [];
+  _RequestsPageState(this.userEmail) {
+    this._pendingApprovals = DataRepository.pendingApprovals.value;
     _holidaysApi = new HolidaysApi();
+  }
+
+  @override
+  void dispose() {
+    DataRepository.pendingApprovals.removeListener(_listenPendingApprovals);
+    super.dispose();
+  }
+
+  _listenPendingApprovals() {
+    setState(() {
+      this._pendingApprovals = DataRepository.pendingApprovals.value;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    DataRepository.pendingApprovals.addListener(_listenPendingApprovals);
   }
 
   Widget _buildBodyBuilder(BuildContext ctx, BoxConstraints cons) {
@@ -38,9 +58,8 @@ class _RequestsPageState extends State<RequestsPage> {
     var send = HolidayApproveRequest.fromJson(json);
     var response = await _holidaysApi.apiV1HolidaysApprovePost(body: send);
     if (response.success) {
-      setState(() {
-        pendingApprovals.remove(req);
-      });
+      await DataRepository.updatePendingApprovals(context, userEmail);
+      await DataRepository.updateUserRequests(context, userEmail);
       DialogManager.showInfo(context, "Succesfully approved");
     } else {
       DialogManager.showErrors(context, response.errors);
@@ -53,9 +72,8 @@ class _RequestsPageState extends State<RequestsPage> {
     var send = HolidayDeleteRequest.fromJson(json);
     var response = await _holidaysApi.apiV1HolidaysDeletePost(body: send);
     if (response.success) {
-      setState(() {
-        pendingApprovals.remove(req);
-      });
+      await DataRepository.updatePendingApprovals(context, userEmail);
+      await DataRepository.updateUserRequests(context, userEmail);
       DialogManager.showInfo(context, "Succesfully cancelled");
     } else {
       DialogManager.showErrors(context, response.errors);
@@ -121,9 +139,9 @@ class _RequestsPageState extends State<RequestsPage> {
   }
 
   Widget _listBuilder(BuildContext context, int index) {
-    if (index >= pendingApprovals.length) return null;
+    if (index >= _pendingApprovals.length) return null;
 
-    return _getCard(pendingApprovals[index]);
+    return _getCard(_pendingApprovals[index]);
   }
 
   Widget _buildAndroid(BuildContext context) {

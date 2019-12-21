@@ -33,8 +33,9 @@ dependencies:
   shared_preferences: ^0.5.6
 
 flutter_icons:
-  image_path: "images/icon.png"
-  android: true
+  image_path_android: "images/icon-android.png"
+  image_path_ios: "images/icon-ios.png"
+  android: true # can specify file name here e.g. "ic_launcher"
   ios: true
 
 
@@ -59,7 +60,8 @@ flutter:
     - images/background.jpg
     - images/square_p_holder.png
     - images/header.png
-    - images/icon.png
+    - images/icon-android.png
+    - images/icon-ios.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
