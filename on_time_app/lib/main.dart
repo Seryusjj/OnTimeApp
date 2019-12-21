@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // conf http client from gen code ...
-    defaultApiClient.basePath = 'https://10.0.2.2:5001';
+    defaultApiClient.basePath = 'https://127.0.0.1:5001';
     HttpClient httpClient = new HttpClient()
       ..badCertificateCallback =
           ((X509Certificate cert, String host, int port) =>
