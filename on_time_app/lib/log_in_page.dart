@@ -50,14 +50,14 @@ class _LogInPageState extends State<LogInPage> {
       // do nothing on timeout
       await _identityApi
           .apiV1IdentityInitPost()
-          .timeout(Duration(seconds: 2), onTimeout: () => {});
+          .timeout(Duration(seconds: 10), onTimeout: () => {});
 
       json['email'] = userNameController.text;
       json['password'] = userPassController.text;
       // if this one fails then show errors
       var res = await _identityApi
           .apiV1IdentityLoginPost(body: UserLoginRequest.fromJson(json))
-          .timeout(Duration(seconds: 2),
+          .timeout(Duration(seconds: 10),
               onTimeout: () => DialogManager.showException(
                   context, "Could not connect to service, please try later"))
           .catchError(

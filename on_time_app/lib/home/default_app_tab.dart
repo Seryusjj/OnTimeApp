@@ -30,13 +30,11 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
 
   List<CheckInResponse> _currentCheckIns;
   String userMail;
-  int _currentYear;
 
   int _pendingApprovalCount;
 
   _DefaultAppTabState(this.userMail) {
     _currentCheckIns = new List<CheckInResponse>();
-    _currentYear = _currentDate.year;
     _pendingApprovalCount = 0;
   }
 
@@ -158,7 +156,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
                 minSelectedDate: DateTime(DataRepository.fromYear),
                 maxSelectedDate: DateTime(DataRepository.toYear),
                 width: cons.maxWidth,
-                height: cons.maxHeight * 0.40,
+                height: cons.maxHeight * 0.30,
                 daysHaveCircularBorder: true,
                 selectedDateTime: _currentDate,
                 weekendTextStyle: TextStyle(
@@ -169,7 +167,7 @@ class _DefaultAppTabState extends State<DefaultAppTab> {
             decoration: BoxDecoration(color: Colors.white)),
         Container(
             width: cons.maxWidth,
-            height: cons.maxHeight * 0.60,
+            height: cons.maxHeight * 0.70,
             child: ListView.builder(
               itemBuilder: _listBuilder,
             ),
