@@ -1,4 +1,12 @@
 export * from './authResponse';
+export * from './checkInResgistrationRequest';
+export * from './checkInResponse';
+export * from './checkInResponseResponseSet';
+export * from './holidayApproveRequest';
+export * from './holidayDeleteRequest';
+export * from './holidayRequestRegistration';
+export * from './holidayRequestResponse';
+export * from './holidayRequestResponseResponseSet';
 export * from './roleRegistrationRequest';
 export * from './roleResponse';
 export * from './roleResponseResponseSet';
@@ -8,3 +16,4 @@ export * from './userRegistrationRequest';
 export * from './userResponse';
 export * from './userResponseResponseSet';
 export * from './userRoleAdditionRequest';
+export * from './workedTimeResponse';

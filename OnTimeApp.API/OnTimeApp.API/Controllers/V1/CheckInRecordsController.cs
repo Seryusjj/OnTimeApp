@@ -9,7 +9,7 @@ using OnTimeApp.API.Contracts.V1.Requests;
 using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Services;
 
-namespace OnTimeApp.API.Controllers
+namespace OnTimeApp.API.Controllers.V1
 {
     [Route("api/v1/[controller]")]
     [ApiController]

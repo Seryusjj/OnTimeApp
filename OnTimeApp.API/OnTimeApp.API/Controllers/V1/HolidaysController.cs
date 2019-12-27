@@ -135,10 +135,10 @@ namespace OnTimeApp.API.Controllers.V1
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new HolidayRequestResponse
+                return new HolidayRequestResponse
                 {
                     Errors = ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))
-                });
+                };
             }
 
             var res = await _holidayRequestService.RegisterHolidayRequestAsync(request.UserEmail, request.From,

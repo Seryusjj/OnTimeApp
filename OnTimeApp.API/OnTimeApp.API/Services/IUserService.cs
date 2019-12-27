@@ -7,6 +7,8 @@ namespace OnTimeApp.API.Services
     public interface IUserService
     {        
         Task<ResultSet<UserResult>> GetAllUsersAsync();
+        
+        Task<ResultSet<UserResult>> GetAllSubordiantesAsync(string email);
 
         Task<ResultSet<RoleResult>> GetUserRolesAsync(string email);
 

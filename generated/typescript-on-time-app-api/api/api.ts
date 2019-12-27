@@ -1,7 +1,11 @@
+export * from './checkInRecords.service';
+import { CheckInRecordsService } from './checkInRecords.service';
+export * from './holidays.service';
+import { HolidaysService } from './holidays.service';
 export * from './identity.service';
 import { IdentityService } from './identity.service';
 export * from './roles.service';
 import { RolesService } from './roles.service';
 export * from './users.service';
 import { UsersService } from './users.service';
-export const APIS = [IdentityService, RolesService, UsersService];
+export const APIS = [CheckInRecordsService, HolidaysService, IdentityService, RolesService, UsersService];

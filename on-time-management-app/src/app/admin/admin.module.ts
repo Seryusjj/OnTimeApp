@@ -5,7 +5,8 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import {FormsModule} from '@angular/forms';
 import {CoreModule} from '../core/core-module';
 import { ViewCheckinComponent } from './view-checkin/view-checkin.component';
-import { RoleUserComponent } from './role-user/role-user.component';
+import {AddUserComponent} from './add-user/edit-user.component';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   imports: [
@@ -22,16 +23,17 @@ import { RoleUserComponent } from './role-user/role-user.component';
       },
       {
         path: 'NewUser',
-        component: EditUserComponent
+        component: AddUserComponent
       }
     ]),
-    CoreModule
+    CoreModule,
+    CommonModule
   ],
   declarations: [
     AdminComponent,
     EditUserComponent,
-    ViewCheckinComponent,
-    RoleUserComponent
+    AddUserComponent,
+    ViewCheckinComponent
   ],
   exports: [AdminComponent]
 })

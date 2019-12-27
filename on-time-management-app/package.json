@@ -20,7 +20,7 @@
     "@angular/platform-browser": "~8.2.9",
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
-    "@swagger/typescript-on-time-app-api": "^0.0.4",
+    "@swagger/typescript-on-time-app-api": "^0.0.6",
     "bootstrap": "^4.4.0",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.15",

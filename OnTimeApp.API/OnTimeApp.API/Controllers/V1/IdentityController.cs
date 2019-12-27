@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnTimeApp.API.Contracts.V1.Requests;
 using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Services;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace OnTimeApp.API.Controllers.NewFolder
+namespace OnTimeApp.API.Controllers.V1
 {
     /// <summary>
     /// Identification controller, used for registering or login users
@@ -33,10 +33,10 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// <param name="checkInRecordService"></param>
         /// <param name="holidayRequestService"></param>
         public IdentityController(IIdentitySevice identityService,
-                                  IRoleService roleService,
-                                  IUserService userService,
-                                  ICheckInRecordService checkInRecordService,
-                                  IHolidayRequestService holidayRequestService)
+            IRoleService roleService,
+            IUserService userService,
+            ICheckInRecordService checkInRecordService,
+            IHolidayRequestService holidayRequestService)
         {
             _identityService = identityService;
             _roleService = roleService;
@@ -73,16 +73,16 @@ namespace OnTimeApp.API.Controllers.NewFolder
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Worker");
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Admin");
                 await _userService.AddRoleToUserAsync("dev@dev.com", "Manager");
-                
+
                 // Holiday
                 await _userService.AddManagerToUser("dev@dev.com", "admin@admin.com");
                 await _userService.AddManagerToUser("admin@admin.com", "admin@admin.com");
                 await _holidayRequestService.RegisterHolidayRequestAsync("dev@dev.com", DateTime.Now,
                     DateTime.Now.AddDays(3));
 
-                
+
                 // checkin
-               await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
+                await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
                     DateTime.UtcNow, true, false);
                 /*await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
                     DateTime.UtcNow.AddHours(1), false, false);
@@ -100,8 +100,6 @@ namespace OnTimeApp.API.Controllers.NewFolder
                     DateTime.UtcNow.AddDays(-1).AddHours(2), false, false);
                 await _checkInRecordService.RegisterCheckInAsync("admin@admin.com", "long -lat bla bla",
                     DateTime.UtcNow.AddDays(-1).AddHours(3), false, true);
-                
-                
             }
 
             return Ok();
@@ -113,21 +111,23 @@ namespace OnTimeApp.API.Controllers.NewFolder
         /// </summary>
         /// <param name="request">The new user information</param>
         /// <returns>An Auth response</returns>
-        /// <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
+        /// <response code ="200">Returns an AuthResponse object with success true and empty token</response>
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
         public async Task<ActionResult<AuthResponse>> Register([FromBody] UserRegistrationRequest request)
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
+                return new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)));
             }
+
             var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
             if (!authResponse.Success)
             {
-                return Ok(new AuthResponse(authResponse.Errors));
+                return new AuthResponse(authResponse.Errors);
             }
-            return Ok(new AuthResponse(string.Empty));
+
+            return new AuthResponse(string.Empty);
         }
 
         /// <summary>
@@ -142,14 +142,16 @@ namespace OnTimeApp.API.Controllers.NewFolder
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))));
+                return new AuthResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)));
             }
+
             var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
             if (!authResponse.Success)
             {
-                return Ok(new AuthResponse(authResponse.Errors));
+                return new AuthResponse(authResponse.Errors);
             }
-            return Ok(new AuthResponse(authResponse.Token));
+
+            return new AuthResponse(authResponse.Token);
         }
     }
 }

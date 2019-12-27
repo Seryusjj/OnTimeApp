@@ -27,6 +27,9 @@ export class CrudGridComponent<T> implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.objectList) {
+      this.objectList = [];
+    }
   }
 
   fireDetail(item: T) {
@@ -46,22 +49,22 @@ export class CrudGridComponent<T> implements OnInit {
   }
 
   detailButtonClass(): string {
-    const extra = this.detail.observers.length === 0 ? 'disabled' : '';
+    const extra = this.detail.observers.length === 0 ? 'd-none' : '';
     return 'btn btn-outline-primary fa fa-eye ' + extra;
   }
 
   deleteButtonClass() {
-    const extra = this.delete.observers.length === 0 ? 'disabled' : '';
-    return 'btn btn-outline-primary fa fa-trash ';
+    const extra = this.delete.observers.length === 0 ? 'd-none' : '';
+    return 'btn btn-outline-primary fa fa-trash ' + extra;
   }
 
   editButtonClass() {
-    const extra = this.edit.observers.length === 0 ? 'disabled' : '';
+    const extra = this.edit.observers.length === 0 ? 'd-none' : '';
     return 'btn btn-outline-primary fa fa-edit ' + extra;
   }
 
   addButtonClass() {
-    const extra = this.add.observers.length === 0 ? 'disabled' : '';
+    const extra = this.add.observers.length === 0 ? 'd-none' : '';
     return 'btn btn-outline-secondary fa fa-plus pull-right ' + extra;
   }
 }

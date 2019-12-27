@@ -421,7 +421,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns an AuthResponse object with succes true and empty token",
+            "description": "Returns an AuthResponse object with success true and empty token",
             "schema": {
               "$ref": "#/definitions/AuthResponse"
             }
@@ -645,6 +645,37 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RoleResponseResponseSet"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Users/Subordinates/{email}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserResponseResponseSet"
             }
           }
         }

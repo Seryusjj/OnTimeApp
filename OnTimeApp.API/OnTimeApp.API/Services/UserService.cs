@@ -59,6 +59,30 @@ namespace OnTimeApp.API.Services
             });
         }
 
+        public async Task<ResultSet<UserResult>> GetAllSubordiantesAsync(string email)
+        {
+            var res = await _userManager.FindByEmailAsync(email);
+            if (res == null)
+            {
+                return new ResultSet<UserResult>
+                {
+                    Errors = new string[] {"User does not exists"}
+                };
+            }
+
+            var subordinates =  await _userDal.GetUsersFromManagerAsync(res);
+            return new ResultSet<UserResult>
+            {
+                Success = true,
+                Results = subordinates.Select(x=> new UserResult
+                {
+                    Email = x.Email,
+                    UserName = x.UserName
+                })
+            };
+            
+        }
+
         public async Task<UserResult> GetUserAsync(string email)
         {
             var res = await _userManager.FindByEmailAsync(email);

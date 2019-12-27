@@ -6,10 +6,11 @@ import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 
 import {environment} from '../environments/environment';
-import {ApiModule, BASE_PATH, Configuration, ConfigurationParameters} from '@swagger/typescript-on-time-app-api';
+import {ApiModule, BASE_PATH, Configuration} from '@swagger/typescript-on-time-app-api';
 import {HttpClientModule} from '@angular/common/http';
 import {CoreModule} from './core/core-module';
 import {ApiConfig, SetBearer} from './core/config/global-config';
+
 
 
 
@@ -26,7 +27,8 @@ export function apiConfigFactory(): Configuration {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     CoreModule,

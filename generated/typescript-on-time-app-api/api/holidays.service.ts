@@ -18,18 +18,18 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { RoleResponse } from '../model/roleResponse';
-import { RoleResponseResponseSet } from '../model/roleResponseResponseSet';
-import { UserResponse } from '../model/userResponse';
-import { UserResponseResponseSet } from '../model/userResponseResponseSet';
-import { UserRoleAdditionRequest } from '../model/userRoleAdditionRequest';
+import { HolidayApproveRequest } from '../model/holidayApproveRequest';
+import { HolidayDeleteRequest } from '../model/holidayDeleteRequest';
+import { HolidayRequestRegistration } from '../model/holidayRequestRegistration';
+import { HolidayRequestResponse } from '../model/holidayRequestResponse';
+import { HolidayRequestResponseResponseSet } from '../model/holidayRequestResponseResponseSet';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class UsersService {
+export class HolidaysService {
 
     protected basePath = 'https://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -61,16 +61,16 @@ export class UsersService {
 
 
     /**
-     * 
+     * Approve an existing Holiday request
      * 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'body', reportProgress?: boolean): Observable<RoleResponse>;
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponse>>;
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponse>>;
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1HolidaysApprovePost(body?: HolidayApproveRequest, observe?: 'body', reportProgress?: boolean): Observable<HolidayRequestResponse>;
+    public apiV1HolidaysApprovePost(body?: HolidayApproveRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<HolidayRequestResponse>>;
+    public apiV1HolidaysApprovePost(body?: HolidayApproveRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<HolidayRequestResponse>>;
+    public apiV1HolidaysApprovePost(body?: HolidayApproveRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
@@ -103,7 +103,7 @@ export class UsersService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<RoleResponse>(`${this.basePath}/api/v1/Users/AddRole`,
+        return this.httpClient.post<HolidayRequestResponse>(`${this.basePath}/api/v1/Holidays/Approve`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -115,20 +115,17 @@ export class UsersService {
     }
 
     /**
+     * Delete an existing Holiday request
      * 
-     * 
-     * @param email 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
-    public apiV1UsersEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
-    public apiV1UsersEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
-    public apiV1UsersEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1HolidaysDeletePost(body?: HolidayDeleteRequest, observe?: 'body', reportProgress?: boolean): Observable<HolidayRequestResponse>;
+    public apiV1HolidaysDeletePost(body?: HolidayDeleteRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<HolidayRequestResponse>>;
+    public apiV1HolidaysDeletePost(body?: HolidayDeleteRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<HolidayRequestResponse>>;
+    public apiV1HolidaysDeletePost(body?: HolidayDeleteRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling apiV1UsersEmailGet.');
-        }
 
         let headers = this.defaultHeaders;
 
@@ -150,9 +147,18 @@ export class UsersService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
         ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
 
-        return this.httpClient.get<UserResponse>(`${this.basePath}/api/v1/Users/${encodeURIComponent(String(email))}`,
+        return this.httpClient.post<HolidayRequestResponse>(`${this.basePath}/api/v1/Holidays/Delete`,
+            body,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -163,15 +169,30 @@ export class UsersService {
     }
 
     /**
+     * Get a set of request that belong to the user with the passed email between the years from and to
      * 
-     * 
+     * @param email Owner email
+     * @param from From year
+     * @param to To year
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersGet(observe?: 'body', reportProgress?: boolean): Observable<UserResponseResponseSet>;
-    public apiV1UsersGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponseResponseSet>>;
-    public apiV1UsersGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponseResponseSet>>;
-    public apiV1UsersGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1HolidaysEmailFromToGet(email: string, from: number, to: number, observe?: 'body', reportProgress?: boolean): Observable<HolidayRequestResponseResponseSet>;
+    public apiV1HolidaysEmailFromToGet(email: string, from: number, to: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<HolidayRequestResponseResponseSet>>;
+    public apiV1HolidaysEmailFromToGet(email: string, from: number, to: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<HolidayRequestResponseResponseSet>>;
+    public apiV1HolidaysEmailFromToGet(email: string, from: number, to: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling apiV1HolidaysEmailFromToGet.');
+        }
+
+        if (from === null || from === undefined) {
+            throw new Error('Required parameter from was null or undefined when calling apiV1HolidaysEmailFromToGet.');
+        }
+
+        if (to === null || to === undefined) {
+            throw new Error('Required parameter to was null or undefined when calling apiV1HolidaysEmailFromToGet.');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -195,7 +216,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<UserResponseResponseSet>(`${this.basePath}/api/v1/Users`,
+        return this.httpClient.get<HolidayRequestResponseResponseSet>(`${this.basePath}/api/v1/Holidays/${encodeURIComponent(String(email))}/${encodeURIComponent(String(from))}/${encodeURIComponent(String(to))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -206,20 +227,17 @@ export class UsersService {
     }
 
     /**
+     * Register a new leave request
      * 
-     * 
-     * @param email 
+     * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<RoleResponseResponseSet>;
-    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponseResponseSet>>;
-    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponseResponseSet>>;
-    public apiV1UsersGetRolesEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1HolidaysRegisterPost(body?: HolidayRequestRegistration, observe?: 'body', reportProgress?: boolean): Observable<HolidayRequestResponse>;
+    public apiV1HolidaysRegisterPost(body?: HolidayRequestRegistration, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<HolidayRequestResponse>>;
+    public apiV1HolidaysRegisterPost(body?: HolidayRequestRegistration, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<HolidayRequestResponse>>;
+    public apiV1HolidaysRegisterPost(body?: HolidayRequestRegistration, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling apiV1UsersGetRolesEmailGet.');
-        }
 
         let headers = this.defaultHeaders;
 
@@ -241,9 +259,18 @@ export class UsersService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
         ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
 
-        return this.httpClient.get<RoleResponseResponseSet>(`${this.basePath}/api/v1/Users/GetRoles/${encodeURIComponent(String(email))}`,
+        return this.httpClient.post<HolidayRequestResponse>(`${this.basePath}/api/v1/Holidays/Register`,
+            body,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -254,19 +281,19 @@ export class UsersService {
     }
 
     /**
+     * Get the Holiday requests that the user has to approve
      * 
-     * 
-     * @param email 
+     * @param email The manager email
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersSubordinatesEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<UserResponseResponseSet>;
-    public apiV1UsersSubordinatesEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponseResponseSet>>;
-    public apiV1UsersSubordinatesEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponseResponseSet>>;
-    public apiV1UsersSubordinatesEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1HolidaysToApproveEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<HolidayRequestResponseResponseSet>;
+    public apiV1HolidaysToApproveEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<HolidayRequestResponseResponseSet>>;
+    public apiV1HolidaysToApproveEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<HolidayRequestResponseResponseSet>>;
+    public apiV1HolidaysToApproveEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling apiV1UsersSubordinatesEmailGet.');
+            throw new Error('Required parameter email was null or undefined when calling apiV1HolidaysToApproveEmailGet.');
         }
 
         let headers = this.defaultHeaders;
@@ -291,7 +318,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<UserResponseResponseSet>(`${this.basePath}/api/v1/Users/Subordinates/${encodeURIComponent(String(email))}`,
+        return this.httpClient.get<HolidayRequestResponseResponseSet>(`${this.basePath}/api/v1/Holidays/ToApprove/${encodeURIComponent(String(email))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

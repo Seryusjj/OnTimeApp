@@ -3,6 +3,8 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { CheckInRecordsService } from './api/checkInRecords.service';
+import { HolidaysService } from './api/holidays.service';
 import { IdentityService } from './api/identity.service';
 import { RolesService } from './api/roles.service';
 import { UsersService } from './api/users.service';
@@ -12,6 +14,8 @@ import { UsersService } from './api/users.service';
   declarations: [],
   exports:      [],
   providers: [
+    CheckInRecordsService,
+    HolidaysService,
     IdentityService,
     RolesService,
     UsersService ]

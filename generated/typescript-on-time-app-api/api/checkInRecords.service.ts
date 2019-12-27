@@ -18,18 +18,17 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { RoleResponse } from '../model/roleResponse';
-import { RoleResponseResponseSet } from '../model/roleResponseResponseSet';
-import { UserResponse } from '../model/userResponse';
-import { UserResponseResponseSet } from '../model/userResponseResponseSet';
-import { UserRoleAdditionRequest } from '../model/userRoleAdditionRequest';
+import { CheckInResgistrationRequest } from '../model/checkInResgistrationRequest';
+import { CheckInResponse } from '../model/checkInResponse';
+import { CheckInResponseResponseSet } from '../model/checkInResponseResponseSet';
+import { WorkedTimeResponse } from '../model/workedTimeResponse';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
 
 
 @Injectable()
-export class UsersService {
+export class CheckInRecordsService {
 
     protected basePath = 'https://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -63,14 +62,158 @@ export class UsersService {
     /**
      * 
      * 
+     * @param email 
+     * @param date 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1CheckInRecordsEmailDateGet(email: string, date: Date, observe?: 'body', reportProgress?: boolean): Observable<CheckInResponseResponseSet>;
+    public apiV1CheckInRecordsEmailDateGet(email: string, date: Date, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsEmailDateGet(email: string, date: Date, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsEmailDateGet(email: string, date: Date, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling apiV1CheckInRecordsEmailDateGet.');
+        }
+
+        if (date === null || date === undefined) {
+            throw new Error('Required parameter date was null or undefined when calling apiV1CheckInRecordsEmailDateGet.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<CheckInResponseResponseSet>(`${this.basePath}/api/v1/CheckInRecords/${encodeURIComponent(String(email))}/${encodeURIComponent(String(date.toISOString()))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param email 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1CheckInRecordsEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<CheckInResponseResponseSet>;
+    public apiV1CheckInRecordsEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling apiV1CheckInRecordsEmailGet.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<CheckInResponseResponseSet>(`${this.basePath}/api/v1/CheckInRecords/${encodeURIComponent(String(email))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1CheckInRecordsGet(observe?: 'body', reportProgress?: boolean): Observable<CheckInResponseResponseSet>;
+    public apiV1CheckInRecordsGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<CheckInResponseResponseSet>(`${this.basePath}/api/v1/CheckInRecords`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'body', reportProgress?: boolean): Observable<RoleResponse>;
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponse>>;
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponse>>;
-    public apiV1UsersAddRolePost(body?: UserRoleAdditionRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1CheckInRecordsRegisterPost(body?: CheckInResgistrationRequest, observe?: 'body', reportProgress?: boolean): Observable<CheckInResponse>;
+    public apiV1CheckInRecordsRegisterPost(body?: CheckInResgistrationRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CheckInResponse>>;
+    public apiV1CheckInRecordsRegisterPost(body?: CheckInResgistrationRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CheckInResponse>>;
+    public apiV1CheckInRecordsRegisterPost(body?: CheckInResgistrationRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
 
         let headers = this.defaultHeaders;
@@ -103,7 +246,7 @@ export class UsersService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<RoleResponse>(`${this.basePath}/api/v1/Users/AddRole`,
+        return this.httpClient.post<CheckInResponse>(`${this.basePath}/api/v1/CheckInRecords/Register`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -118,16 +261,21 @@ export class UsersService {
      * 
      * 
      * @param email 
+     * @param date 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiV1UsersEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
-    public apiV1UsersEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
-    public apiV1UsersEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
-    public apiV1UsersEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiV1CheckInRecordsWorkedTimeEmailDateGet(email: string, date: Date, observe?: 'body', reportProgress?: boolean): Observable<WorkedTimeResponse>;
+    public apiV1CheckInRecordsWorkedTimeEmailDateGet(email: string, date: Date, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<WorkedTimeResponse>>;
+    public apiV1CheckInRecordsWorkedTimeEmailDateGet(email: string, date: Date, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<WorkedTimeResponse>>;
+    public apiV1CheckInRecordsWorkedTimeEmailDateGet(email: string, date: Date, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling apiV1UsersEmailGet.');
+            throw new Error('Required parameter email was null or undefined when calling apiV1CheckInRecordsWorkedTimeEmailDateGet.');
+        }
+
+        if (date === null || date === undefined) {
+            throw new Error('Required parameter date was null or undefined when calling apiV1CheckInRecordsWorkedTimeEmailDateGet.');
         }
 
         let headers = this.defaultHeaders;
@@ -152,146 +300,7 @@ export class UsersService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<UserResponse>(`${this.basePath}/api/v1/Users/${encodeURIComponent(String(email))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiV1UsersGet(observe?: 'body', reportProgress?: boolean): Observable<UserResponseResponseSet>;
-    public apiV1UsersGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponseResponseSet>>;
-    public apiV1UsersGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponseResponseSet>>;
-    public apiV1UsersGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let headers = this.defaultHeaders;
-
-        // authentication (Bearer) required
-        if (this.configuration.apiKeys["Authorization"]) {
-            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
-        }
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<UserResponseResponseSet>(`${this.basePath}/api/v1/Users`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param email 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<RoleResponseResponseSet>;
-    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponseResponseSet>>;
-    public apiV1UsersGetRolesEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponseResponseSet>>;
-    public apiV1UsersGetRolesEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling apiV1UsersGetRolesEmailGet.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (Bearer) required
-        if (this.configuration.apiKeys["Authorization"]) {
-            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
-        }
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<RoleResponseResponseSet>(`${this.basePath}/api/v1/Users/GetRoles/${encodeURIComponent(String(email))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * 
-     * 
-     * @param email 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public apiV1UsersSubordinatesEmailGet(email: string, observe?: 'body', reportProgress?: boolean): Observable<UserResponseResponseSet>;
-    public apiV1UsersSubordinatesEmailGet(email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponseResponseSet>>;
-    public apiV1UsersSubordinatesEmailGet(email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponseResponseSet>>;
-    public apiV1UsersSubordinatesEmailGet(email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling apiV1UsersSubordinatesEmailGet.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // authentication (Bearer) required
-        if (this.configuration.apiKeys["Authorization"]) {
-            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
-        }
-
-        // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
-            'text/plain',
-            'application/json',
-            'text/json'
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-        ];
-
-        return this.httpClient.get<UserResponseResponseSet>(`${this.basePath}/api/v1/Users/Subordinates/${encodeURIComponent(String(email))}`,
+        return this.httpClient.get<WorkedTimeResponse>(`${this.basePath}/api/v1/CheckInRecords/WorkedTime/${encodeURIComponent(String(email))}/${encodeURIComponent(String(date.toISOString()))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

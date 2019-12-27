@@ -59,7 +59,7 @@ export class IdentityService {
 
 
     /**
-     * Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memeory db so each time the service is restarted, this should be called
+     * Creates default admin user, this is added because we do not have a real database where to add this info.  We use an in memory db so each time the service is restarted, this should be called
      * 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

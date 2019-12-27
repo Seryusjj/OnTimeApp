@@ -5,8 +5,7 @@
       <app-crud-grid id="roles"
                      [header]="rolesHeader"
                      [objectList]="roles"
-                     [girdDisplay]="rolePrint"
-                     (delete)="deleteRole($event)">
+                     [girdDisplay]="rolePrint">
       </app-crud-grid>
     </div>
     <div class="col-md-7">
@@ -14,7 +13,6 @@
                      [header]="usersHeader"
                      [objectList]="users"
                      [girdDisplay]="userPrint"
-                     (delete)="deleteUser($event)"
                      (edit)="editUser($event)"
                      (add)="addUser()"
       >

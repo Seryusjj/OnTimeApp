@@ -1,4 +1,4 @@
-## @swagger/typescript-on-time-app-api@0.0.4
+## @swagger/typescript-on-time-app-api@0.0.6
 
 ### Building
 
@@ -19,7 +19,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install @swagger/typescript-on-time-app-api@0.0.4 --save
+npm install @swagger/typescript-on-time-app-api@0.0.6 --save
 ```
 
 _without publishing (not recommended):_
