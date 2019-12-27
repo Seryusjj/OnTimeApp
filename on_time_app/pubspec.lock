@@ -255,7 +255,7 @@ packages:
   swagger:
     dependency: "direct main"
     description:
-      path: "..\\generated\\dart_on_time_app_api"
+      path: "../generated/dart_on_time_app_api"
       relative: true
     source: path
     version: "1.0.0"
