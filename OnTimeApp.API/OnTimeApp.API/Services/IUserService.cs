@@ -18,5 +18,6 @@ namespace OnTimeApp.API.Services
 
 
         Task<UserResult> AddManagerToUser(string userEmail, string managerEmail);
+        Task<RoleResult> RemoveRoleFromUserAsync(string email, string role);
     }
 }

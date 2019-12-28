@@ -1,6 +1,13 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {RolesService, UserResponse, UsersService} from '@swagger/typescript-on-time-app-api';
+import {
+  CheckInRecordsService, HolidaysService,
+  RolesService,
+  UserAddSubordinateRequest,
+  UserResponse,
+  UserRoleRemoveRequest,
+  UsersService
+} from '@swagger/typescript-on-time-app-api';
 import {UserRoleAdditionRequest} from '@swagger/typescript-on-time-app-api/model/userRoleAdditionRequest';
 
 
@@ -18,13 +25,21 @@ export class EditUserComponent implements OnInit {
   allSubordinates: Array<UserResponse>;
 
   selectedRole: string;
-  selectedSubordinate: UserResponse;
+  selectedSubordinateEmail: string;
+
+  fromCheckIn: Date;
+  toCheckIn: Date;
+
+  fromHoliday: Date;
+  toHoliday: Date;
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private rolesService: RolesService,
               private usersService: UsersService,
+              private checkInService: CheckInRecordsService,
+              private holidaysService: HolidaysService,
               private cdtRef: ChangeDetectorRef) {
     this.roles = '';
     this.selectedRole = '';
@@ -35,8 +50,9 @@ export class EditUserComponent implements OnInit {
       email: '',
       userName: ''
     };
-  }
 
+    this.selectedSubordinateEmail = '';
+  }
 
 
   async init() {
@@ -66,7 +82,7 @@ export class EditUserComponent implements OnInit {
         this.allUsers = allUsersResponse.response;
       }
 
-      const allSubordinatesResponse = await  this.usersService.apiV1UsersSubordinatesEmailGet(this.userModel.email).toPromise();
+      const allSubordinatesResponse = await this.usersService.apiV1UsersSubordinatesEmailGet(this.userModel.email).toPromise();
       if (allSubordinatesResponse.success) {
         this.allSubordinates = allSubordinatesResponse.response;
       }
@@ -98,7 +114,44 @@ export class EditUserComponent implements OnInit {
     });
   }
 
-  addSubordinate() {
+  removeRole() {
+    const req: UserRoleRemoveRequest = {
+      role: this.selectedRole,
+      userEmail: this.userModel.email
+    };
 
+    this.usersService.apiV1UsersRemoveRolePost(req).toPromise().then(x => {
+      this.init().then(r => {
+        this.cdtRef.detectChanges();
+      });
+    });
+  }
+
+  addSubordinate() {
+    const req: UserAddSubordinateRequest = {
+      subordinateEmail: this.selectedSubordinateEmail,
+      userEmail: this.userModel.email
+    };
+    this.usersService.apiV1UsersAddSubordiantePost(req).toPromise().then(x => {
+      this.init().then(r => {
+        this.cdtRef.detectChanges();
+      });
+    });
+  }
+
+
+  getCheckIns() {
+
+  }
+
+  async getHoliday() {
+    const res = await
+      this.holidaysService.apiV1HolidaysEmailFromToGet(
+        this.userModel.email,
+        this.fromHoliday.getUTCFullYear(),
+        this.toHoliday.getUTCFullYear()).toPromise();
+    if (res.success) {
+      window.open('/holidays', 'holidays', res.response.toString());
+    }
   }
 }

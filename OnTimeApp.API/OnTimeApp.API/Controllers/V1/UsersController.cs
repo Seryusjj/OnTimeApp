@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +6,7 @@ using OnTimeApp.API.Contracts.V1.Requests;
 using OnTimeApp.API.Contracts.V1.Responses;
 using OnTimeApp.API.Services;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Threading.Tasks;
-using Microsoft.OpenApi.Any;
 
 
 namespace OnTimeApp.API.Controllers.V1
@@ -78,6 +75,56 @@ namespace OnTimeApp.API.Controllers.V1
 
             return new RoleResponse(additionResponse.RoleName);
         }
+        
+        [HttpPost(nameof(RemoveRole))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RoleResponse))]
+        public async Task<ActionResult<RoleResponse>> RemoveRole([FromBody] UserRoleRemoveRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return
+                    new RoleResponse(ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage)));
+            }
+
+            var removeResponse = await _userService.RemoveRoleFromUserAsync(request.UserEmail, request.Role);
+            if (!removeResponse.Success)
+            {
+                return new RoleResponse(removeResponse.Errors);
+            }
+
+            return new RoleResponse(removeResponse.RoleName);
+        }
+
+        [HttpPost(nameof(AddSubordiante))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponse))]
+        public async Task<ActionResult<UserResponse>> AddSubordiante([FromBody] UserAddSubordinateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return new UserResponse
+                {
+                    Success = false,
+                    Errors = ModelState.Values.SelectMany(x => x.Errors.Select(y => y.ErrorMessage))
+                };
+            }
+
+            var additionResponse = await _userService.AddManagerToUser(request.SubordinateEmail, request.UserEmail);
+            if (!additionResponse.Success)
+            {
+                return new UserResponse
+                {
+                    Success = false,
+                    Errors = additionResponse.Errors
+                };
+            }
+
+            return new UserResponse
+            {
+                Success = true,
+                Email = additionResponse.Email,
+                UserName = additionResponse.UserName,
+            };
+        }
 
 
         [HttpGet(nameof(GetRoles) + "/{email}")]
@@ -87,10 +134,10 @@ namespace OnTimeApp.API.Controllers.V1
             var res = await _userService.GetUserRolesAsync(email);
             if (!res.Success)
             {
-                return Ok(new ResponseSet<RoleResponse>(res.Errors));
+                return new ResponseSet<RoleResponse>(res.Errors);
             }
 
-            return Ok(new ResponseSet<RoleResponse>(res.Results.Select(x => new RoleResponse(x.RoleName))));
+            return new ResponseSet<RoleResponse>(res.Results.Select(x => new RoleResponse(x.RoleName)));
         }
 
         [HttpGet(nameof(Subordinates) + "/{email}")]

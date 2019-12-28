@@ -458,7 +458,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns an AuthResponse object with succes true and empty token",
+            "description": "Returns an AuthResponse object with success true and empty token",
             "schema": {
               "$ref": "#/definitions/AuthResponse"
             }
@@ -614,6 +614,82 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/RoleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Users/RemoveRole": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UserRoleRemoveRequest"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RoleResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Users/AddSubordiante": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "consumes": [
+          "application/json-patch+json",
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UserAddSubordinateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
             }
           }
         }
@@ -1058,6 +1134,39 @@
           "type": "string"
         },
         "userEmail": {
+          "format": "email",
+          "type": "string"
+        }
+      }
+    },
+    "UserRoleRemoveRequest": {
+      "required": [
+        "role",
+        "userEmail"
+      ],
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "userEmail": {
+          "format": "email",
+          "type": "string"
+        }
+      }
+    },
+    "UserAddSubordinateRequest": {
+      "required": [
+        "subordinateEmail",
+        "userEmail"
+      ],
+      "type": "object",
+      "properties": {
+        "userEmail": {
+          "format": "email",
+          "type": "string"
+        },
+        "subordinateEmail": {
           "format": "email",
           "type": "string"
         }

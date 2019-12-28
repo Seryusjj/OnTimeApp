@@ -45,6 +45,31 @@ namespace OnTimeApp.API.Services
             };
         }
 
+        public async Task<RoleResult> RemoveRoleFromUserAsync(string email, string role)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return new RoleResult
+                {
+                    Errors = new string[] {"The user does not exists"}
+                };
+            }
+
+            var res = await _userManager.RemoveFromRoleAsync(user, role);
+            if (!res.Succeeded)
+                return new RoleResult
+                {
+                    Errors = res.Errors.Select(x => x.Description)
+                };
+
+            return new RoleResult
+            {
+                RoleName = role,
+                Success = res.Succeeded
+            };
+        }
+
         public Task<ResultSet<UserResult>> GetAllUsersAsync()
         {
             return Task.FromResult(new ResultSet<UserResult>
@@ -70,17 +95,16 @@ namespace OnTimeApp.API.Services
                 };
             }
 
-            var subordinates =  await _userDal.GetUsersFromManagerAsync(res);
+            var subordinates = await _userDal.GetUsersFromManagerAsync(res);
             return new ResultSet<UserResult>
             {
                 Success = true,
-                Results = subordinates.Select(x=> new UserResult
+                Results = subordinates.Select(x => new UserResult
                 {
                     Email = x.Email,
                     UserName = x.UserName
                 })
             };
-            
         }
 
         public async Task<UserResult> GetUserAsync(string email)
@@ -126,11 +150,12 @@ namespace OnTimeApp.API.Services
 
             return new UserResult
             {
-                Email = user.Email,
                 Success = true,
-                UserName = user.UserName
+                Email = manager.Email,
+                UserName = manager.UserName
             };
         }
+
 
         public async Task<ResultSet<RoleResult>> GetUserRolesAsync(string email)
         {

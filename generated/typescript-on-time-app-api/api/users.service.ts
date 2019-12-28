@@ -20,9 +20,11 @@ import { Observable }                                        from 'rxjs';
 
 import { RoleResponse } from '../model/roleResponse';
 import { RoleResponseResponseSet } from '../model/roleResponseResponseSet';
+import { UserAddSubordinateRequest } from '../model/userAddSubordinateRequest';
 import { UserResponse } from '../model/userResponse';
 import { UserResponseResponseSet } from '../model/userResponseResponseSet';
 import { UserRoleAdditionRequest } from '../model/userRoleAdditionRequest';
+import { UserRoleRemoveRequest } from '../model/userRoleRemoveRequest';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -104,6 +106,60 @@ export class UsersService {
         }
 
         return this.httpClient.post<RoleResponse>(`${this.basePath}/api/v1/Users/AddRole`,
+            body,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1UsersAddSubordiantePost(body?: UserAddSubordinateRequest, observe?: 'body', reportProgress?: boolean): Observable<UserResponse>;
+    public apiV1UsersAddSubordiantePost(body?: UserAddSubordinateRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<UserResponse>>;
+    public apiV1UsersAddSubordiantePost(body?: UserAddSubordinateRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<UserResponse>>;
+    public apiV1UsersAddSubordiantePost(body?: UserAddSubordinateRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<UserResponse>(`${this.basePath}/api/v1/Users/AddSubordiante`,
             body,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -244,6 +300,60 @@ export class UsersService {
         ];
 
         return this.httpClient.get<RoleResponseResponseSet>(`${this.basePath}/api/v1/Users/GetRoles/${encodeURIComponent(String(email))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param body 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1UsersRemoveRolePost(body?: UserRoleRemoveRequest, observe?: 'body', reportProgress?: boolean): Observable<RoleResponse>;
+    public apiV1UsersRemoveRolePost(body?: UserRoleRemoveRequest, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<RoleResponse>>;
+    public apiV1UsersRemoveRolePost(body?: UserRoleRemoveRequest, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<RoleResponse>>;
+    public apiV1UsersRemoveRolePost(body?: UserRoleRemoveRequest, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<RoleResponse>(`${this.basePath}/api/v1/Users/RemoveRole`,
+            body,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

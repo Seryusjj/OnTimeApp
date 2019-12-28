@@ -4,38 +4,81 @@
   </div>
   <div class="row">
     <div class="col-md">
+      <h2 class="h2 ">Roles: {{roles}}</h2>
+
+      <!-- combobox -->
+      <h3 class="h3">Add Role</h3>
+      <div style=" white-space: nowrap;">
+        <option value=""></option>
+        <select [(ngModel)]="selectedRole" class="custom-select" style="width: 71%">
+          <option></option>
+          <option *ngFor="let r of allRoles" value="{{r}}">{{r}}</option>
+        </select>
+        <button (click)="addRole()" class="btn btn-outline-secondary fa fa-plus"
+                style="height: calc(1.5em + .75rem + 2px); margin-left: 1%"></button>
+        <button (click)="removeRole()" class="btn btn-outline-secondary fa fa-minus"
+                style="height: calc(1.5em + .75rem + 2px); margin-left: 1%"></button>
+      </div>
+
+      <br>
+      <!-- combobox subordinates-->
+      <h3 class="h3" style="margin-top: 1%">Add subordinate</h3>
+      <div style=" white-space: nowrap;">
+
+        <select [(ngModel)]="selectedSubordinateEmail" class="custom-select" style="width: 79%">
+          <option></option>
+          <option *ngFor="let u of allUsers" value="{{u.email}}">{{displaySubordinate(u)}}</option>
+        </select>
+        <button (click)="addSubordinate()" class="btn btn-outline-secondary fa fa-plus"
+                style="height: calc(1.5em + .75rem + 2px); margin-left: 1%"></button>
+      </div>
+
+      <!-- date time picker checkIns -->
+      <h3 class="h3" style="margin-top: 5%">Get check-in info</h3>
+      <div style=" white-space: nowrap;">
+
+        <div class="form-group" style="width: 39%; display: inline-block">
+          <label>From: </label>
+          <input type="date" max="3000-12-31" [(ngModel)]="fromCheckIn"
+                 min="1000-01-01" class="form-control">
+        </div>
+
+        <div class="form-group" style="width: 39%; display: inline-block; margin-left: 1%">
+          <label>To: </label>
+          <input type="date" min="1000-01-01" [(ngModel)]="toCheckIn"
+                 max="3000-12-31" class="form-control">
+        </div>
+      </div>
+      <button (click)="getCheckIns()" class="btn btn-outline-secondary fa fa-arrow-down"
+              style="width:79%; height: calc(1.5em + .75rem + 2px); display: inline"></button>
 
 
+      <!-- Holiday info -->
+      <h3 class="h3" style="margin-top: 5%">Get holiday info</h3>
+      <div style=" white-space: nowrap; display: inline">
+        <div class="form-group" style="width: 39%; display: inline-block">
+          <label>From: </label>
+          <input type="date" max="3000-12-31" [(ngModel)]="fromHoliday"
+                 min="1000-01-01" class="form-control">
+        </div>
+        <div class="form-group" style="width: 39%; display: inline-block; margin-left: 1%">
+          <label>To: </label>
+          <input type="date" min="1000-01-01" [(ngModel)]="toHoliday"
+                 max="3000-12-31" class="form-control">
+        </div>
+      </div>
+      <button (click)="getHoliday()" class="btn btn-outline-secondary fa fa-arrow-down"
+              style="width:79%; height: calc(1.5em + .75rem + 2px);  display: inline"></button>
+
+
+    </div>
+    <div class="col-md">
       <h3 class="h3">Subordinates: </h3>
       <app-crud-grid id="users"
                      [header]="'Subordinates'"
                      [objectList]="allSubordinates"
                      [girdDisplay]="displaySubordinate">
       </app-crud-grid>
-    </div>
-    <div class="col-md">
-      <h2 class="h2 ">Roles: {{roles}}</h2>
-
-      <!-- combobox -->
-      <h3 class="h3">Add Role</h3>
-      <div style=" white-space: nowrap;">
-        <select [(ngModel)]="selectedRole" class="custom-select" style="width: 79%">
-          <option *ngFor="let r of allRoles" value="{{r}}">{{r}}</option>
-        </select>
-        <button (click)="addRole()" class="btn btn-outline-secondary fa fa-plus"
-                style="height: calc(1.5em + .75rem + 2px); margin-left: 1%"></button>
-      </div>
-
-      <br>
-      <!-- combobox subordinates-->
-      <h3 class="h3">Add subordinate</h3>
-      <div style=" white-space: nowrap;">
-        <select [(ngModel)]="selectedSubordinate" class="custom-select" style="width: 79%">
-          <option *ngFor="let u of allUsers" value="{{u}}">{{displaySubordinate(u)}}</option>
-        </select>
-        <button (click)="addSubordinate()" class="btn btn-outline-secondary fa fa-plus"
-                style="height: calc(1.5em + .75rem + 2px); margin-left: 1%"></button>
-      </div>
     </div>
   </div>
 </div>

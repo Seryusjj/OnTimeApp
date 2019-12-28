@@ -135,7 +135,7 @@ namespace OnTimeApp.API.Controllers.V1
         /// </summary>
         /// <param name="request">The user information</param>
         /// <returns>An Auth response</returns>
-        /// <response code ="200">Returns an AuthResponse object with succes true and empty token</response>
+        /// <response code ="200">Returns an AuthResponse object with success true and empty token</response>
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthResponse))]
         public async Task<ActionResult<AuthResponse>> Login([FromBody] UserLoginRequest request)
