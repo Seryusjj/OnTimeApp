@@ -9,6 +9,8 @@ namespace OnTimeApp.API.Entities.DAL
         Task<CheckInRecord> FindByIdAsync(string id);
         Task<IEnumerable<CheckInRecord>> FindByUserEmailAsync(string email);
         Task<IEnumerable<CheckInRecord>> FindByUserEmailAndDateAsync(string email, DateTime date);
+        
+        Task<IEnumerable<CheckInRecord>> FindByUserEmailAndDateRangeAsync(string email, DateTime from, DateTime to);
         Task<IEnumerable<CheckInRecord>> GetAllAsync();
 
         Task<bool> AddRecord(CheckInRecord record);

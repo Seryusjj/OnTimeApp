@@ -31,6 +31,14 @@ namespace OnTimeApp.API.Entities.DAL
             return res.ToList();
         }
 
+        public async Task<IEnumerable<CheckInRecord>> FindByUserEmailAndDateRangeAsync(string email, DateTime from,
+            DateTime to)
+        {
+            var res = _context.CheckInRecords.Where(x =>
+                x.User.Email == email && (x.UtcDateTime.Date >= from.Date && x.UtcDateTime <= to.Date));
+            return res.ToList();
+        }
+
         public async Task<IEnumerable<CheckInRecord>> GetAllAsync()
         {
             return _context.CheckInRecords.ToList();
@@ -40,7 +48,7 @@ namespace OnTimeApp.API.Entities.DAL
         {
             _context.Add(record);
             var additions = await _context.SaveChangesAsync();
-            return additions > 0;  
+            return additions > 0;
         }
     }
 }

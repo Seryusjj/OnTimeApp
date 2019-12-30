@@ -27,11 +27,11 @@ export class EditUserComponent implements OnInit {
   selectedRole: string;
   selectedSubordinateEmail: string;
 
-  fromCheckIn: Date;
-  toCheckIn: Date;
+  fromCheckIn: string;
+  toCheckIn: string;
 
-  fromHoliday: Date;
-  toHoliday: Date;
+  fromHoliday: string;
+  toHoliday: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -140,18 +140,34 @@ export class EditUserComponent implements OnInit {
   }
 
 
-  getCheckIns() {
-
+  async getCheckIns() {
+    const from: Date = new Date(Date.parse(this.fromCheckIn));
+    const to: Date = new Date(Date.parse(this.toCheckIn));
+    const res = await
+      this.checkInService.apiV1CheckInRecordsEmailFromToGet(
+        this.userModel.email,
+        from, to).toPromise();
+    if (res.success) {
+      const tab = window.open('about:blank', '_blank');
+      const myjson = JSON.stringify(res.response, null, 2);
+      tab.document.write(res.response.length > 0 ? '<html><body><pre>' + myjson + '</pre></body></html>' : 'None');
+      tab.document.close();
+    }
   }
 
   async getHoliday() {
+    const from: Date = new Date(Date.parse(this.fromHoliday));
+    const to: Date = new Date(Date.parse(this.toHoliday));
     const res = await
       this.holidaysService.apiV1HolidaysEmailFromToGet(
         this.userModel.email,
-        this.fromHoliday.getUTCFullYear(),
-        this.toHoliday.getUTCFullYear()).toPromise();
+        from.getUTCFullYear(),
+        to.getUTCFullYear()).toPromise();
     if (res.success) {
-      window.open('/holidays', 'holidays', res.response.toString());
+      const tab = window.open('about:blank', '_blank');
+      const myjson = JSON.stringify(res.response, null, 2);
+      tab.document.write(res.response.length > 0 ? '<html><body><pre>' + myjson + '</pre></body></html>' : 'None');
+      tab.document.close();
     }
   }
 }

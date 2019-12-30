@@ -68,6 +68,7 @@ All URIs are relative to *https://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *CheckInRecordsApi* | [**apiV1CheckInRecordsEmailDateGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemaildateget) | **GET** /api/v1/CheckInRecords/{email}/{date} | 
+*CheckInRecordsApi* | [**apiV1CheckInRecordsEmailFromToGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemailfromtoget) | **GET** /api/v1/CheckInRecords/{email}/{from}/{to} | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsEmailGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsemailget) | **GET** /api/v1/CheckInRecords/{email} | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsGet**](docs//CheckInRecordsApi.md#apiv1checkinrecordsget) | **GET** /api/v1/CheckInRecords | 
 *CheckInRecordsApi* | [**apiV1CheckInRecordsRegisterPost**](docs//CheckInRecordsApi.md#apiv1checkinrecordsregisterpost) | **POST** /api/v1/CheckInRecords/Register | 
@@ -83,9 +84,12 @@ Class | Method | HTTP request | Description
 *RolesApi* | [**apiV1RolesGet**](docs//RolesApi.md#apiv1rolesget) | **GET** /api/v1/Roles | 
 *RolesApi* | [**apiV1RolesRegisterPost**](docs//RolesApi.md#apiv1rolesregisterpost) | **POST** /api/v1/Roles/register | 
 *UsersApi* | [**apiV1UsersAddRolePost**](docs//UsersApi.md#apiv1usersaddrolepost) | **POST** /api/v1/Users/AddRole | 
+*UsersApi* | [**apiV1UsersAddSubordiantePost**](docs//UsersApi.md#apiv1usersaddsubordiantepost) | **POST** /api/v1/Users/AddSubordiante | 
 *UsersApi* | [**apiV1UsersEmailGet**](docs//UsersApi.md#apiv1usersemailget) | **GET** /api/v1/Users/{email} | 
 *UsersApi* | [**apiV1UsersGet**](docs//UsersApi.md#apiv1usersget) | **GET** /api/v1/Users | 
 *UsersApi* | [**apiV1UsersGetRolesEmailGet**](docs//UsersApi.md#apiv1usersgetrolesemailget) | **GET** /api/v1/Users/GetRoles/{email} | 
+*UsersApi* | [**apiV1UsersRemoveRolePost**](docs//UsersApi.md#apiv1usersremoverolepost) | **POST** /api/v1/Users/RemoveRole | 
+*UsersApi* | [**apiV1UsersSubordinatesEmailGet**](docs//UsersApi.md#apiv1userssubordinatesemailget) | **GET** /api/v1/Users/Subordinates/{email} | 
 
 
 ## Documentation For Models
@@ -103,11 +107,13 @@ Class | Method | HTTP request | Description
  - [RoleResponse](docs//RoleResponse.md)
  - [RoleResponseResponseSet](docs//RoleResponseResponseSet.md)
  - [StringResponseSet](docs//StringResponseSet.md)
+ - [UserAddSubordinateRequest](docs//UserAddSubordinateRequest.md)
  - [UserLoginRequest](docs//UserLoginRequest.md)
  - [UserRegistrationRequest](docs//UserRegistrationRequest.md)
  - [UserResponse](docs//UserResponse.md)
  - [UserResponseResponseSet](docs//UserResponseResponseSet.md)
  - [UserRoleAdditionRequest](docs//UserRoleAdditionRequest.md)
+ - [UserRoleRemoveRequest](docs//UserRoleRemoveRequest.md)
  - [WorkedTimeResponse](docs//WorkedTimeResponse.md)
 
 

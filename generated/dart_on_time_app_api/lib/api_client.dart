@@ -64,6 +64,8 @@ class ApiClient {
           return new RoleResponseResponseSet.fromJson(value);
         case 'StringResponseSet':
           return new StringResponseSet.fromJson(value);
+        case 'UserAddSubordinateRequest':
+          return new UserAddSubordinateRequest.fromJson(value);
         case 'UserLoginRequest':
           return new UserLoginRequest.fromJson(value);
         case 'UserRegistrationRequest':
@@ -74,6 +76,8 @@ class ApiClient {
           return new UserResponseResponseSet.fromJson(value);
         case 'UserRoleAdditionRequest':
           return new UserRoleAdditionRequest.fromJson(value);
+        case 'UserRoleRemoveRequest':
+          return new UserRoleRemoveRequest.fromJson(value);
         case 'WorkedTimeResponse':
           return new WorkedTimeResponse.fromJson(value);
         default:

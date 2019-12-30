@@ -31,11 +31,13 @@ part 'model/role_registration_request.dart';
 part 'model/role_response.dart';
 part 'model/role_response_response_set.dart';
 part 'model/string_response_set.dart';
+part 'model/user_add_subordinate_request.dart';
 part 'model/user_login_request.dart';
 part 'model/user_registration_request.dart';
 part 'model/user_response.dart';
 part 'model/user_response_response_set.dart';
 part 'model/user_role_addition_request.dart';
+part 'model/user_role_remove_request.dart';
 part 'model/worked_time_response.dart';
 
 

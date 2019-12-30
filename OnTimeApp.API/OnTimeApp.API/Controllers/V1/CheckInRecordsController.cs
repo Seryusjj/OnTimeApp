@@ -58,7 +58,23 @@ namespace OnTimeApp.API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseSet<CheckInResponse>))]
         public async Task<ActionResult<ResponseSet<CheckInResponse>>> Get(string email, DateTime date)
         {
-            var records = await _recordService.GetCheckInByUserEmailAndDateAsync(email, date);
+            var records = await _recordService.GetCheckInByUserEmailAndDateRangeAsync(email, date);
+            if (!records.Success)
+            {
+                return new ResponseSet<CheckInResponse>(records.Errors);
+            }
+
+            return new ResponseSet<CheckInResponse>(
+                records.Results.Select(x =>
+                    new CheckInResponse(x.Info, x.UtcDateTime, x.Location, x.EndDay)
+                ));
+        }
+        
+        [HttpGet("{email}/{from}/{to}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseSet<CheckInResponse>))]
+        public async Task<ActionResult<ResponseSet<CheckInResponse>>> Get(string email, DateTime from, DateTime to)
+        {
+            var records = await _recordService.GetCheckInByUserEmailAndDateRangeAsync(email, from, to);
             if (!records.Success)
             {
                 return new ResponseSet<CheckInResponse>(records.Errors);

@@ -116,6 +116,64 @@ export class CheckInRecordsService {
      * 
      * 
      * @param email 
+     * @param from 
+     * @param to 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiV1CheckInRecordsEmailFromToGet(email: string, from: Date, to: Date, observe?: 'body', reportProgress?: boolean): Observable<CheckInResponseResponseSet>;
+    public apiV1CheckInRecordsEmailFromToGet(email: string, from: Date, to: Date, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsEmailFromToGet(email: string, from: Date, to: Date, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<CheckInResponseResponseSet>>;
+    public apiV1CheckInRecordsEmailFromToGet(email: string, from: Date, to: Date, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling apiV1CheckInRecordsEmailFromToGet.');
+        }
+
+        if (from === null || from === undefined) {
+            throw new Error('Required parameter from was null or undefined when calling apiV1CheckInRecordsEmailFromToGet.');
+        }
+
+        if (to === null || to === undefined) {
+            throw new Error('Required parameter to was null or undefined when calling apiV1CheckInRecordsEmailFromToGet.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        if (this.configuration.apiKeys["Authorization"]) {
+            headers = headers.set('Authorization', this.configuration.apiKeys["Authorization"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.get<CheckInResponseResponseSet>(`${this.basePath}/api/v1/CheckInRecords/${encodeURIComponent(String(email))}/${encodeURIComponent(String(from.toISOString()))}/${encodeURIComponent(String(to.toISOString()))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param email 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */

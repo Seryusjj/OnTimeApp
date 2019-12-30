@@ -101,6 +101,51 @@
         }
       }
     },
+    "/api/v1/CheckInRecords/{email}/{from}/{to}": {
+      "get": {
+        "tags": [
+          "CheckInRecords"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "from",
+            "required": true,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "path",
+            "name": "to",
+            "required": true,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/CheckInResponseResponseSet"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/CheckInRecords/WorkedTime/{email}/{date}": {
       "get": {
         "tags": [
