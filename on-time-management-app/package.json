@@ -23,7 +23,7 @@
     "@swagger/typescript-on-time-app-api": "^0.0.9",
     "bootstrap": "^4.4.0",
     "font-awesome": "^4.7.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"
